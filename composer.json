@@ -1,0 +1,19 @@
+{
+    "name": "nordsoftware/yii-account",
+    "description": "Extension that provides basic account functionality for the Yii PHP framework.",
+    "require": {
+        "phpnode/yiipassword": "dev-master#da426c2"
+    },
+    "require-dev": {
+        "yiisoft/yii": ">=1.1.14",
+        "codeception/codeception": "*"
+    },
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Christoffer Niska",
+            "email": "ChristofferNiska@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
