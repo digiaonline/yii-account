@@ -1,2 +1,8 @@
-/.idea/
-/vendor/
+# phpstorm
+.idea/
+
+# composer
+vendor/
+
+# codeception
+tests/_log/*
