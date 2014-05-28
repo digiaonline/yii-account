@@ -6,3 +6,6 @@ vendor/
 
 # codeception
 tests/_log/*
+
+# local
+yiic.php

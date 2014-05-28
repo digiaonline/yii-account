@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d04b521df2485985906d38d26955528e",
+    "hash": "387e46b770b95e1eca088686dfa186d1",
     "packages": [
         {
             "name": "phpnode/yiipassword",
@@ -115,6 +115,54 @@
                 "unit testing"
             ],
             "time": "2014-05-27 00:13:26"
+        },
+        {
+            "name": "crisu83/yii-caviar",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yii-caviar.git",
+                "reference": "1859e55504f3a4076678c9b39843da604dfc43aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yii-caviar/zipball/2f359652837120be7489202935e0186be51b94b7",
+                "reference": "1859e55504f3a4076678c9b39843da604dfc43aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "~1.8.5",
+                "yiisoft/yii": ">=1.1.14"
+            },
+            "type": "yii-extension",
+            "autoload": {
+                "psr-4": {
+                    "crisu83\\yii_caviar\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "ChristofferNiska@gmail.com"
+                }
+            ],
+            "description": "Next generation code generation for Yii.",
+            "keywords": [
+                "code",
+                "command",
+                "generation",
+                "scaffold",
+                "template",
+                "yii"
+            ],
+            "time": "2014-05-28 13:44:55"
         },
         {
             "name": "facebook/webdriver",
@@ -1389,7 +1437,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phpnode/yiipassword": 20
+        "phpnode/yiipassword": 20,
+        "crisu83/yii-caviar": 20
     },
     "platform": [
 
