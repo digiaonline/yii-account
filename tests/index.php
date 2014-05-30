@@ -19,9 +19,9 @@ $config = array(
     'defaultController' => 'account',
     'runtimePath' => "$tests/_data/runtime",
     'viewPath' => "$basePath/views",
-    'controllerMap' => array(
+    'modules' => array(
         'account' => array(
-            'class' => '\nordsoftware\yii_account\controllers\AccountController',
+            'class' => '\nordsoftware\yii_account\AccountModule',
         ),
     ),
 );
