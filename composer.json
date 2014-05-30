@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "phpnode/yiipassword": "dev-master#da426c2"
+        "phpnode/yiipassword": "dev-master#da426c2",
+        "crisu83/yiistrap": "dev-bs3",
+        "ircmaxell/random-lib": "v1.0.0"
     },
     "require-dev": {
         "yiisoft/yii": ">=1.1.14",
