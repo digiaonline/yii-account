@@ -13,9 +13,10 @@ class m140528_114338_create_account_table extends CDbMigration
                 'password' => 'string NOT NULL',
                 'passwordStrategy' => 'string NOT NULL',
                 'requireNewPassword' => "boolean NOT NULL DEFAULT '0'",
+                'admin' => "boolean NOT NULL DEFAULT '0'",
                 'lastLoginAt' => 'timestamp NULL DEFAULT NULL',
                 'lastActiveAt' => 'timestamp NULL DEFAULT NULL',
-                'status' => "integer NOT NULL DEFAULT '0'"
+                'status' => "integer NOT NULL DEFAULT '0'",
             )
         );
     }
