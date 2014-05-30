@@ -1,0 +1,4 @@
+<?php
+
+?>
+Registration mail.
