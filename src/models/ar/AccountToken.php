@@ -4,7 +4,7 @@
  * http://github.com/Crisu83/yii-caviar
  */
 
-namespace app\models;
+namespace nordsoftware\yii_account\models\ar;
 
 /**
  * This is the model class for table AccountToken".
@@ -20,7 +20,7 @@ namespace app\models;
  *
  * The followings are the available model relations:
  *
- * @property \nordsoftware\yii_account\models\Account $account
+ * @property \nordsoftware\yii_account\models\ar\Account $account
  */
 class AccountToken extends \CActiveRecord
 {

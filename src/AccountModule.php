@@ -4,6 +4,8 @@ namespace nordsoftware\yii_account;
 
 class AccountModule extends \CWebModule
 {
+    const MODULE_ID = 'account';
+
     /**
      * @var string
      */
@@ -12,7 +14,19 @@ class AccountModule extends \CWebModule
     /**
      * @var string
      */
+    public $identityClass = '\nordsoftware\yii_account\components\UserIdentity';
+
+    /**
+     * @var string
+     */
     public $defaultController = 'login';
+
+    /**
+     * @var int
+     */
+    public $loginExpireTime = 2592000; // 30 days
+
+    protected $identity;
 
     /**
      * @inheritDoc
@@ -68,8 +82,8 @@ class AccountModule extends \CWebModule
      */
     public function generateToken()
     {
-        /** @var \nordsoftware\yii_account\components\TokenGenerator $generator */
-        $generator = \Yii::createComponent($this->tokenGenerator);
-        return $generator->generate();
+        /** @var \nordsoftware\yii_account\components\TokenGenerator $tokenGenerator */
+        $tokenGenerator = $this->getComponent('tokenGenerator');
+        return $tokenGenerator->generate();
     }
 }

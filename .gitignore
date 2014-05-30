@@ -5,6 +5,7 @@
 vendor/
 
 # codeception
+tests/_data/runtime/*
 tests/_log/*
 
 # local

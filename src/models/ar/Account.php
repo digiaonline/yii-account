@@ -4,7 +4,7 @@
  * http://github.com/Crisu83/yii-caviar
  */
 
-namespace nordsoftware\yii_account\models;
+namespace nordsoftware\yii_account\models\ar;
 
 /**
  * This is the model class for table Account".
