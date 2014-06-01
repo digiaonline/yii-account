@@ -9,7 +9,7 @@ class AccountModule extends \CWebModule
     /**
      * @var string
      */
-    public $modelClass = '\nordsoftware\yii_account\models\Account';
+    public $modelClass = '\nordsoftware\yii_account\models\ar\Account';
 
     /**
      * @var string
@@ -26,32 +26,58 @@ class AccountModule extends \CWebModule
      */
     public $loginExpireTime = 2592000; // 30 days
 
-    protected $identity;
+    /**
+     * @var bool
+     */
+    public $registerStyles = true;
+
+    /**
+     * @var bool
+     */
+    public $forcePublishAssets = true;
 
     /**
      * @inheritDoc
      */
     protected function init()
     {
-        $this->components = \CMap::mergeArray(
+        $this->setComponents(
             array(
                 'tokenGenerator' => array(
                     'class' => 'nordsoftware\yii_account\components\TokenGenerator',
                 ),
-            ),
-            $this->components
+            )
         );
 
+        \Yii::app() instanceof \CWebApplication ? $this->initWeb() : $this->initConsole();
+    }
+
+    /**
+     * Initializes the module for the web application.
+     */
+    protected function initWeb()
+    {
         $this->controllerMap = \CMap::mergeArray(
             array(
                 'activate' => 'nordsoftware\yii_account\controllers\ActivateController',
-                'forgotPassword' => 'nordsoftware\yii_account\controllers\ForgotPasswordController',
+                'forgot' => 'nordsoftware\yii_account\controllers\ForgotController',
                 'login' => 'nordsoftware\yii_account\controllers\LoginController',
                 'logout' => 'nordsoftware\yii_account\controllers\LogoutController',
                 'register' => 'nordsoftware\yii_account\controllers\RegisterController',
             ),
             $this->controllerMap
         );
+
+        $assetsUrl = \Yii::app()->assetManager->publish(__DIR__ . '/assets', false, -1, $this->forcePublishAssets);
+        \Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/styles.css');
+    }
+
+    /**
+     * Initializes this application for the console application.
+     */
+    protected function initConsole()
+    {
+        // nothing here for now ...
     }
 
     /**

@@ -1,0 +1,29 @@
+{
+  "name": "yii-account",
+  "version": "0.1.0",
+  "description": "Account module for the Yii PHP framework.",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~0.11.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "load-grunt-tasks": "~0.4.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nordsoftware/yii-account"
+  },
+  "contributors": [
+    {
+      "name": "Christoffer Niska",
+      "url": "http://crisu83.me",
+      "email": "ChristofferNiska@gmail.com"
+    }
+  ],
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nordsoftware/yii-account/issues"
+  },
+  "homepage": "https://github.com/nordsoftware/yii-account"
+}
