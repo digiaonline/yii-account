@@ -5,8 +5,12 @@
 vendor/
 
 # codeception
-tests/_data/runtime/*
-tests/_log/*
+tests/app/www/assets/
+tests/app/runtime/
+tests/_log/
+
+# node.js
+node_modules/
 
 # local
 yiic.php
