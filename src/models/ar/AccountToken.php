@@ -6,6 +6,8 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
+use nordsoftware\yii_account\helpers\Helper;
+
 /**
  * This is the model class for table AccountToken".
  *
@@ -61,12 +63,12 @@ class AccountToken extends \CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => \Yii::t('yii-account', 'ID'),
-            'accountId' => \Yii::t('yii-account', 'Account'),
-            'type' => \Yii::t('yii-account', 'Type'),
-            'token' => \Yii::t('yii-account', 'Token'),
-            'expires' => \Yii::t('yii-account', 'Expires'),
-            'status' => \Yii::t('yii-account', 'Status')
+            'id' => Helper::t('labels', 'ID'),
+            'accountId' => Helper::t('labels', 'Account'),
+            'type' => Helper::t('labels', 'Type'),
+            'token' => Helper::t('labels', 'Token'),
+            'expires' => Helper::t('labels', 'Expires'),
+            'status' => Helper::t('labels', 'Status')
         );
     }
 

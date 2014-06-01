@@ -2,7 +2,7 @@
 
 namespace nordsoftware\yii_account\controllers;
 
-class ForgotPasswordController extends AccountController
+class ForgotController extends AccountController
 {
     public function actionIndex()
     {

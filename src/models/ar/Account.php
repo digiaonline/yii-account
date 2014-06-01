@@ -6,8 +6,10 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
+use nordsoftware\yii_account\helpers\Helper;
+
 /**
- * This is the model class for table Account".
+ * This is the model class for table "account".
  *
  * The followings are the available columns in table 'account':
  *
@@ -20,6 +22,11 @@ namespace nordsoftware\yii_account\models\ar;
  * @property string $lastLoginAt
  * @property string $lastActiveAt
  * @property integer $status
+ *
+ * The following are the available methods through \YiiPassword\Behavior:
+ *
+ * @method bool verifyPassword($password)
+ * @method bool changePassword($password, $runValidation)
  */
 class Account extends \CActiveRecord
 {
@@ -57,7 +64,7 @@ class Account extends \CActiveRecord
                 'strategies' => array(
                     'bcrypt' => array(
                         'class' => 'YiiPassword\Strategies\Bcrypt',
-                        'workFactor' => 14
+                        'workFactor' => 12
                     ),
                 ),
             ),
@@ -70,15 +77,15 @@ class Account extends \CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => \Yii::t('yii-account', 'ID'),
-            'salt' => \Yii::t('yii-account', 'Salt'),
-            'username' => \Yii::t('yii-account', 'Username'),
-            'password' => \Yii::t('yii-account', 'Password'),
-            'passwordStrategy' => \Yii::t('yii-account', 'Password Strategy'),
-            'requireNewPassword' => \Yii::t('yii-account', 'Require New Password'),
-            'lastLoginAt' => \Yii::t('yii-account', 'Last Login At'),
-            'lastActiveAt' => \Yii::t('yii-account', 'Last Active At'),
-            'status' => \Yii::t('yii-account', 'Status')
+            'id' => Helper::t('labels', 'ID'),
+            'salt' => Helper::t('labels', 'Salt'),
+            'username' => Helper::t('labels', 'Username'),
+            'password' => Helper::t('labels', 'Password'),
+            'passwordStrategy' => Helper::t('labels', 'Password Strategy'),
+            'requireNewPassword' => Helper::t('labels', 'Require New Password'),
+            'lastLoginAt' => Helper::t('labels', 'Last Login At'),
+            'lastActiveAt' => Helper::t('labels', 'Last Active At'),
+            'status' => Helper::t('labels', 'Status')
         );
     }
 
@@ -104,7 +111,7 @@ class Account extends \CActiveRecord
     /**
      * Returns the static model of this class.
      * @param string $className active record class name.
-     * @return \nordsoftware\yii_account\models\Account the static model class.
+     * @return \nordsoftware\yii_account\models\ar\Account the static model class.
      */
     public static function model($className = __CLASS__)
     {

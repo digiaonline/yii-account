@@ -13,7 +13,7 @@ class AccountController extends \CController
      * Loads a specific account model.
      * @param int $id account identifier.
      * @throws \CHttpException if the account model cannot be found.
-     * @return \nordsoftware\yii_account\models\Account
+     * @return \nordsoftware\yii_account\models\ar\Account
      */
     public function loadModel($id)
     {

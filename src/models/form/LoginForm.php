@@ -3,56 +3,51 @@
 namespace nordsoftware\yii_account\models\form;
 
 use nordsoftware\yii_account\AccountModule;
+use nordsoftware\yii_account\helpers\Helper;
 
 class LoginForm extends \CFormModel
 {
     /**
-     * @var
+     * @var string
      */
     public $username;
 
     /**
-     * @var
+     * @var string
      */
     public $password;
 
     /**
-     * @var
+     * @var boolean
      */
-    public $rememberMe;
+    public $stayLoggedIn;
 
     /**
      * @var \CUserIdentity
      */
-    protected $identity;
+    private $_identity;
 
     /**
-     * @var \nordsoftware\yii_account\AccountModule
-     */
-    private $_module;
-
-    /**
-     * Declares the validation rules.
-     * The rules state that username and password are required,
-     * and password needs to be authenticated.
+     * @inheritDoc
      */
     public function rules()
     {
         return array(
-            array('email, password', 'ParsleyRequiredValidator'),
-            array('email', 'ParsleyEmailValidator'),
-            array('rememberMe', 'boolean'),
+            array('username, password', 'required'),
+            array('stayLoggedIn', 'boolean'),
             array('password', 'authenticate'),
         );
     }
 
     /**
-     * Declares attribute labels.
+     * @inheritDoc
      */
     public function attributeLabels()
     {
         return array(
-            'rememberMe' => t('userLogin', 'Remember me'),
+            'username' => Helper::t('labels', 'Username'),
+            'password' => Helper::t('labels', 'Password'),
+            'stayLoggedIn' => Helper::t('labels', 'Stay logged in'),
         );
     }
 
@@ -65,10 +60,10 @@ class LoginForm extends \CFormModel
         if (!$this->hasErrors()) {
             $module = $this->getModule();
 
-            $this->identity = new $module->identityClass($this->email, $this->password);
+            $this->_identity = new $module->identityClass($this->username, $this->password);
 
-            if (!$this->identity->authenticate()) {
-                $this->addError($attribute, t('yii-account', 'Your username or password is invalid.'));
+            if (!$this->_identity->authenticate()) {
+                $this->addError('password', Helper::t('errors', 'Your username or password is invalid.'));
             }
         }
     }
@@ -83,15 +78,15 @@ class LoginForm extends \CFormModel
         $module = \Yii::app()->getModule(AccountModule::MODULE_ID);
 
         if (!isset($this->_identity)) {
-            $this->identity = new $module->identityClass($this->username, $this->password);
-            $this->identity->authenticate();
+            $this->_identity = new $module->identityClass($this->username, $this->password);
+            $this->_identity->authenticate();
         }
 
-        if ($this->identity->errorCode !== \CUserIdentity::ERROR_NONE) {
+        if ($this->_identity->errorCode !== \CUserIdentity::ERROR_NONE) {
             return false;
         }
 
-        $duration = $this->rememberMe ? $module->loginExpireTime : 0; // 30 days
+        $duration = $this->stayLoggedIn ? $module->loginExpireTime : 0; // 30 days
         \Yii::app()->user->login($this->_identity, $duration);
 
         return true;
@@ -102,9 +97,6 @@ class LoginForm extends \CFormModel
      */
     public function getModule()
     {
-        if (!isset($this->_module)) {
-            $this->_module = \Yii::app()->getModule(AccountModule::MODULE_ID);
-        }
-        return $this->_module;
+        return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
 }

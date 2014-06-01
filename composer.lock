@@ -1,8 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
-        "This file is @generated automatically"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
     "hash": "6f87684915eb5077b26333f514363e9e",
     "packages": [
@@ -175,7 +174,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpnode/YiiPassword/zipball/da426c229bda903dd9e0d700cb562bca7bbfa03a",
+                "url": "https://api.github.com/repos/phpnode/YiiPassword/zipball/f57bb30dc5a3a93181eccc509824810847a3bfc9",
                 "reference": "da426c2",
                 "shasum": ""
             },
@@ -195,6 +194,11 @@
                     "email": "charles.pick@gmail.com",
                     "homepage": "http://github.com/phpnode",
                     "role": "Base version developer"
+                },
+                {
+                    "name": "Christoffer Niska",
+                    "email": "ChristofferNiska@gmail.com",
+                    "homepage": "http://crisu83.me"
                 }
             ],
             "description": "Password strategies for the Yii PHP framework.",
@@ -260,12 +264,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "6290e130cdcfd232c9602addf13fc2a386e703f7"
+                "reference": "7886916fbeb24549bd49aca2c6c0af39c482ad9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/6290e130cdcfd232c9602addf13fc2a386e703f7",
-                "reference": "6290e130cdcfd232c9602addf13fc2a386e703f7",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/7886916fbeb24549bd49aca2c6c0af39c482ad9f",
+                "reference": "7886916fbeb24549bd49aca2c6c0af39c482ad9f",
                 "shasum": ""
             },
             "require": {
@@ -321,7 +325,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2014-05-27 00:13:26"
+            "time": "2014-05-29 02:26:11"
         },
         {
             "name": "crisu83/yii-caviar",
@@ -333,7 +337,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Crisu83/yii-caviar/zipball/2f359652837120be7489202935e0186be51b94b7",
+                "url": "https://api.github.com/repos/Crisu83/yii-caviar/zipball/1859e55504f3a4076678c9b39843da604dfc43aa",
                 "reference": "1859e55504f3a4076678c9b39843da604dfc43aa",
                 "shasum": ""
             },
@@ -344,6 +348,9 @@
                 "codeception/codeception": "~1.8.5",
                 "yiisoft/yii": ">=1.1.14"
             },
+            "bin": [
+                "./caviar"
+            ],
             "type": "yii-extension",
             "autoload": {
                 "psr-4": {
@@ -357,7 +364,8 @@
             "authors": [
                 {
                     "name": "Christoffer Niska",
-                    "email": "ChristofferNiska@gmail.com"
+                    "email": "ChristofferNiska@gmail.com",
+                    "homepage": "http://crisu83.me"
                 }
             ],
             "description": "Next generation code generation for Yii.",
@@ -417,12 +425,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "3e81974057efdebbe2ecff1eb97a73dd49a51ba5"
+                "reference": "26bf686c2f3b6e0f7d27b3b93a5916bdd0afd779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/3e81974057efdebbe2ecff1eb97a73dd49a51ba5",
-                "reference": "3e81974057efdebbe2ecff1eb97a73dd49a51ba5",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/26bf686c2f3b6e0f7d27b3b93a5916bdd0afd779",
+                "reference": "26bf686c2f3b6e0f7d27b3b93a5916bdd0afd779",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +449,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -474,7 +482,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-26 22:19:35"
+            "time": "2014-05-28 18:18:30"
         },
         {
             "name": "guzzlehttp/streams",
@@ -783,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "461607a24972f73015b9781a2c97c4f8c9b3a033"
+                "reference": "3e9c4d25cb1da840a506540c615950599818ee09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/461607a24972f73015b9781a2c97c4f8c9b3a033",
-                "reference": "461607a24972f73015b9781a2c97c4f8c9b3a033",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3e9c4d25cb1da840a506540c615950599818ee09",
+                "reference": "3e9c4d25cb1da840a506540c615950599818ee09",
                 "shasum": ""
             },
             "require": {
@@ -849,7 +857,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-05-27 06:56:24"
+            "time": "2014-05-29 05:28:35"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1560,12 +1568,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii.git",
-                "reference": "9f3170680a1f11c75d77f16da4d3c220ef834710"
+                "reference": "00521493886c6808a60f0298602190fbff6390b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii/zipball/9f3170680a1f11c75d77f16da4d3c220ef834710",
-                "reference": "9f3170680a1f11c75d77f16da4d3c220ef834710",
+                "url": "https://api.github.com/repos/yiisoft/yii/zipball/00521493886c6808a60f0298602190fbff6390b8",
+                "reference": "00521493886c6808a60f0298602190fbff6390b8",
                 "shasum": ""
             },
             "require": {
@@ -1636,7 +1644,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-05-25 21:19:20"
+            "time": "2014-05-30 15:00:24"
         }
     ],
     "aliases": [

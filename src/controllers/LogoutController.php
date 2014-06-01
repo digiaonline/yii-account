@@ -6,6 +6,7 @@ class LogoutController extends AccountController
 {
     public function actionIndex()
     {
-        $this->render('index');
+        \Yii::app()->user->logout();
+        $this->redirect(\Yii::app()->homeUrl);
     }
 } 

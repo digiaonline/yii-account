@@ -1,4 +1,4 @@
 <?php
 
 ?>
-Re-send activation mail.
+Activation mail.

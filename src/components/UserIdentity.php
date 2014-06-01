@@ -7,6 +7,11 @@ use nordsoftware\yii_account\AccountModule;
 class UserIdentity extends \CUserIdentity
 {
     /**
+     * @var integer
+     */
+    private $_id;
+
+    /**
      * @inheritDoc
      */
     public function authenticate()
@@ -24,7 +29,7 @@ class UserIdentity extends \CUserIdentity
         // No errors occurred, set user identity.
         if ($this->errorCode === self::ERROR_NONE) {
             $this->_id = $account->id;
-            $this->username = $account->email;
+            $this->username = $account->username;
         }
 
         return !$this->errorCode;
@@ -40,9 +45,17 @@ class UserIdentity extends \CUserIdentity
 
         return \CActiveRecord::model($module->modelClass)->find(
             array(
-                'condition' => 'email=:email',
-                'params' => array(':email' => strtolower($this->username)),
+                'condition' => 'username=:username',
+                'params' => array(':username' => strtolower($this->username)),
             )
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
     }
 }

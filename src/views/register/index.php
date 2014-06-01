@@ -1,4 +1,6 @@
 <?php
-/* @var $this \nordsoftware\yii_account\controllers\AccountController */
+/* @var $this \nordsoftware\yii_account\controllers\RegisterController */
 ?>
-This is the register view.
+<div class="register-controller">
+    This is the register view.
+</div>
