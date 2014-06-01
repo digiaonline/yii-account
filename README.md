@@ -10,5 +10,6 @@ Requirements
 - Register (with optional activation)
 - Log in / Log out
 - Change password
-- Password recovery
-- Email sending
+- Forgot password
+- Email sending (with token validation)
+- Console command for creating accounts
