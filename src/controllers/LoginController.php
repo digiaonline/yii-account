@@ -6,6 +6,9 @@ use nordsoftware\yii_account\models\form\LoginForm;
 
 class LoginController extends AccountController
 {
+    /**
+     * Displays the 'login' page.
+     */
     public function actionIndex()
     {
         if (!\Yii::app()->user->isGuest) {
@@ -22,8 +25,10 @@ class LoginController extends AccountController
         if (isset($_POST['nordsoftware_yii_account_models_form_LoginForm'])) {
             $model->attributes = $_POST['nordsoftware_yii_account_models_form_LoginForm'];
 
-            if ($model->validate() && $model->login())
+            if ($model->validate() && $model->login()) {
+                \Yii::app()->user->updateLastLoginAt();
                 $this->redirect(\Yii::app()->user->returnUrl);
+            }
         }
 
         $this->render('index', array('model' => $model));

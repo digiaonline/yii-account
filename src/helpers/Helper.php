@@ -5,6 +5,15 @@ namespace nordsoftware\yii_account\helpers;
 class Helper
 {
     /**
+     * @param integer $timestamp
+     * @return string
+     */
+    public static function sqlDateTime($timestamp = null)
+    {
+        return date('Y-m-d H:i:s', $timestamp !== null ? $timestamp : time());
+    }
+
+    /**
      * @param string $category
      * @param string $message
      * @param array $params

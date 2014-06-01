@@ -6,6 +6,8 @@ class AccountModule extends \CWebModule
 {
     const MODULE_ID = 'account';
 
+    // todo: consider unifying the class configurations or support giving them as an array
+
     /**
      * @var string
      */
@@ -15,6 +17,11 @@ class AccountModule extends \CWebModule
      * @var string
      */
     public $identityClass = '\nordsoftware\yii_account\components\UserIdentity';
+
+    /**
+     * @var string
+     */
+    public $loginFormClass = '\nordsoftware\yii_account\models\form\LoginForm';
 
     /**
      * @var string

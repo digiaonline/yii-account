@@ -36,7 +36,7 @@ class AccountCommand extends \CConsoleCommand
     /**
      * @return \nordsoftware\yii_account\AccountModule
      */
-    public function getModule()
+    protected function getModule()
     {
         return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
