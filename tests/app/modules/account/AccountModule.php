@@ -10,15 +10,11 @@ class AccountModule extends Module
     public $fromEmailAddress = 'noreply@example.com';
 
     /**
-     * @param string $to
-     * @param string $subject
-     * @param string $body
-     * @param array $config
-     * @return bool
-     * @throws nordsoftware\yii_account\exceptions\Exception
+     * @inheritDoc
      */
     public function sendMail($to, $subject, $body, array $config = array())
     {
-        echo $subject . '<br><br>' . $body;
+        echo $body;
+        die;
     }
 }

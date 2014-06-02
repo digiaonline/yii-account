@@ -7,9 +7,9 @@
     <ul>
         <?php if (Yii::app()->user->isGuest): ?>
             <li><?php echo TbHtml::link('Register', array('/account/register')); ?></li>
-            <li><?php echo TbHtml::link('Login', array('/account/login')); ?></li>
+            <li><?php echo TbHtml::link('Login', array('/account/authenticate/login')); ?></li>
         <?php else: ?>
-            <li><?php echo TbHtml::link('Logout', array('/account/logout')); ?></li>
+            <li><?php echo TbHtml::link('Logout', array('/account/authenticate/logout')); ?></li>
         <?php endif; ?>
     </ul>
 </div>

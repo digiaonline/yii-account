@@ -30,7 +30,7 @@ use nordsoftware\yii_account\helpers\Helper;
     <div class="row">
         <div class="login-submit col-xs-6">
             <?php echo TbHtml::submitButton(
-                Helper::t('views', 'Log in'),
+                Helper::t('views', 'Log In'),
                 array('color' => TbHtml::BUTTON_COLOR_PRIMARY, 'size' => TbHtml::BUTTON_SIZE_LARGE, 'block' => true)
             ); ?>
         </div>
@@ -44,7 +44,7 @@ use nordsoftware\yii_account\helpers\Helper;
     <ul class="login-links list-unstyled">
         <li><?php echo TbHtml::link(Helper::t('views', 'Create an account'), array('/account/register')); ?></li>
         <li>|</li>
-        <li><?php echo TbHtml::link(Helper::t('views', 'Forgot password'), array('/account/forgot')); ?></li>
+        <li><?php echo TbHtml::link(Helper::t('views', 'Forgot password'), array('/account/password/forgot')); ?></li>
     </ul>
 
 </div>

@@ -2,17 +2,17 @@
   margin: 40px auto;
   width: 320px;
 }
-.login-controller h1 {
+.login-action h1 {
   margin-bottom: 15px;
 }
-.login-controller .login-stay-logged-in .checkbox {
+.login-action .login-stay-logged-in .checkbox {
   margin: 12px 0;
 }
-.login-controller .login-links {
+.login-action .login-links {
   margin: 10px 0;
   text-align: center;
 }
-.login-controller .login-links > li {
+.login-action .login-links > li {
   display: inline-block;
   padding: 5px;
 }

@@ -10,12 +10,39 @@ class PasswordController extends Controller
     /**
      * @var string
      */
+    public $emailSubject;
+
+    /**
+     * @var string
+     */
     public $forgotFormId = 'forgotPasswordForm';
 
     /**
      * @var string
      */
-    public $changeFormId = 'changePasswordForm';
+    public $resetFormId = 'changePasswordForm';
+
+    /**
+     * @var string
+     */
+    public $layout = 'narrow';
+
+    /**
+     * @var string
+     */
+    public $defaultAction = 'forgot';
+
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->emailSubject === null) {
+            $this->emailSubject = Helper::t('email', 'Password recovery');
+        }
+    }
 
     /**
      * @inheritDoc
@@ -24,7 +51,7 @@ class PasswordController extends Controller
     {
         return array(
             'guestOnly + index',
-            'validateToken + change',
+            'validateToken + reset',
         );
     }
 
@@ -33,9 +60,9 @@ class PasswordController extends Controller
      */
     public function actionForgot()
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_FORGOT_PASSWORD_FORM);
+        $modelClass = $this->module->getClassName(Module::CLASS_RECOVER_PASSWORD_FORM);
 
-        /** @var \nordsoftware\yii_account\models\form\ForgotPasswordForm $model */
+        /** @var \nordsoftware\yii_account\models\form\RecoverPasswordForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;
@@ -48,25 +75,47 @@ class PasswordController extends Controller
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
 
-            // todo: send email with instructions to change the password
+            if ($model->validate()) {
+                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
+
+                $account = \CActiveRecord::model($accountClass)->findByAttributes(array('email' => $model->email));
+
+                $token = $this->generateToken(
+                    Module::TOKEN_RESET_PASSWORD,
+                    $account->id,
+                    Helper::sqlDateTime(time() + $this->module->recoverExpireTime)
+                );
+
+                $resetUrl = $this->createAbsoluteUrl('/account/password/reset', array('token' => $token));
+
+                $this->module->sendMail(
+                    $account->email,
+                    $this->emailSubject,
+                    $this->renderPartial('/mail/recoverPassword', array('resetUrl' => $resetUrl))
+                );
+
+                $this->redirect('sent');
+            }
         }
 
         $this->render('forgot', array('model' => $model));
     }
 
     /**
-     * Displays the 'change password' page.
+     * Displays the 'reset password' page.
      */
-    public function actionChange()
+    public function actionReset()
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_CHANGE_PASSWORD_FORM);
+        $token = $this->loadToken(Module::TOKEN_RESET_PASSWORD, \Yii::app()->request->getQuery('token'));
 
-        /** @var \nordsoftware\yii_account\models\form\ChangePasswordForm $model */
+        $modelClass = $this->module->getClassName(Module::CLASS_RESET_PASSWORD_FORM);
+
+        /** @var \nordsoftware\yii_account\models\form\ResetPasswordForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->changeFormId) {
+        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->resetFormId) {
             echo \CActiveForm::validate($model);
             \Yii::app()->end();
         }
@@ -74,9 +123,18 @@ class PasswordController extends Controller
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
 
-            // todo: change the password and forward the user to login.
+            if ($model->validate()) {
+                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
+
+                $account = \CActiveRecord::model($accountClass)->findByPk($token->accountId);
+                $account->changePassword($model->password);
+
+                $token->markUsed();
+
+                $this->redirect(array('/account/authenticate/login'));
+            }
         }
 
-        $this->render('change', array('model' => $model));
+        $this->render('reset', array('model' => $model));
     }
 } 

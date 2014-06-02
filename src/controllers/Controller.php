@@ -4,6 +4,7 @@ namespace nordsoftware\yii_account\controllers;
 
 use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
+use nordsoftware\yii_account\models\ar\AccountToken;
 use nordsoftware\yii_account\Module;
 
 /**
@@ -75,7 +76,7 @@ class Controller extends \CController
         $model->type = $type;
         $model->accountId = $accountId;
         $model->token = $token;
-        $model->expires = $expires;
+        $model->expiresAt = $expires;
 
         if (!$model->save()) {
             throw new Exception("Failed to save account token.");
@@ -97,9 +98,11 @@ class Controller extends \CController
         $modelClass = $this->module->getClassName(Module::CLASS_TOKEN_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\AccountToken $model */
-        $model = \CActiveRecord::model($modelClass)->findByAttributes(array('type' => $type, 'token' => $token));
+        $model = \CActiveRecord::model($modelClass)->findByAttributes(
+            array('type' => $type, 'token' => $token, 'status' => AccountToken::STATUS_UNUSED)
+        );
 
-        if ($model->hasExpired()) {
+        if ($model === null || $model->hasExpired()) {
             $this->accessDenied();
         }
 

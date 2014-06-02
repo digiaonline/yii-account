@@ -1,4 +1,0 @@
-<?php
-
-?>
-Forgot password mail.

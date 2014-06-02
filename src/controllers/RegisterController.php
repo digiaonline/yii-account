@@ -9,6 +9,9 @@ use nordsoftware\yii_account\helpers\Helper;
 
 class RegisterController extends Controller
 {
+    /**
+     * @var string
+     */
     public $emailSubject;
 
     /**
@@ -64,31 +67,35 @@ class RegisterController extends Controller
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
 
-            $accountModelClass = $this->module->getClassName(Module::CLASS_MODEL);
+            if ($model->validate()) {
+                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
 
-            /** @var \nordsoftware\yii_account\models\ar\Account $account */
-            $account = new $accountModelClass();
-            $account->attributes = $model->attributes;
+                /** @var \nordsoftware\yii_account\models\ar\Account $account */
+                $account = new $accountClass();
+                $account->username = $model->username;
+                $account->password = $model->password;
+                $account->email = $model->email;
 
-            if (!$account->save()) {
-                throw new Exception("Failed to create account.");
+                if (!$account->save(false)) {
+                    $this->fatalError();
+                }
+
+                $token = $this->generateToken(
+                    Module::TOKEN_ACTIVATE,
+                    $account->id,
+                    Helper::sqlDateTime(time() + $this->module->activateExpireTime)
+                );
+
+                $activateUrl = $this->createAbsoluteUrl('/account/register/activate', array('token' => $token));
+
+                $this->module->sendMail(
+                    $account->email,
+                    $this->emailSubject,
+                    $this->renderPartial('/mail/register', array('activateUrl' => $activateUrl))
+                );
+
+                $this->redirect('done');
             }
-
-            $token = $this->generateToken(
-                Module::TOKEN_ACTIVATE,
-                $account->id,
-                Helper::sqlDateTime(time() + $this->module->activateExpireTime)
-            );
-
-            $activateUrl = $this->createUrl('/account/activate', array('token' => $token));
-
-            $this->module->sendMail(
-                $account->email,
-                $this->emailSubject,
-                $this->renderPartial('/mail/register', array('activateUrl' => $activateUrl))
-            );
-
-            $this->redirect('done');
         }
 
         $this->render('index', array('model' => $model));
@@ -107,12 +114,12 @@ class RegisterController extends Controller
      */
     public function actionActivate()
     {
-        $tokenModel = $this->loadToken(Module::TOKEN_ACTIVATE, \Yii::app()->request->getQuery('token'));
+        $token = $this->loadToken(Module::TOKEN_ACTIVATE, \Yii::app()->request->getQuery('token'));
 
         $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $model */
-        $model = \CActiveRecord::model($modelClass)->findByPk($tokenModel->accountId);
+        $model = \CActiveRecord::model($modelClass)->findByPk($token->accountId);
 
         if ($model === null) {
             $this->pageNotFound();
@@ -123,6 +130,8 @@ class RegisterController extends Controller
         if (!$model->save(true, array('status'))) {
             $this->fatalError();
         }
+
+        $token->markUsed();
 
         $this->redirect(array('/account/authenticate'));
     }

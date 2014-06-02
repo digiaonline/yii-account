@@ -6,6 +6,7 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
+use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
 
 /**
@@ -17,7 +18,7 @@ use nordsoftware\yii_account\helpers\Helper;
  * @property integer $accountId
  * @property string $type
  * @property string $token
- * @property string $expireTime
+ * @property string $expiresAt
  * @property integer $status
  *
  * The followings are the available model relations:
@@ -26,6 +27,9 @@ use nordsoftware\yii_account\helpers\Helper;
  */
 class AccountToken extends \CActiveRecord
 {
+    const STATUS_UNUSED = 0;
+    const STATUS_USED = 1;
+
     /**
      * @inheritDoc
      */
@@ -40,9 +44,9 @@ class AccountToken extends \CActiveRecord
     public function rules()
     {
         return array(
-            array('accountId, type, token, expireTime', 'required'),
+            array('accountId, type, token, expiresAt', 'required'),
             array('accountId, status', 'numerical', 'integerOnly' => true),
-            array('type, token, expireTime', 'length', 'max' => 255),
+            array('type, token, expiresAt', 'length', 'max' => 255),
         );
     }
 
@@ -66,7 +70,7 @@ class AccountToken extends \CActiveRecord
             'accountId' => Helper::t('labels', 'Account'),
             'type' => Helper::t('labels', 'Type'),
             'token' => Helper::t('labels', 'Token'),
-            'expireTime' => Helper::t('labels', 'Expires'),
+            'expiresAt' => Helper::t('labels', 'Expires'),
             'status' => Helper::t('labels', 'Status')
         );
     }
@@ -76,7 +80,21 @@ class AccountToken extends \CActiveRecord
      */
     public function hasExpired()
     {
-        return strtotime($this->expireTime) < time();
+        return strtotime($this->expiresAt) < time();
+    }
+
+    /**
+     * Marks this coupon used.
+     *
+     * @throws \nordsoftware\yii_account\exceptions\Exception if saving this model fails.
+     */
+    public function markUsed()
+    {
+        $this->status = self::STATUS_USED;
+
+        if (!$this->save(true, array('status'))) {
+            throw new Exception("Failed to mark account #{$this->id} used.");
+        }
     }
 
     /**

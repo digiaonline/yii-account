@@ -15,8 +15,8 @@ class Module extends \CWebModule
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
     const CLASS_REGISTER_FORM = 'registerForm';
-    const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
-    const CLASS_CHANGE_PASSWORD_FORM = 'changePasswordForm';
+    const CLASS_RECOVER_PASSWORD_FORM = 'recoverPasswordForm';
+    const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
 
     // Controller types.
     const CONTROLLER_AUTHENTICATE = 'authenticate';
@@ -26,7 +26,6 @@ class Module extends \CWebModule
     // Token types.
     const TOKEN_ACTIVATE = 'activate';
     const TOKEN_RESET_PASSWORD = 'resetPassword';
-    const TOKEN_CHANGE_PASSWORD = 'changePassword';
 
     // Component identifiers.
     const COMPONENT_TOKEN_GENERATOR = 'tokenGenerator';
@@ -59,6 +58,11 @@ class Module extends \CWebModule
     /**
      * @var int
      */
+    public $recoverExpireTime = 86400; // 1 day
+
+    /**
+     * @var int
+     */
     public $loginExpireTime = 2592000; // 30 days
 
     /**
@@ -86,6 +90,10 @@ class Module extends \CWebModule
      */
     protected function init()
     {
+        if ($this->fromEmailAddress === null) {
+            throw new Exception("Required property Module.fromEmailAddress not set.");
+        }
+
         $this->classMap = array_merge(
             array(
                 self::CLASS_MODEL => '\nordsoftware\yii_account\models\ar\Account',
@@ -93,8 +101,8 @@ class Module extends \CWebModule
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
                 self::CLASS_REGISTER_FORM => '\nordsoftware\yii_account\models\form\RegisterForm',
-                self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
-                self::CLASS_CHANGE_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ChangePasswordForm',
+                self::CLASS_RECOVER_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\RecoverPasswordForm',
+                self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
             ),
             $this->classMap
         );
@@ -152,11 +160,6 @@ class Module extends \CWebModule
     {
         $params = $config['params'];
         $headers = $config['headers'];
-
-        if ($this->fromEmailAddress === null) {
-            throw new Exception("Failed to send mail required property fromEmailAddress not set.");
-        }
-
         $headers['from'] = $this->fromEmailAddress;
 
         return mail($to, $subject, $body, $headers, $params);

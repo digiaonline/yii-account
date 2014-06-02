@@ -14,10 +14,10 @@ use nordsoftware\yii_account\helpers\Helper;
         array('id' => $this->formId)
     ); ?>
 
-    <p class="register-login">
+    <p class="register-login help-block">
         <?php echo Helper::t(
-            'views', 'If you already have an account, {loginLink}.',
-            array('{loginLink}' => TbHtml::link(Helper::t('views', 'Log in'), array('/account/login')))
+            'views', 'If you already have an account &ndash; {loginLink}.',
+            array('{loginLink}' => TbHtml::link(Helper::t('views', 'Log In'), array('/account/authenticate/login')))
         ); ?>
     </p>
 

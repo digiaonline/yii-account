@@ -4,7 +4,7 @@ namespace nordsoftware\yii_account\models\form;
 
 use nordsoftware\yii_account\helpers\Helper;
 
-class ChangePasswordForm extends \CFormModel
+class ResetPasswordForm extends \CFormModel
 {
     /**
      * @var string

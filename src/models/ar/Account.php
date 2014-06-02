@@ -51,6 +51,7 @@ class Account extends \CActiveRecord
             array('salt, username, password, email, passwordStrategy', 'required'),
             array('requireNewPassword, status', 'numerical', 'integerOnly' => true),
             array('salt, username, password, email, passwordStrategy', 'length', 'max' => 255),
+            array('email, username', 'unique'),
             array('lastLoginAt, lastActiveAt', 'safe'),
             array('id, username, email, requireNewPassword, lastLoginAt, lastActiveAt, status', 'safe', 'on' => 'search'),
         );
