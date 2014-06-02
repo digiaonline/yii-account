@@ -28,7 +28,7 @@ class TokenGenerator extends \CApplicationComponent
     /**
      * @var \RandomLib\Factory RandomLib factory instance.
      */
-    private static $_factory;
+    private $_factory;
 
     /**
      * Generates a new random token.
@@ -37,8 +37,8 @@ class TokenGenerator extends \CApplicationComponent
      */
     public function generate()
     {
-        $factory = self::getFactory();
-        $generator = $factory->getGenerator(new \SecurityLib\Strength($this->strength));
+        $generator = $this->getFactory()->getGenerator(new \SecurityLib\Strength($this->strength));
+
         return $generator->generateString($this->length, $this->chars);
     }
 
@@ -47,11 +47,12 @@ class TokenGenerator extends \CApplicationComponent
      *
      * @return \RandomLib\Factory
      */
-    protected static function getFactory()
+    protected function getFactory()
     {
-        if (!isset(self::$_factory)) {
-            self::$_factory = new \RandomLib\Factory();
+        if (!isset($this->_factory)) {
+            $this->_factory = new \RandomLib\Factory();
         }
-        return self::$_factory;
+
+        return $this->_factory;
     }
 }
