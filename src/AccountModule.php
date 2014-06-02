@@ -2,26 +2,20 @@
 
 namespace nordsoftware\yii_account;
 
+use nordsoftware\yii_account\exceptions\AccountException;
+
 class AccountModule extends \CWebModule
 {
     const MODULE_ID = 'account';
 
-    // todo: consider unifying the class configurations or support giving them as an array
+    const CLASS_MODEL = 'model';
+    const CLASS_USER_IDENTITY = 'userIdentity';
+    const CLASS_LOGIN_FORM = 'loginForm';
 
     /**
-     * @var string
+     * @var array
      */
-    public $modelClass = '\nordsoftware\yii_account\models\ar\Account';
-
-    /**
-     * @var string
-     */
-    public $identityClass = '\nordsoftware\yii_account\components\UserIdentity';
-
-    /**
-     * @var string
-     */
-    public $loginFormClass = '\nordsoftware\yii_account\models\form\LoginForm';
+    public $classMap = array();
 
     /**
      * @var string
@@ -48,6 +42,15 @@ class AccountModule extends \CWebModule
      */
     protected function init()
     {
+        $this->classMap = array_merge(
+            array(
+                self::CLASS_MODEL => '\nordsoftware\yii_account\models\ar\Account',
+                self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
+                self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
+            ),
+            $this->classMap
+        );
+
         $this->setComponents(
             array(
                 'tokenGenerator' => array(
@@ -102,7 +105,6 @@ class AccountModule extends \CWebModule
     {
         $params = $config['params'];
         $headers = $config['headers'];
-
         $headers['from'] = $from;
 
         return mail($to, $subject, $body, $headers, $params);
@@ -118,5 +120,21 @@ class AccountModule extends \CWebModule
         /** @var \nordsoftware\yii_account\components\TokenGenerator $tokenGenerator */
         $tokenGenerator = $this->getComponent('tokenGenerator');
         return $tokenGenerator->generate();
+    }
+
+    /**
+     * Returns the class name for
+     *
+     * @param string $type
+     * @throws exceptions\AccountException
+     * @return string
+     */
+    public function getClassName($type)
+    {
+        if (!isset($this->classMap)) {
+            throw new AccountException("Trying to get class name for unknown class '$type'.");
+        }
+
+        return $this->classMap[$type];
     }
 }

@@ -7,6 +7,9 @@ use nordsoftware\yii_account\exceptions\AccountException;
 
 class AccountCommand extends \CConsoleCommand
 {
+    /**
+     * @var string
+     */
     public $defaultAction = 'create';
 
     /**
@@ -17,10 +20,10 @@ class AccountCommand extends \CConsoleCommand
      */
     public function actionCreate($username, $password)
     {
-        $module = $this->getModule();
+        $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $account */
-        $account = new $module->modelClass();
+        $account = new $modelClass();
         $account->username = $username;
         $account->password = $password;
 

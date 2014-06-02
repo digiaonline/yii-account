@@ -14,6 +14,15 @@ class Helper
     }
 
     /**
+     * @param string $className
+     * @return string
+     */
+    public static function classNameToKey($className)
+    {
+        return str_replace('\\', '_', ltrim($className, '\\'));
+    }
+
+    /**
      * @param string $category
      * @param string $message
      * @param array $params
@@ -23,6 +32,6 @@ class Helper
      */
     public static function t($category, $message, $params = array(), $source = null, $language = null)
     {
-        return \Yii::t('\nordsoftware\yii_account\AccountModule' . $category, $message, $params, $source, $language);
+        return \Yii::t('\nordsoftware\yii_account\AccountModule.' . $category, $message, $params, $source, $language);
     }
-} 
+}

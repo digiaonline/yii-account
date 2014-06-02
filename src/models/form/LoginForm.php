@@ -58,9 +58,9 @@ class LoginForm extends \CFormModel
     public function authenticate($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $module = $this->getModule();
+            $identityClass = $this->module->getClassName(AccountModule::CLASS_USER_IDENTITY);
 
-            $this->_identity = new $module->identityClass($this->username, $this->password);
+            $this->_identity = new $identityClass($this->username, $this->password);
 
             if (!$this->_identity->authenticate()) {
                 $this->addError('password', Helper::t('errors', 'Your username or password is invalid.'));

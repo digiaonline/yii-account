@@ -37,8 +37,8 @@ class WebUser extends \CWebUser
         }
 
         if (!isset($this->_model)) {
-            $module = $this->getModule();
-            $this->_model = \CActiveRecord::model($module->modelClass)->findByPk($this->id);
+            $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
+            $this->_model = \CActiveRecord::model($modelClass)->findByPk($this->id);
         }
 
         return $this->_model;

@@ -2,7 +2,8 @@
 
 namespace nordsoftware\yii_account\controllers;
 
-use nordsoftware\yii_account\models\form\LoginForm;
+use nordsoftware\yii_account\AccountModule;
+use nordsoftware\yii_account\helpers\Helper;
 
 class LoginController extends AccountController
 {
@@ -15,15 +16,20 @@ class LoginController extends AccountController
             $this->redirect(\Yii::app()->homeUrl);
         }
 
-        $model = new LoginForm;
+        $loginFormClass = $this->module->getClassName(AccountModule::CLASS_LOGIN_FORM);
+
+        /** @var \nordsoftware\yii_account\models\form\LoginForm $model */
+        $model = new $loginFormClass();
 
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'loginForm') {
             echo \CActiveForm::validate($model);
             \Yii::app()->end();
         }
 
-        if (isset($_POST['nordsoftware_yii_account_models_form_LoginForm'])) {
-            $model->attributes = $_POST['nordsoftware_yii_account_models_form_LoginForm'];
+        $request = \Yii::app()->request;
+
+        if ($request->isPostRequest) {
+            $model->attributes = $request->getPost(Helper::classNameToKey($loginFormClass));
 
             if ($model->validate() && $model->login()) {
                 \Yii::app()->user->updateLastLoginAt();

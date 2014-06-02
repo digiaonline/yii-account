@@ -40,15 +40,22 @@ class UserIdentity extends \CUserIdentity
      */
     protected function loadModel()
     {
-        /** @var \nordsoftware\yii_account\AccountModule $module */
-        $module = \Yii::app()->getModule(AccountModule::MODULE_ID);
+        $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
 
-        return \CActiveRecord::model($module->modelClass)->find(
+        return \CActiveRecord::model($modelClass)->find(
             array(
                 'condition' => 'username=:username',
                 'params' => array(':username' => strtolower($this->username)),
             )
         );
+    }
+
+    /**
+     * @return \nordsoftware\yii_account\AccountModule
+     */
+    protected function getModule()
+    {
+        return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
 
     /**

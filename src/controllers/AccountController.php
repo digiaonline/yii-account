@@ -1,7 +1,11 @@
 <?php
 
 namespace nordsoftware\yii_account\controllers;
+use nordsoftware\yii_account\AccountModule;
 
+/**
+ * @property \nordsoftware\yii_account\AccountModule $module
+ */
 class AccountController extends \CController
 {
     /**
@@ -17,7 +21,8 @@ class AccountController extends \CController
      */
     public function loadModel($id)
     {
-        $model = \CActiveRecord::model($this->module->modelClass)->findByPk($id);
+        $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
+        $model = \CActiveRecord::model($modelClass)->findByPk($id);
 
         if ($model === null) {
             throw new \CHttpException(404, \Yii::t('yii-account', "Account #$id not found."));
