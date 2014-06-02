@@ -11,6 +11,3 @@ tests/_log/
 
 # node.js
 node_modules/
-
-# local
-yiic.php
