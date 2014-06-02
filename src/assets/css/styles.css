@@ -5,7 +5,7 @@
 .login-controller h1 {
   margin-bottom: 15px;
 }
-.login-controller .login-remember-me .checkbox {
+.login-controller .login-stay-logged-in .checkbox {
   margin: 12px 0;
 }
 .login-controller .login-links {

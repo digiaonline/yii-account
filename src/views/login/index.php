@@ -34,7 +34,7 @@ use nordsoftware\yii_account\helpers\Helper;
                 array('color' => TbHtml::BUTTON_COLOR_PRIMARY, 'size' => TbHtml::BUTTON_SIZE_LARGE, 'block' => true)
             ); ?>
         </div>
-        <div class="login-remember-me col-xs-6">
+        <div class="login-stay-logged-in col-xs-6">
             <?php echo $form->checkBoxControlGroup($model, 'stayLoggedIn'); ?>
         </div>
     </div>
