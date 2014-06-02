@@ -11,7 +11,7 @@ class m140530_111430_create_account_token_table extends CDbMigration
                 'accountId' => 'int NOT NULL',
                 'type' => 'string NOT NULL',
                 'token' => 'string NOT NULL',
-                'expires' => 'string NOT NULL',
+                'expireTime' => 'timestamp NOT NULL',
                 'status' => "integer NOT NULL DEFAULT '0'",
             )
         );

@@ -2,7 +2,8 @@
 
 namespace nordsoftware\yii_account\components;
 
-use nordsoftware\yii_account\AccountModule;
+use nordsoftware\yii_account\Module;
+use nordsoftware\yii_account\helpers\Helper;
 
 class UserIdentity extends \CUserIdentity
 {
@@ -40,22 +41,17 @@ class UserIdentity extends \CUserIdentity
      */
     protected function loadModel()
     {
-        $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
 
         return \CActiveRecord::model($modelClass)->find(
             array(
-                'condition' => 'username=:username',
-                'params' => array(':username' => strtolower($this->username)),
+                'condition' => 'username=:username OR email=:email',
+                'params' => array(
+                    ':username' => strtolower($this->username),
+                    ':email' => $this->email,
+                ),
             )
         );
-    }
-
-    /**
-     * @return \nordsoftware\yii_account\AccountModule
-     */
-    protected function getModule()
-    {
-        return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
 
     /**

@@ -17,7 +17,7 @@ use nordsoftware\yii_account\helpers\Helper;
  * @property integer $accountId
  * @property string $type
  * @property string $token
- * @property string $expires
+ * @property string $expireTime
  * @property integer $status
  *
  * The followings are the available model relations:
@@ -27,7 +27,7 @@ use nordsoftware\yii_account\helpers\Helper;
 class AccountToken extends \CActiveRecord
 {
     /**
-     * @return string the associated database table name.
+     * @inheritDoc
      */
     public function tableName()
     {
@@ -35,20 +35,19 @@ class AccountToken extends \CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @inheritDoc
      */
     public function rules()
     {
         return array(
-            array('accountId, type, token, expires', 'required'),
+            array('accountId, type, token, expireTime', 'required'),
             array('accountId, status', 'numerical', 'integerOnly' => true),
-            array('type, token, expires', 'length', 'max' => 255),
-            array('id, accountId, type, token, expires, status', 'safe', 'on' => 'search'),
+            array('type, token, expireTime', 'length', 'max' => 255),
         );
     }
 
     /**
-     * @return array relational rules.
+     * @inheritDoc
      */
     public function relations()
     {
@@ -58,7 +57,7 @@ class AccountToken extends \CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label).
+     * @inheritDoc
      */
     public function attributeLabels()
     {
@@ -67,31 +66,22 @@ class AccountToken extends \CActiveRecord
             'accountId' => Helper::t('labels', 'Account'),
             'type' => Helper::t('labels', 'Type'),
             'token' => Helper::t('labels', 'Token'),
-            'expires' => Helper::t('labels', 'Expires'),
+            'expireTime' => Helper::t('labels', 'Expires'),
             'status' => Helper::t('labels', 'Status')
         );
     }
 
     /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return \CActiveDataProvider the data provider that can return the models based on the search conditions.
+     * @return bool whether this token has expired.
      */
-    public function search()
+    public function hasExpired()
     {
-        $criteria = new \CDbCriteria();
-
-        $criteria->compare('id', $this->id);
-        $criteria->compare('accountId', $this->accountId);
-        $criteria->compare('type', $this->type, true);
-        $criteria->compare('token', $this->token, true);
-        $criteria->compare('expires', $this->expires, true);
-        $criteria->compare('status', $this->status);
-
-        return new \CActiveDataProvider($this, array('criteria' => $criteria));
+        return strtotime($this->expireTime) < time();
     }
 
     /**
      * Returns the static model of this class.
+     *
      * @param string $className active record class name.
      * @return AccountToken the static model class.
      */

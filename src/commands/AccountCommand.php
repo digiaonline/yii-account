@@ -2,8 +2,9 @@
 
 namespace nordsoftware\yii_account\commands;
 
-use nordsoftware\yii_account\AccountModule;
-use nordsoftware\yii_account\exceptions\AccountException;
+use nordsoftware\yii_account\Module;
+use nordsoftware\yii_account\exceptions\Exception;
+use nordsoftware\yii_account\helpers\Helper;
 
 class AccountCommand extends \CConsoleCommand
 {
@@ -17,10 +18,11 @@ class AccountCommand extends \CConsoleCommand
      *
      * @param string $username
      * @param string $password
+     * @throws \nordsoftware\yii_account\exceptions\Exception
      */
     public function actionCreate($username, $password)
     {
-        $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $account */
         $account = new $modelClass();
@@ -28,19 +30,9 @@ class AccountCommand extends \CConsoleCommand
         $account->password = $password;
 
         if (!$account->save(false)) {
-            throw new AccountException("Failed to create account.");
+            throw new Exception("Failed to create account.");
         }
-
-        $account->changePassword($password);
 
         echo "Account $username:$password created.\n";
     }
-
-    /**
-     * @return \nordsoftware\yii_account\AccountModule
-     */
-    protected function getModule()
-    {
-        return \Yii::app()->getModule(AccountModule::MODULE_ID);
-    }
-} 
+}

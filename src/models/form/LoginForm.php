@@ -2,7 +2,7 @@
 
 namespace nordsoftware\yii_account\models\form;
 
-use nordsoftware\yii_account\AccountModule;
+use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
 class LoginForm extends \CFormModel
@@ -58,7 +58,7 @@ class LoginForm extends \CFormModel
     public function authenticate($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $identityClass = $this->module->getClassName(AccountModule::CLASS_USER_IDENTITY);
+            $identityClass = Helper::getModule()->getClassName(Module::CLASS_USER_IDENTITY);
 
             $this->_identity = new $identityClass($this->username, $this->password);
 
@@ -74,8 +74,8 @@ class LoginForm extends \CFormModel
      */
     public function login()
     {
-        /** @var \nordsoftware\yii_account\AccountModule $module */
-        $module = \Yii::app()->getModule(AccountModule::MODULE_ID);
+        /** @var \nordsoftware\yii_account\Module $module */
+        $module = \Yii::app()->getModule(Module::MODULE_ID);
 
         if (!isset($this->_identity)) {
             $this->_identity = new $module->identityClass($this->username, $this->password);
@@ -90,13 +90,5 @@ class LoginForm extends \CFormModel
         \Yii::app()->user->login($this->_identity, $duration);
 
         return true;
-    }
-
-    /**
-     * @return \nordsoftware\yii_account\AccountModule
-     */
-    public function getModule()
-    {
-        return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
 }

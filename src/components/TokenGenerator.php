@@ -23,7 +23,7 @@ class TokenGenerator extends \CApplicationComponent
     /**
      * @var string characters to use when generating a token string.
      */
-    public $chars = '';
+    public $chars = 'abcdefghijklmnopqrstuvxyz0123456789';
 
     /**
      * @var \RandomLib\Factory RandomLib factory instance.

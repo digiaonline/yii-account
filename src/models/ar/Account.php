@@ -17,6 +17,7 @@ use nordsoftware\yii_account\helpers\Helper;
  * @property string $salt
  * @property string $username
  * @property string $password
+ * @property string $email
  * @property string $passwordStrategy
  * @property integer $requireNewPassword
  * @property string $lastLoginAt
@@ -30,6 +31,9 @@ use nordsoftware\yii_account\helpers\Helper;
  */
 class Account extends \CActiveRecord
 {
+    const STATUS_DEFAULT = 0;
+    const STATUS_ACTIVATE = 1;
+
     /**
      * @inheritDoc
      */
@@ -44,11 +48,11 @@ class Account extends \CActiveRecord
     public function rules()
     {
         return array(
-            array('salt, username, password, passwordStrategy', 'required'),
+            array('salt, username, password, email, passwordStrategy', 'required'),
             array('requireNewPassword, status', 'numerical', 'integerOnly' => true),
-            array('salt, username, password, passwordStrategy', 'length', 'max' => 255),
+            array('salt, username, password, email, passwordStrategy', 'length', 'max' => 255),
             array('lastLoginAt, lastActiveAt', 'safe'),
-            array('id, username, passwordStrategy, requireNewPassword, lastLoginAt, lastActiveAt, status', 'safe', 'on' => 'search'),
+            array('id, username, email, requireNewPassword, lastLoginAt, lastActiveAt, status', 'safe', 'on' => 'search'),
         );
     }
 
@@ -81,6 +85,7 @@ class Account extends \CActiveRecord
             'salt' => Helper::t('labels', 'Salt'),
             'username' => Helper::t('labels', 'Username'),
             'password' => Helper::t('labels', 'Password'),
+            'email' => Helper::t('labels', 'Email'),
             'passwordStrategy' => Helper::t('labels', 'Password Strategy'),
             'requireNewPassword' => Helper::t('labels', 'Require New Password'),
             'lastLoginAt' => Helper::t('labels', 'Last Login At'),
@@ -91,6 +96,7 @@ class Account extends \CActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
+     *
      * @return \CActiveDataProvider the data provider that can return the models based on the search conditions.
      */
     public function search()
@@ -99,7 +105,7 @@ class Account extends \CActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('username', $this->username, true);
-        $criteria->compare('passwordStrategy', $this->passwordStrategy, true);
+        $criteria->compare('email', $this->email, true);
         $criteria->compare('requireNewPassword', $this->requireNewPassword);
         $criteria->compare('lastLoginAt', $this->lastLoginAt, true);
         $criteria->compare('lastActiveAt', $this->lastActiveAt, true);
@@ -110,6 +116,7 @@ class Account extends \CActiveRecord
 
     /**
      * Returns the static model of this class.
+     *
      * @param string $className active record class name.
      * @return \nordsoftware\yii_account\models\ar\Account the static model class.
      */

@@ -12,7 +12,7 @@ return array(
     ),
     'modules' => array(
         'account' => array(
-            'class' => '\nordsoftware\yii_account\AccountModule',
+            'class' => 'application.modules.account.AccountModule',
         ),
     ),
     'components' => array(

@@ -11,6 +11,7 @@ class m140528_114338_create_account_table extends CDbMigration
                 'salt' => 'string NOT NULL',
                 'username' => 'string NOT NULL',
                 'password' => 'string NOT NULL',
+                'email' => 'string NOT NULL',
                 'passwordStrategy' => 'string NOT NULL',
                 'requireNewPassword' => "boolean NOT NULL DEFAULT '0'",
                 'lastLoginAt' => 'timestamp NULL DEFAULT NULL',

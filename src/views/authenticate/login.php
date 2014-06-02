@@ -1,36 +1,36 @@
 <?php
 use nordsoftware\yii_account\helpers\Helper;
 
-/* @var $this \nordsoftware\yii_account\controllers\LoginController */
+/* @var $this \nordsoftware\yii_account\controllers\AuthenticateController */
 /* @var $model \nordsoftware\yii_account\models\form\LoginForm */
 /* @var $form \TbActiveForm */
 ?>
-<div class="login-controller">
+<div class="authenticate-controller login-action">
 
     <h1><?php echo CHtml::encode(\Yii::app()->name); ?></h1>
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => 'loginForm')
+        array('id' => $this->loginFormId)
     ); ?>
 
     <fieldset>
         <?php echo $form->textFieldControlGroup(
             $model,
             'username',
-            array('block' => true, 'label' => false, 'placeholder' => Helper::t('labels', 'Username'))
+            array('label' => false, 'placeholder' => $model->getAttributeLabel('username'), 'block' => true)
         ); ?>
         <?php echo $form->passwordFieldControlGroup(
             $model,
             'password',
-            array('block' => true, 'label' => false, 'placeholder' => Helper::t('labels', 'Password'))
+            array('label' => false, 'placeholder' => $model->getAttributeLabel('password'), 'block' => true)
         ); ?>
     </fieldset>
 
     <div class="row">
         <div class="login-submit col-xs-6">
             <?php echo TbHtml::submitButton(
-                'Log in',
+                Helper::t('views', 'Log in'),
                 array('color' => TbHtml::BUTTON_COLOR_PRIMARY, 'size' => TbHtml::BUTTON_SIZE_LARGE, 'block' => true)
             ); ?>
         </div>

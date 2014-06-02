@@ -2,6 +2,8 @@
 
 namespace nordsoftware\yii_account\helpers;
 
+use nordsoftware\yii_account\Module;
+
 class Helper
 {
     /**
@@ -26,12 +28,23 @@ class Helper
      * @param string $category
      * @param string $message
      * @param array $params
-     * @param string $source
-     * @param string $language
      * @return string
      */
-    public static function t($category, $message, $params = array(), $source = null, $language = null)
+    public static function t($category, $message, $params = array())
     {
-        return \Yii::t('\nordsoftware\yii_account\AccountModule.' . $category, $message, $params, $source, $language);
+        return \Yii::t(
+            '\nordsoftware\yii_account\Module.' . $category,
+            $message,
+            $params,
+            self::getModule()->messageSource
+        );
+    }
+
+    /**
+     * @return \nordsoftware\yii_account\Module
+     */
+    public static function getModule()
+    {
+        return \Yii::app()->getModule(Module::MODULE_ID);
     }
 }

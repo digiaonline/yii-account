@@ -2,8 +2,8 @@
 
 namespace nordsoftware\yii_account\components;
 
-use nordsoftware\yii_account\AccountModule;
-use nordsoftware\yii_account\exceptions\AccountException;
+use nordsoftware\yii_account\Module;
+use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
 
 class WebUser extends \CWebUser
@@ -27,17 +27,17 @@ class WebUser extends \CWebUser
 
     /**
      * Loads the user model for the logged in user.
-     * @throws \nordsoftware\yii_account\exceptions\AccountException if the user is a guest.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the user is a guest.
      * @return \nordsoftware\yii_account\models\ar\Account the model.
      */
     public function loadModel()
     {
         if ($this->isGuest) {
-            throw new AccountException("Trying to load model for guest user.");
+            throw new Exception("Trying to load model for guest user.");
         }
 
         if (!isset($this->_model)) {
-            $modelClass = $this->module->getClassName(AccountModule::CLASS_MODEL);
+            $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
             $this->_model = \CActiveRecord::model($modelClass)->findByPk($this->id);
         }
 
@@ -46,7 +46,7 @@ class WebUser extends \CWebUser
 
     /**
      * Updates the users last active at field.
-     * @throws \nordsoftware\yii_account\exceptions\AccountException if saving the model cannot be saved.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
      * @return boolean whether the update was successful.
      */
     public function updateLastActiveAt()
@@ -55,7 +55,7 @@ class WebUser extends \CWebUser
         $model->lastActiveAt = Helper::sqlDateTime();
 
         if (!$model->save(true, array('lastActiveAt'))) {
-            throw new AccountException("Failed to update lastActiveAt for account #{$this->id}.");
+            throw new Exception("Failed to update lastActiveAt for account #{$this->id}.");
         }
 
         return true;
@@ -63,7 +63,7 @@ class WebUser extends \CWebUser
 
     /**
      * Updates the users last login at field.
-     * @throws \nordsoftware\yii_account\exceptions\AccountException if saving the model cannot be saved.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
      * @return boolean whether the update was successful.
      */
     public function updateLastLoginAt()
@@ -72,17 +72,9 @@ class WebUser extends \CWebUser
         $model->lastLoginAt = Helper::sqlDateTime();
 
         if (!$model->save(true, array('lastLoginAt'))) {
-            throw new AccountException("Failed to update lastLoginAt for account #{$this->id}.");
+            throw new Exception("Failed to update lastLoginAt for account #{$this->id}.");
         }
 
         return true;
-    }
-
-    /**
-     * @return \nordsoftware\yii_account\AccountModule
-     */
-    protected function getModule()
-    {
-        return \Yii::app()->getModule(AccountModule::MODULE_ID);
     }
 } 

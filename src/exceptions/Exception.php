@@ -2,6 +2,6 @@
 
 namespace nordsoftware\yii_account\exceptions;
 
-class AccountException extends \CException
+class Exception extends \CException
 {
 }
