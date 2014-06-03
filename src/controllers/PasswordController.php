@@ -20,7 +20,7 @@ class PasswordController extends Controller
     /**
      * @var string
      */
-    public $resetFormId = 'changePasswordForm';
+    public $resetFormId = 'resetPasswordForm';
 
     /**
      * @var string
@@ -60,9 +60,9 @@ class PasswordController extends Controller
      */
     public function actionForgot()
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_RECOVER_PASSWORD_FORM);
+        $modelClass = $this->module->getClassName(Module::CLASS_FORGOT_PASSWORD_FORM);
 
-        /** @var \nordsoftware\yii_account\models\form\RecoverPasswordForm $model */
+        /** @var \nordsoftware\yii_account\models\form\ForgotPasswordForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;

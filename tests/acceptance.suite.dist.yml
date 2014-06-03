@@ -12,4 +12,4 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://localhost/myapp/'
+            url: '<enter-your-base-url-here>'

@@ -3,7 +3,7 @@
 $basePath = dirname(__DIR__);
 
 return array(
-    'name' => 'Application',
+    'name' => 'Test Application',
     'basePath' => $basePath,
     'runtimePath' => "$basePath/runtime",
     'aliases' => array(

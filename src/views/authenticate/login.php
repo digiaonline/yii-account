@@ -7,7 +7,7 @@ use nordsoftware\yii_account\helpers\Helper;
 ?>
 <div class="authenticate-controller login-action">
 
-    <h1><?php echo CHtml::encode(\Yii::app()->name); ?></h1>
+    <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',

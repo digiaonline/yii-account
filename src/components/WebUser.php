@@ -9,6 +9,11 @@ use nordsoftware\yii_account\helpers\Helper;
 class WebUser extends \CWebUser
 {
     /**
+     * @var bool
+     */
+    public $allowAutoLogin = true;
+
+    /**
      * @var \nordsoftware\yii_account\models\ar\Account
      */
     private $_model;

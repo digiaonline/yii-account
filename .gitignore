@@ -8,6 +8,7 @@ vendor/
 tests/app/www/assets/
 tests/app/runtime/
 tests/_log/
+tests/acceptance.suite.yml
 
 # node.js
 node_modules/

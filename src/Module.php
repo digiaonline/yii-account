@@ -15,7 +15,7 @@ class Module extends \CWebModule
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
     const CLASS_REGISTER_FORM = 'registerForm';
-    const CLASS_RECOVER_PASSWORD_FORM = 'recoverPasswordForm';
+    const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
     const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
 
     // Controller types.
@@ -53,17 +53,17 @@ class Module extends \CWebModule
     /**
      * @var int
      */
-    public $activateExpireTime = 86400; // 1 day
+    public $loginExpireTime = 2592000; // 30 days
+
+    /**
+     * @var int
+     */
+    public $activateExpireTime = 2592000; // 30 days
 
     /**
      * @var int
      */
     public $recoverExpireTime = 86400; // 1 day
-
-    /**
-     * @var int
-     */
-    public $loginExpireTime = 2592000; // 30 days
 
     /**
      * @var string
@@ -101,7 +101,7 @@ class Module extends \CWebModule
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
                 self::CLASS_REGISTER_FORM => '\nordsoftware\yii_account\models\form\RegisterForm',
-                self::CLASS_RECOVER_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\RecoverPasswordForm',
+                self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
                 self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
             ),
             $this->classMap

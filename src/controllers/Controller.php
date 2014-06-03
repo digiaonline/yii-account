@@ -18,7 +18,7 @@ class Controller extends \CController
     public function filterGuestOnly(\CFilterChain $filterChain)
     {
         if (!\Yii::app()->user->isGuest) {
-            $this->accessDenied();
+            $this->redirect(\Yii::app()->homeUrl);
         }
 
         $filterChain->run();
@@ -30,7 +30,7 @@ class Controller extends \CController
     public function filterAuthenticatedOnly(\CFilterChain $filterChain)
     {
         if (\Yii::app()->user->isGuest) {
-            $this->accessDenied();
+            $this->redirect(\Yii::app()->homeUrl);
         }
 
         $filterChain->run();
@@ -41,10 +41,8 @@ class Controller extends \CController
      */
     public function filterValidateToken(\CFilterChain $filterChain)
     {
-        $request = \Yii::app()->request;
-
-        if (($token = $request->getQuery('token')) === null) {
-            $this->accessDenied();
+        if (($token = \Yii::app()->request->getQuery('token')) === null) {
+            $this->accessDenied(Helper::t('errors', 'Invalid authentication token.'));
         }
 
         $filterChain->run();
@@ -62,7 +60,7 @@ class Controller extends \CController
     public function generateToken($type, $accountId, $expires)
     {
         if (!$this->module->hasComponent(Module::COMPONENT_TOKEN_GENERATOR)) {
-            throw new Exception("Failed to get the token generator component.");
+            throw new Exception('Failed to get the token generator component.');
         }
 
         /** @var \nordsoftware\yii_account\components\TokenGenerator $tokenGenerator */
@@ -79,7 +77,7 @@ class Controller extends \CController
         $model->expiresAt = $expires;
 
         if (!$model->save()) {
-            throw new Exception("Failed to save account token.");
+            throw new Exception('Failed to save token.');
         }
 
         return $token;
@@ -103,34 +101,37 @@ class Controller extends \CController
         );
 
         if ($model === null || $model->hasExpired()) {
-            $this->accessDenied();
+            $this->accessDenied(Helper::t('errors', 'Invalid authentication token.'));
         }
 
         return $model;
     }
 
     /**
+     * @param string $message error message.
      * @throws \CHttpException when called.
      */
-    public function accessDenied()
+    public function accessDenied($message = null)
     {
-        throw new \CHttpException(401, Helper::t('controllers', 'Access denied.'));
+        throw new \CHttpException(401, $message === null ? Helper::t('controllers', 'Access denied.') : $message);
     }
 
     /**
+     * @param string $message error message.
      * @throws \CHttpException when called.
      */
-    public function pageNotFound()
+    public function pageNotFound($message = null)
     {
-        throw new \CHttpException(404, Helper::t('controllers', 'Page not found.'));
+        throw new \CHttpException(404, $message === null ? Helper::t('controllers', 'Page not found.') : $message);
     }
 
     /**
+     * @param string $message error message.
      * @throws \CHttpException when called.
      */
-    public function fatalError()
+    public function fatalError($message = null)
     {
-        throw new \CHttpException(500, Helper::t('controllers', 'Something went wrong.'));
+        throw new \CHttpException(500, $message === null ? Helper::t('controllers', 'Something went wrong.') : $message);
     }
 
     /**
@@ -146,7 +147,7 @@ class Controller extends \CController
         $model = \CActiveRecord::model($modelClass)->findByPk($id);
 
         if ($model === null) {
-            throw new \CHttpException(404, Helper::t('errors', "Page not found."));
+            $this->pageNotFound();
         }
 
         return $model;

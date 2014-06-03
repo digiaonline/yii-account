@@ -3,12 +3,12 @@
 use nordsoftware\yii_account\helpers\Helper;
 
 /* @var $this \nordsoftware\yii_account\controllers\PasswordController */
-/* @var $model \nordsoftware\yii_account\models\form\RecoverPasswordForm */
+/* @var $model \nordsoftware\yii_account\models\form\ForgotPasswordForm */
 /* @var $form \TbActiveForm */
 ?>
 <div class="password-controller forgot-action">
 
-    <h1><?php echo CHtml::encode(\Yii::app()->name); ?></h1>
+    <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
     <p class="help-block">
         <?php echo Helper::t(

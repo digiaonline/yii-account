@@ -7,7 +7,7 @@ use nordsoftware\yii_account\helpers\Helper;
 ?>
 <div class="password-controller change-action">
 
-    <h1><?php echo CHtml::encode(\Yii::app()->name); ?></h1>
+    <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
     <p class="help-block">
         <?php echo Helper::t(
@@ -18,7 +18,7 @@ use nordsoftware\yii_account\helpers\Helper;
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => $this->forgotFormId)
+        array('id' => $this->resetFormId)
     ); ?>
 
     <fieldset>
