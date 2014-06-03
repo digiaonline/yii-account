@@ -74,18 +74,12 @@ class RegisterController extends Controller
                 $account = new $accountClass();
                 $account->attributes = $model->attributes;
 
-                // todo: investigate why the password is not set if the validation is run.
-
                 if (!$account->save(true, array_keys($model->attributes))) {
-                    var_dump($account->getErrors());die;
                     $this->fatalError();
                 }
 
                 if (!$this->module->enableActivation) {
-                    if (!$account->activate()) {
-                        $this->fatalError();
-                    }
-
+                    $account->markActive();
                     $this->redirect(array('/account/authenticate/login'));
                 }
 

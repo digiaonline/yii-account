@@ -6,6 +6,7 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
+use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
 
 /**
@@ -118,12 +119,16 @@ class Account extends \CActiveRecord
     /**
      * Activates this account.
      *
+     * @throws \nordsoftware\yii_account\exceptions\Exception if this account cannot be saved.
      * @return bool whether the account was saved successfully.
      */
-    public function activate()
+    public function markActive()
     {
         $this->status = Account::STATUS_ACTIVATE;
-        return $this->save(true, array('status'));
+
+        if (!$this->save(true, array('status'))) {
+            throw new Exception('Failed to save account.');
+        }
     }
 
     /**
