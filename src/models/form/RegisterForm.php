@@ -35,6 +35,8 @@ class RegisterForm extends \CFormModel
         return array(
             array('email, username, password, verifyPassword', 'required'),
             array('email', 'email'),
+            array('username, email', 'unique', 'className' => '\nordsoftware\yii_account\models\ar\Account'),
+            array('password', 'length', 'min' => 6),
             array('verifyPassword', 'compare', 'compareAttribute' => 'password'),
         );
     }

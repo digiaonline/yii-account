@@ -103,10 +103,12 @@ class PasswordController extends Controller
 
     /**
      * Displays the 'reset password' page.
+     *
+     * @param string $token authentication token.
      */
-    public function actionReset()
+    public function actionReset($token)
     {
-        $token = $this->loadToken(Module::TOKEN_RESET_PASSWORD, \Yii::app()->request->getQuery('token'));
+        $tokenModel = $this->loadToken(Module::TOKEN_RESET_PASSWORD, $token);
 
         $modelClass = $this->module->getClassName(Module::CLASS_RESET_PASSWORD_FORM);
 
@@ -126,10 +128,14 @@ class PasswordController extends Controller
             if ($model->validate()) {
                 $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
 
-                $account = \CActiveRecord::model($accountClass)->findByPk($token->accountId);
-                $account->changePassword($model->password);
+                /** @var \nordsoftware\yii_account\models\ar\Account $account */
+                $account = \CActiveRecord::model($accountClass)->findByPk($tokenModel->accountId);
 
-                $token->markUsed();
+                if (!$account->changePassword($model->password, true)) {
+                    $this->fatalError();
+                }
+
+                $tokenModel->markUsed();
 
                 $this->redirect(array('/account/authenticate/login'));
             }

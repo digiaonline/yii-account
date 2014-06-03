@@ -3,6 +3,7 @@
 namespace nordsoftware\yii_account;
 
 use nordsoftware\yii_account\exceptions\Exception;
+use nordsoftware\yii_account\models\ar\AccountToken;
 
 class Module extends \CWebModule
 {
@@ -163,6 +164,65 @@ class Module extends \CWebModule
         $headers['from'] = $this->fromEmailAddress;
 
         return mail($to, $subject, $body, $headers, $params);
+    }
+
+    /**
+     * Generates a new random token and saves it in the database.
+     *
+     * @param string $type token type.
+     * @param int $accountId account id.
+     * @param string $expires token expiration date (mysql date).
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the token cannot be generated.
+     * @return string the generated token.
+     */
+    public function generateToken($type, $accountId, $expires)
+    {
+        if (!$this->hasComponent(Module::COMPONENT_TOKEN_GENERATOR)) {
+            throw new Exception('Failed to get the token generator component.');
+        }
+
+        /** @var \nordsoftware\yii_account\components\TokenGenerator $tokenGenerator */
+        $tokenGenerator = $this->getComponent(Module::COMPONENT_TOKEN_GENERATOR);
+        $token = $tokenGenerator->generate();
+
+        $modelClass = $this->getClassName(Module::CLASS_TOKEN_MODEL);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountToken $model */
+        $model = new $modelClass();
+        $model->type = $type;
+        $model->accountId = $accountId;
+        $model->token = $token;
+        $model->expiresAt = $expires;
+
+        if (!$model->save()) {
+            throw new Exception('Failed to save token.');
+        }
+
+        return $token;
+    }
+
+    /**
+     * Loads a token of a specific type.
+     *
+     * @param string $type token type.
+     * @param string $token token string.
+     * @throws \nordsoftware\yii_account\exceptions\Exception
+     * @return \nordsoftware\yii_account\models\ar\AccountToken
+     */
+    public function loadToken($type, $token)
+    {
+        $modelClass = $this->getClassName(Module::CLASS_TOKEN_MODEL);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountToken $model */
+        $model = \CActiveRecord::model($modelClass)->findByAttributes(
+            array('type' => $type, 'token' => $token, 'status' => AccountToken::STATUS_UNUSED)
+        );
+
+        if ($model === null || $model->hasExpired()) {
+            return null;
+        }
+
+        return $model;
     }
 
     /**

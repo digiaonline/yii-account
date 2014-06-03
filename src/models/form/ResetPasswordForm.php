@@ -23,6 +23,7 @@ class ResetPasswordForm extends \CFormModel
     {
         return array(
             array('password, verifyPassword', 'required'),
+            array('password', 'length', 'min' => 6),
             array('verifyPassword', 'compare', 'compareAttribute' => 'password'),
         );
     }

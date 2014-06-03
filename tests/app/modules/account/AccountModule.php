@@ -15,6 +15,7 @@ class AccountModule extends Module
     public function sendMail($to, $subject, $body, array $config = array())
     {
         echo $body;
-        die;
+
+        Yii::app()->end();
     }
 }

@@ -17,6 +17,8 @@ class m140528_114338_create_account_table extends CDbMigration
                 'lastLoginAt' => 'datetime NULL DEFAULT NULL',
                 'lastActiveAt' => 'datetime NULL DEFAULT NULL',
                 'status' => "integer NOT NULL DEFAULT '0'",
+                'UNIQUE KEY username (username)',
+                'UNIQUE KEY email (email)',
             )
         );
     }

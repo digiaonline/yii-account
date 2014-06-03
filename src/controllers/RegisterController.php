@@ -72,11 +72,12 @@ class RegisterController extends Controller
 
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = new $accountClass();
-                $account->username = $model->username;
-                $account->password = $model->password;
-                $account->email = $model->email;
+                $account->attributes = $model->attributes;
 
-                if (!$account->save(false)) {
+                // todo: investigate why the password is not set if the validation is run.
+
+                if (!$account->save(true, array_keys($model->attributes))) {
+                    var_dump($account->getErrors());die;
                     $this->fatalError();
                 }
 
@@ -133,15 +134,17 @@ class RegisterController extends Controller
 
     /**
      * Actions to take when activating an account.
+     *
+     * @param string $token authentication token.
      */
-    public function actionActivate()
+    public function actionActivate($token)
     {
-        $token = $this->loadToken(Module::TOKEN_ACTIVATE, \Yii::app()->request->getQuery('token'));
+        $tokenModel = $this->loadToken(Module::TOKEN_ACTIVATE, $token);
 
         $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $model */
-        $model = \CActiveRecord::model($modelClass)->findByPk($token->accountId);
+        $model = \CActiveRecord::model($modelClass)->findByPk($tokenModel->accountId);
 
         if ($model === null) {
             $this->pageNotFound();
@@ -153,8 +156,8 @@ class RegisterController extends Controller
             $this->fatalError();
         }
 
-        $token->markUsed();
+        $tokenModel->markUsed();
 
-        $this->redirect(array('/account/authenticate'));
+        $this->redirect(array('/account/authenticate/login'));
     }
 }

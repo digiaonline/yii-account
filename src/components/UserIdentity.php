@@ -17,7 +17,7 @@ class UserIdentity extends \CUserIdentity
      */
     public function authenticate()
     {
-        $account = $this->loadModel();
+        $account = $this->loadAccount();
 
         if ($account === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -39,7 +39,7 @@ class UserIdentity extends \CUserIdentity
     /**
      * @return \nordsoftware\yii_account\models\ar\Account|\YiiPassword\Behavior
      */
-    protected function loadModel()
+    protected function loadAccount()
     {
         $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
 
