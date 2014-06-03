@@ -3,7 +3,7 @@ yii-account
 
 Extension that provides basic account functionality for the Yii PHP framework.
 
-___Please note that this project is still under active development and is not stable enough for production use.___
+___NOTE: This project is still under active development and is not stable for production use.___
 
 Requirements
 ------------
