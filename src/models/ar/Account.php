@@ -116,6 +116,17 @@ class Account extends \CActiveRecord
     }
 
     /**
+     * Activates this account.
+     *
+     * @return bool whether the account was saved successfully.
+     */
+    public function activate()
+    {
+        $this->status = Account::STATUS_ACTIVATE;
+        return $this->save(true, array('status'));
+    }
+
+    /**
      * Returns the static model of this class.
      *
      * @param string $className active record class name.

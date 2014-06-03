@@ -80,25 +80,47 @@ class RegisterController extends Controller
                     $this->fatalError();
                 }
 
-                $token = $this->generateToken(
-                    Module::TOKEN_ACTIVATE,
-                    $account->id,
-                    Helper::sqlDateTime(time() + $this->module->activateExpireTime)
-                );
+                if (!$this->module->enableActivation) {
+                    if (!$account->activate()) {
+                        $this->fatalError();
+                    }
 
-                $activateUrl = $this->createAbsoluteUrl('/account/register/activate', array('token' => $token));
+                    $this->redirect(array('/account/authenticate/login'));
+                }
 
-                $this->module->sendMail(
-                    $account->email,
-                    $this->emailSubject,
-                    $this->renderPartial('/mail/register', array('activateUrl' => $activateUrl))
-                );
-
+                $this->sendActivationMail($account);
                 $this->redirect('done');
             }
         }
 
         $this->render('index', array('model' => $model));
+    }
+
+    /**
+     * Sends the activation email to the given account.
+     *
+     * @param Account $account account model.
+     * @throws \nordsoftware\yii_account\exceptions\Exception
+     */
+    protected function sendActivationMail(Account $account)
+    {
+        if (!$account->save(false)) {
+            $this->fatalError();
+        }
+
+        $token = $this->generateToken(
+            Module::TOKEN_ACTIVATE,
+            $account->id,
+            Helper::sqlDateTime(time() + $this->module->activateExpireTime)
+        );
+
+        $activateUrl = $this->createAbsoluteUrl('/account/register/activate', array('token' => $token));
+
+        $this->module->sendMail(
+            $account->email,
+            $this->emailSubject,
+            $this->renderPartial('/mail/register', array('activateUrl' => $activateUrl))
+        );
     }
 
     /**
