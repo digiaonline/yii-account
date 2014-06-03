@@ -17,7 +17,7 @@ return array(
     ),
     'components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=yii_account',
+            'connectionString' => 'mysql:host=localhost;dbname=yii_account_test',
             'username' => 'root',
             'password' => 'root',
             'charset' => 'utf8',

@@ -10,6 +10,11 @@ return \CMap::mergeArray(
             'migrate' => array(
                 'class' => 'system.cli.commands.MigrateCommand',
                 'migrationPath' => 'yii-account.migrations',
+                'migrationTable' => 'migration',
+            ),
+            'mysqldump' => array(
+                'class' => 'vendor.crisu83.yii-consoletools.commands.MysqldumpCommand',
+                'dumpPath' => '../_data',
             ),
         ),
     )
