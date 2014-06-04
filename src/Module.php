@@ -170,8 +170,8 @@ class Module extends \CWebModule
      */
     public function sendMail($to, $subject, $body, array $config = array())
     {
-        $params = $config['params'];
-        $headers = $config['headers'];
+        $params = isset($config['params']) ? $config['params'] : array();
+        $headers = isset($config['headers']) ? $config['headers'] : array();
         $headers['from'] = $this->fromEmailAddress;
 
         return mail($to, $subject, $body, $headers, $params);
