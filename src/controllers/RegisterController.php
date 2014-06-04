@@ -20,11 +20,6 @@ class RegisterController extends Controller
     public $formId = 'registerForm';
 
     /**
-     * @var string
-     */
-    public $layout = 'narrow';
-
-    /**
      * @inheritDoc
      */
     public function init()

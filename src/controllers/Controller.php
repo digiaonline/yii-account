@@ -2,9 +2,7 @@
 
 namespace nordsoftware\yii_account\controllers;
 
-use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
-use nordsoftware\yii_account\models\ar\AccountToken;
 use nordsoftware\yii_account\Module;
 
 /**
@@ -12,6 +10,18 @@ use nordsoftware\yii_account\Module;
  */
 class Controller extends \CController
 {
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->layout === null) {
+            $this->layout = $this->module->defaultLayout;
+        }
+    }
+
     /**
      * @param \CFilterChain $filterChain
      */

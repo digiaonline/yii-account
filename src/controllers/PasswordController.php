@@ -25,11 +25,6 @@ class PasswordController extends Controller
     /**
      * @var string
      */
-    public $layout = 'narrow';
-
-    /**
-     * @var string
-     */
     public $defaultAction = 'forgot';
 
     /**

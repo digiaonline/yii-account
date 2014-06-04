@@ -15,11 +15,6 @@ class AuthenticateController extends Controller
     /**
      * @var string
      */
-    public $layout = 'narrow';
-
-    /**
-     * @var string
-     */
     public $defaultAction = 'login';
 
     /**

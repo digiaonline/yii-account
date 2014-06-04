@@ -47,6 +47,11 @@ class Module extends \CWebModule
     public $defaultController = 'login';
 
     /**
+     * @var string
+     */
+    public $defaultLayout = 'narrow';
+
+    /**
      * @var bool
      */
     public $enableActivation = true;
