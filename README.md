@@ -45,10 +45,10 @@ If you are not using Composer, then you need to download the dependencies manual
 
 ```php
 'aliases' => array(
-    '\nordsoftware\yii_account' => __DIR__ . '/relative/path/to/yii-account',
-    '\YiiPassword' => __DIR__ . '/relative/path/to/yiipassword',
-    '\RandomLib' => __DIR__ . 'relative/path/to/randomlib/lib',
-    '\SecureLib' => __DIR__ . 'relative/path/to/securelib/lib',
+    '\nordsoftware\yii_account' => __DIR__ . '/relative/path/to/yii-account/src',
+    '\YiiPassword' => __DIR__ . '/relative/path/to/yiipassword/src',
+    '\RandomLib' => __DIR__ . '/relative/path/to/randomlib/lib',
+    '\SecureLib' => __DIR__ . '/relative/path/to/securelib/lib',
 ),
 ```
 
