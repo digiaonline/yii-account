@@ -126,9 +126,15 @@ class Module extends \CWebModule
     {
         $this->controllerMap = \CMap::mergeArray(
             array(
-                self::CONTROLLER_PASSWORD => 'nordsoftware\yii_account\controllers\PasswordController',
-                self::CONTROLLER_AUTHENTICATE => 'nordsoftware\yii_account\controllers\AuthenticateController',
-                self::CONTROLLER_REGISTER => 'nordsoftware\yii_account\controllers\RegisterController',
+                self::CONTROLLER_PASSWORD => array(
+                    'class' => 'nordsoftware\yii_account\controllers\PasswordController',
+                ),
+                self::CONTROLLER_AUTHENTICATE => array(
+                    'class' => 'nordsoftware\yii_account\controllers\AuthenticateController',
+                ),
+                self::CONTROLLER_REGISTER => array(
+                    'class' => 'nordsoftware\yii_account\controllers\RegisterController',
+                ),
             ),
             $this->controllerMap
         );
