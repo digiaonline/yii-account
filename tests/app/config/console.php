@@ -16,6 +16,9 @@ return \CMap::mergeArray(
                 'class' => 'vendor.crisu83.yii-consoletools.commands.MysqldumpCommand',
                 'dumpPath' => '../_data',
             ),
+            'message' => array(
+                'class' => 'system.cli.commands.MessageCommand',
+            ),
         ),
     )
 );

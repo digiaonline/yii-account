@@ -85,7 +85,7 @@ class Controller extends \CController
      */
     public function accessDenied($message = null)
     {
-        throw new \CHttpException(401, $message === null ? Helper::t('controllers', 'Access denied.') : $message);
+        throw new \CHttpException(401, $message === null ? Helper::t('errors', 'Access denied.') : $message);
     }
 
     /**
@@ -94,7 +94,7 @@ class Controller extends \CController
      */
     public function pageNotFound($message = null)
     {
-        throw new \CHttpException(404, $message === null ? Helper::t('controllers', 'Page not found.') : $message);
+        throw new \CHttpException(404, $message === null ? Helper::t('errors', 'Page not found.') : $message);
     }
 
     /**
@@ -103,7 +103,7 @@ class Controller extends \CController
      */
     public function fatalError($message = null)
     {
-        throw new \CHttpException(500, $message === null ? Helper::t('controllers', 'Something went wrong.') : $message);
+        throw new \CHttpException(500, $message === null ? Helper::t('errors', 'Something went wrong.') : $message);
     }
 
     /**
