@@ -73,7 +73,21 @@ Now you should be able to see the login page when you go to the following url:
 index.php?r=account
 ```
 
+Extending
+---------
+
+Coming soon.
+
 Contribute
 ----------
 
-If you wish to contribute to the project feel free to create a pull-request to the ```develop``` branch.
+If you wish to contribute to this project feel free to create a pull-request to the ```develop``` branch.
+
+### Run test suite
+
+Coming soon.
+
+### Translate
+
+If you wish to translate this project you can find the translation templates under ```src/messages/templates```.
+When you are done with your translation create a pull-request to the ```develop``` branch.
