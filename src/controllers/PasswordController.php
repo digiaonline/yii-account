@@ -135,15 +135,17 @@ class PasswordController extends Controller
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByPk($tokenModel->accountId);
 
-                if (!$account->changePassword($model->password, true)) {
-                    $this->fatalError();
+                if ($account->changePassword($model->password, true)) {
+                    if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
+                        $this->fatalError();
+                    }
+
+                    $this->redirect(array('/account/authenticate/login'));
                 }
 
-                if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
-                    $this->fatalError();
-                }
+                // todo: figure out how to avoid this, the problem is that password validation is done on the account
 
-                $this->redirect(array('/account/authenticate/login'));
+                $model->addError('password', $account->getError('password'));
             }
         }
 
