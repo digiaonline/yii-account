@@ -32,64 +32,59 @@ class Module extends \CWebModule
     const COMPONENT_TOKEN_GENERATOR = 'tokenGenerator';
 
     /**
-     * @var array
+     * @var array map over classes to use by the module.
      */
     public $classMap = array();
 
     /**
-     * @var array
-     */
-    public $views = array();
-
-    /**
-     * @var string
-     */
-    public $defaultController = 'login';
-
-    /**
-     * @var string
-     */
-    public $defaultLayout = 'narrow';
-
-    /**
-     * @var bool
+     * @var bool whether to enable activation (deafults to true).
      */
     public $enableActivation = true;
 
     /**
-     * @var int
+     * @var int number of seconds for login to expire.
      */
     public $loginExpireTime = 2592000; // 30 days
 
     /**
-     * @var int
+     * @var int number of seconds for account activation to expire.
      */
     public $activateExpireTime = 2592000; // 30 days
 
     /**
-     * @var int
+     * @var int number of seconds for password reset to expire.
      */
-    public $recoverExpireTime = 86400; // 1 day
+    public $resetPasswordExpireTime = 86400; // 1 day
 
     /**
-     * @var string
+     * @var string from e-mail address.
      */
     public $fromEmailAddress;
 
     /**
-     * @var string
+     * @var string message source to use for this module.
      */
     public $messageSource = 'messages';
 
     /**
-     * @var bool
+     * @var bool whether to register styles.
      */
     public $registerStyles = true;
 
     /**
-     * @var bool
+     * @var bool whether to re-publish assets (defaults to false).
      */
-    public $forcePublishAssets = true;
+    public $forcePublishAssets = false;
+
+    /**
+     * @var string default controller.
+     */
+    public $defaultController = 'login';
+
+    /**
+     * @var string default layout.
+     */
+    public $defaultLayout = 'narrow';
 
     /**
      * @inheritDoc

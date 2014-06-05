@@ -3,18 +3,22 @@ yii-account
 
 Extension that provides basic account functionality for the Yii PHP framework.
 
-___NOTE: This project is still under active development and is not stable for production use.___
+__NOTE: This project is still under active development and is not stable for production use.__
 
 Requirements
 ------------
 
-- Secure accounts (password + salt) ___DONE___
-- Register (with activation) ___DONE___
-- Log in / Log out ___DONE___
-- Reset password ___DONE___
-- Email sending (with token validation) ___DONE___
-- Console command for creating accounts ___DONE___
-- Proper README ___WIP___
+- Secure accounts (password + salt) __DONE__
+- Sign up __DONE__
+- Account activation (enabled by default) __DONE__
+- Log in / Log out __DONE__
+- Reset password __DONE__
+- Email sending (with token validation) __DONE__
+- Require new password every x days (disabled by default) __WIP__
+- Password history (encrypted) to prevent from using same password twice
+- Lock accounts after x failed login attempts (disabled by default)
+- Console command for creating accounts __DONE__
+- Proper README __WIP__
 
 Installation
 ------------
@@ -41,7 +45,8 @@ Add the following to your application configuration:
     ),
 ),
 ```
-If you are not using Composer, then you need to download the dependencies manually and add the following to your application configuration:
+If you are not using Composer, then you need to download the dependencies manually 
+and add the following to your application configuration:
 
 ```php
 'aliases' => array(
@@ -56,13 +61,27 @@ If you are not using Composer, then you need to download the dependencies manual
 
 - YiiPassword https://github.com/phpnode/yiipassword
 - RandomLib https://github.com/ircmaxell/RandomLib
-- SecureLib https://github.com/ircmaxell/SecureLib
+- SecurityLib https://github.com/ircmaxell/SecurityLib
 
 Run the following command to apply database migrations:
 
 ```bash
 php yiic.php migrate --migrationPath=account.migrations
 ```
+
+### Configuration
+
+The following configurations are available for the ```\nordsoftware\yii_account\Module``` class:
+
+ * __classMap__ _array_ map over classes to use within the module.
+ * __enableActivation__ _bool_ whether to enable account activation (defaults to true).
+ * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
+ * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
+ * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
+ * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
+ * __messageSource__ _string_message source component to use for the module.
+ * __registerStyles__ _bool_ whether to register the default styles.
+ * __defaultLayout__ _string_ path alias for the layout to use within the module.
 
 Usage
 -----
@@ -76,7 +95,9 @@ index.php?r=account
 Extending
 ---------
 
-Coming soon.
+This project was developed with a focus on re-usability, so while we are working on the documentation feel free to
+dive into the code to find out how to extend this module properly. If you find yourself replacing numerous classes 
+with your own you are probably doing something wrong, almost everything can be done through simple configuration.
 
 Contribute
 ----------
@@ -85,7 +106,11 @@ If you wish to contribute to this project feel free to create a pull-request to 
 
 ### Run test suite
 
-Coming soon.
+Run the following command to run the test suite:
+ 
+```bash
+vendor/bin/codecept run
+```
 
 ### Translate
 

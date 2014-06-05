@@ -78,7 +78,7 @@ class PasswordController extends Controller
                 $token = $this->generateToken(
                     Module::TOKEN_RESET_PASSWORD,
                     $account->id,
-                    Helper::sqlDateTime(time() + $this->module->recoverExpireTime)
+                    Helper::sqlDateTime(time() + $this->module->resetPasswordExpireTime)
                 );
 
                 $resetUrl = $this->createAbsoluteUrl('/account/password/reset', array('token' => $token));
