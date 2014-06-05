@@ -55,6 +55,17 @@ Add the following to your application configuration:
     ),
 ),
 ```
+
+To use the console command you need to add the following to your console application configuration:
+
+```php
+'commandMap' => array(
+    'account' => array(
+        'class' => '\nordsoftware\yii_account\commands\AccountCommand',
+    ),
+),
+```
+
 If you are not using Composer, then you need to download the dependencies manually 
 and add the following to your application configuration:
 
@@ -101,6 +112,12 @@ Now you should be able to see the login page when you go to the following url:
 
 ```
 index.php?r=account
+```
+
+You can run the following command to generate an account from the command line:
+
+```bash
+php yiic.php account create --username=demo --password=demo
 ```
 
 Extending
