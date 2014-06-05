@@ -4,8 +4,208 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d04b521df2485985906d38d26955528e",
+    "hash": "f8daa82125e4a24b4e2c46a205c6b2af",
     "packages": [
+        {
+            "name": "crisu83/yii-consoletools",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yii-consoletools.git",
+                "reference": "8d320968d9428d42dc589abf3a31efb302d879f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yii-consoletools/zipball/8d320968d9428d42dc589abf3a31efb302d879f7",
+                "reference": "8d320968d9428d42dc589abf3a31efb302d879f7",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "behaviors/",
+                    "commands/",
+                    "helpers/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "christoffer.niska@gmail.com",
+                    "homepage": "http://www.cniska.net/"
+                }
+            ],
+            "description": "A collection of tools for developing console commands for Yii.",
+            "keywords": [
+                "console",
+                "tools",
+                "yii"
+            ],
+            "time": "2014-05-20 12:00:26"
+        },
+        {
+            "name": "crisu83/yiistrap",
+            "version": "dev-bs3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yiistrap.git",
+                "reference": "8c3798e6b9fd0dbaa903bae94333fa92fa741300"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yiistrap/zipball/8c3798e6b9fd0dbaa903bae94333fa92fa741300",
+                "reference": "8c3798e6b9fd0dbaa903bae94333fa92fa741300",
+                "shasum": ""
+            },
+            "require": {
+                "twbs/bootstrap": ">=3.0.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "@stable",
+                "crisu83/yii-composer": ">=1.0.0",
+                "yiisoft/yii": ">=1.1.13"
+            },
+            "type": "library",
+            "extra": {
+                "yii-install-writable": [
+                    "tests/_log"
+                ]
+            },
+            "autoload": {
+                "classmap": [
+                    "behaviors/",
+                    "components/",
+                    "form/",
+                    "helpers/",
+                    "widgets/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "christoffer.niska@gmail.com",
+                    "homepage": "http://www.cniska.net/"
+                },
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "ramirez.cobos@gmail.com",
+                    "homepage": "http://www.ramirezcobos.com/"
+                }
+            ],
+            "description": "Twitter Bootstrap for the Yii PHP framework.",
+            "keywords": [
+                "bootstrap",
+                "yii"
+            ],
+            "time": "2014-05-22 08:07:04"
+        },
+        {
+            "name": "ircmaxell/random-lib",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/RandomLib.git",
+                "reference": "0eaad991c1756842f26dfbcbc6effcabb5003d0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/RandomLib/zipball/0eaad991c1756842f26dfbcbc6effcabb5003d0a",
+                "reference": "0eaad991c1756842f26dfbcbc6effcabb5003d0a",
+                "shasum": ""
+            },
+            "require": {
+                "ircmaxell/security-lib": "1.0.*@dev",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "RandomLib": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Library For Generating Secure Random Numbers",
+            "homepage": "https://github.com/ircmaxell/PHP-RandomLib",
+            "keywords": [
+                "cryptography",
+                "random",
+                "random-numbers",
+                "random-strings"
+            ],
+            "time": "2013-07-30 17:40:57"
+        },
+        {
+            "name": "ircmaxell/security-lib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/SecurityLib.git",
+                "reference": "66746af9e34dfc4a6d11a845f07f2b0479232009"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/SecurityLib/zipball/66746af9e34dfc4a6d11a845f07f2b0479232009",
+                "reference": "66746af9e34dfc4a6d11a845f07f2b0479232009",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SecurityLib": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Base Security Library",
+            "homepage": "https://github.com/ircmaxell/PHP-SecurityLib",
+            "time": "2014-03-28 19:54:20"
+        },
         {
             "name": "phpnode/yiipassword",
             "version": "dev-master",
@@ -44,6 +244,54 @@
                 "password"
             ],
             "time": "2014-05-07 08:32:41"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "5a1614466d02f1379287b8053a19fa90117ea7a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/5a1614466d02f1379287b8053a19fa90117ea7a8",
+                "reference": "5a1614466d02f1379287b8053a19fa90117ea7a8",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2014-05-29 00:21:58"
         }
     ],
     "packages-dev": [
@@ -117,6 +365,54 @@
             "time": "2014-05-27 00:13:26"
         },
         {
+            "name": "crisu83/yii-caviar",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yii-caviar.git",
+                "reference": "1859e55504f3a4076678c9b39843da604dfc43aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yii-caviar/zipball/2f359652837120be7489202935e0186be51b94b7",
+                "reference": "1859e55504f3a4076678c9b39843da604dfc43aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "~1.8.5",
+                "yiisoft/yii": ">=1.1.14"
+            },
+            "type": "yii-extension",
+            "autoload": {
+                "psr-4": {
+                    "crisu83\\yii_caviar\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "ChristofferNiska@gmail.com"
+                }
+            ],
+            "description": "Next generation code generation for Yii.",
+            "keywords": [
+                "code",
+                "command",
+                "generation",
+                "scaffold",
+                "template",
+                "yii"
+            ],
+            "time": "2014-05-28 13:44:55"
+        },
+        {
             "name": "facebook/webdriver",
             "version": "v0.4",
             "source": {
@@ -162,12 +458,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "3e81974057efdebbe2ecff1eb97a73dd49a51ba5"
+                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/3e81974057efdebbe2ecff1eb97a73dd49a51ba5",
-                "reference": "3e81974057efdebbe2ecff1eb97a73dd49a51ba5",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c346caa339eeed124f7135d8dda9deffa80fc93f",
+                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f",
                 "shasum": ""
             },
             "require": {
@@ -186,7 +482,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -219,7 +515,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-26 22:19:35"
+            "time": "2014-05-30 17:33:57"
         },
         {
             "name": "guzzlehttp/streams",
@@ -1389,7 +1685,9 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phpnode/yiipassword": 20
+        "phpnode/yiipassword": 20,
+        "crisu83/yiistrap": 20,
+        "crisu83/yii-caviar": 20
     },
     "platform": [
 

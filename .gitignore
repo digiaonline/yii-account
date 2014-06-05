@@ -1,2 +1,15 @@
-/.idea/
-/vendor/
+# phpstorm
+.idea/
+
+# composer
+vendor/
+
+# codeception
+codeception.yml
+tests/_log/
+tests/app/www/assets/
+tests/app/runtime/
+tests/acceptance.suite.yml
+
+# node.js
+node_modules/
