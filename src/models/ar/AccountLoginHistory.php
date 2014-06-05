@@ -62,6 +62,7 @@ class AccountLoginHistory extends \CActiveRecord
         $criteria->params[':accountId'] = $this->accountId;
         $criteria->order = 'createdAt DESC';
 
+        /** @var \nordsoftware\yii_account\models\ar\AccountLoginHistory $lastEntry */
         $lastEntry = $this->find($criteria);
         $numFailedAttempts = $lastEntry !== null ? $lastEntry->numFailedAttempts : 0;
 
