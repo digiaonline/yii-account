@@ -69,6 +69,7 @@ and add the following to your application configuration:
 
 ### Dependencies
 
+- Yiistrap http://github.com/crisu83/yiistrap
 - YiiPassword https://github.com/phpnode/yiipassword
 - RandomLib https://github.com/ircmaxell/RandomLib
 - SecurityLib https://github.com/ircmaxell/SecurityLib
