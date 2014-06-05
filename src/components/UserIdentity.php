@@ -20,11 +20,16 @@ class UserIdentity extends \CUserIdentity
     private $_id;
 
     /**
+     * @var \nordsoftware\yii_account\models\ar\Account|\YiiPassword\Behavior
+     */
+    private $_account;
+
+    /**
      * @inheritDoc
      */
     public function authenticate()
     {
-        $account = $this->loadAccount();
+        $account = $this->getAccount();
 
         if ($account === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -67,5 +72,17 @@ class UserIdentity extends \CUserIdentity
     public function getId()
     {
         return $this->_id;
+    }
+
+    /**
+     * @return \nordsoftware\yii_account\models\ar\Account|\YiiPassword\Behavior
+     */
+    public function getAccount()
+    {
+        if ($this->_account === null) {
+            $this->_account = $this->loadAccount();
+        }
+
+        return $this->_account;
     }
 }

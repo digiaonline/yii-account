@@ -9,6 +9,7 @@
 
 namespace nordsoftware\yii_account\models\form;
 
+use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
@@ -30,7 +31,7 @@ class LoginForm extends \CFormModel
     public $stayLoggedIn;
 
     /**
-     * @var \CUserIdentity
+     * @var \nordsoftware\yii_account\components\UserIdentity
      */
     private $_identity;
 
@@ -70,6 +71,8 @@ class LoginForm extends \CFormModel
             $this->_identity = new $identityClass($this->username, $this->password);
 
             if (!$this->_identity->authenticate()) {
+                $account = $this->_identity->getAccount();
+                $this->createHistoryEntry($account !== null ? $account->id : 0, false);
                 $this->addError('password', Helper::t('errors', 'Your username or password is invalid.'));
             }
         }
@@ -93,9 +96,30 @@ class LoginForm extends \CFormModel
             return false;
         }
 
+        $this->createHistoryEntry($this->_identity->getId(), true);
         $duration = $this->stayLoggedIn ? $module->loginExpireTime : 0; // 30 days
         \Yii::app()->user->login($this->_identity, $duration);
 
         return true;
+    }
+
+    /**
+     * @param int $accountId
+     * @param bool $success
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the history entry cannot be saved.
+     */
+    protected function createHistoryEntry($accountId, $success)
+    {
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_LOGIN_HISTORY);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountLoginHistory $model */
+        $model = new $modelClass();
+        $model->accountId = $accountId;
+        $model->success = (int) $success;
+        $model->numFailedAttempts = $success || $accountId === 0 ? 0 : $model->resolveNumFailedAttempts();
+
+        if (!$model->save()) {
+            throw new Exception('Failed to save login history entry.');
+        }
     }
 }

@@ -25,6 +25,8 @@ class Module extends \CWebModule
     const CLASS_SIGNUP_FORM = 'signupForm';
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
     const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
+    const CLASS_LOGIN_HISTORY = 'loginHistory';
+    const CLASS_PASSWORD_HISTORY = 'passwordHistory';
 
     // Controller types.
     const CONTROLLER_AUTHENTICATE = 'authenticate';
@@ -111,6 +113,8 @@ class Module extends \CWebModule
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
                 self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
+                self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
+                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\form\AccountPasswordHistory',
             ),
             $this->classMap
         );

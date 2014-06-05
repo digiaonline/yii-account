@@ -68,23 +68,5 @@ class WebUser extends \CWebUser
         if (!$model->saveAttributes(array('lastActiveAt' => Helper::sqlDateTime()))) {
             throw new Exception("Failed to update lastActiveAt for account #{$this->id}.");
         }
-
-        return true;
     }
-
-    /**
-     * Updates the users last login at field.
-     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
-     * @return boolean whether the update was successful.
-     */
-    public function updateLastLoginAt()
-    {
-        $model = $this->loadModel();
-
-        if (!$model->saveAttributes(array('lastLoginAt' => Helper::sqlDateTime()))) {
-            throw new Exception("Failed to update lastLoginAt for account #{$this->id}.");
-        }
-
-        return true;
-    }
-} 
+}

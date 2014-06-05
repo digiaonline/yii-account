@@ -56,7 +56,6 @@ class AuthenticateController extends Controller
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
 
             if ($model->validate() && $model->login()) {
-                \Yii::app()->user->updateLastLoginAt();
                 $this->redirect(\Yii::app()->user->returnUrl);
             }
         }
