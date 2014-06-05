@@ -86,7 +86,7 @@ class LoginForm extends \CFormModel
      */
     public function login()
     {
-        $module = Helper::getModule(Module::MODULE_ID);
+        $module = Helper::getModule();
 
         if ($this->_identity === null) {
             throw new Exception('Failed to login account.');
