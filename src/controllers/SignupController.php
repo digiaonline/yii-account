@@ -126,7 +126,7 @@ class SignupController extends Controller
         $this->module->sendMail(
             $account->email,
             $this->emailSubject,
-            $this->renderPartial('/email/activate', array('activateUrl' => $activateUrl))
+            $this->renderPartial('/email/activate', array('activateUrl' => $activateUrl), true)
         );
     }
 
