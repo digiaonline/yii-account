@@ -17,6 +17,8 @@ use nordsoftware\yii_account\Module;
  */
 class Controller extends \CController
 {
+    // todo: consider rising events e.g. after register, etc.
+
     /**
      * @inheritDoc
      */
@@ -148,8 +150,7 @@ class Controller extends \CController
     public function getLayoutFile($layoutName)
     {
         if (($layoutFile = parent::getLayoutFile($layoutName)) === false) {
-            $moduleViewPath = dirname(__DIR__) . '/views';
-            $layoutFile = $this->resolveViewFile($layoutName, "{$moduleViewPath}/layouts", $moduleViewPath);
+            $layoutFile = $this->getDefaultViewFile($layoutName, 'layouts');
         }
 
         return $layoutFile;
@@ -161,10 +162,22 @@ class Controller extends \CController
     public function getViewFile($viewName)
     {
         if (($viewFile = parent::getViewFile($viewName)) === false) {
-            $moduleViewPath = dirname(__DIR__) . '/views';
-            $viewFile = $this->resolveViewFile($viewName, "{$moduleViewPath}/{$this->getId()}", $moduleViewPath);
+            $viewFile = $this->getDefaultViewFile($viewName, $this->getId());
         }
 
         return $viewFile;
+    }
+
+    /**
+     * Returns the path to the default view file.
+     *
+     * @param string $viewName view name.
+     * @param string $viewPath view path.
+     * @return string path to the view.
+     */
+    protected function getDefaultViewFile($viewName, $viewPath)
+    {
+        $moduleViewPath = dirname(__DIR__) . '/views';
+        return $this->resolveViewFile($viewName, "{$moduleViewPath}/{$viewPath}", $moduleViewPath);
     }
 }

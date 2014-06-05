@@ -174,6 +174,7 @@ class Module extends \CWebModule
     {
         $params = isset($config['params']) ? $config['params'] : array();
         $headers = isset($config['headers']) ? $config['headers'] : array();
+
         $headers['from'] = $this->fromEmailAddress;
 
         return mail($to, $subject, $body, $headers, $params);
@@ -208,7 +209,6 @@ class Module extends \CWebModule
         $model->expiresAt = $expires;
 
         if (!$model->save()) {
-            var_dump($accountId, $model->getErrors());die;
             throw new Exception('Failed to save token.');
         }
 
