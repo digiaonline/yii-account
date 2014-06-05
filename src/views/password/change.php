@@ -6,11 +6,11 @@ use nordsoftware\yii_account\helpers\Helper;
 /* @var $model \nordsoftware\yii_account\models\form\ChangePasswordForm */
 /* @var $form \TbActiveForm */
 ?>
-<div class="password-controller reset-action">
+<div class="password-controller change-action">
 
     <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
-    <p class="lead"><?php echo Helper::t('views', 'You have requested a password reset.'); ?></p>
+    <p class="lead"><?php echo Helper::t('views', 'Your password has expired.') ;?></p>
 
     <p class="help-block">
         <?php echo Helper::t(
@@ -21,7 +21,7 @@ use nordsoftware\yii_account\helpers\Helper;
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => $this->resetFormId)
+        array('id' => $this->changeFormId)
     ); ?>
 
     <fieldset>

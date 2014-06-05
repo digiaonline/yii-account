@@ -17,6 +17,11 @@ class SignupForm extends \CFormModel
     /**
      * @var string
      */
+    public $email;
+
+    /**
+     * @var string
+     */
     public $username;
 
     /**
@@ -30,20 +35,15 @@ class SignupForm extends \CFormModel
     public $verifyPassword;
 
     /**
-     * @var string
-     */
-    public $email;
-
-    /**
      * @inheritDoc
      */
     public function rules()
     {
         return array(
             array('email, username, password, verifyPassword', 'required'),
+            array('username', 'length', 'min' => 4),
             array('email', 'email'),
             array('username, email', 'unique', 'className' => '\nordsoftware\yii_account\models\ar\Account'),
-            array('password', 'length', 'min' => 6),
             array('verifyPassword', 'compare', 'compareAttribute' => 'password'),
         );
     }
@@ -54,10 +54,10 @@ class SignupForm extends \CFormModel
     public function attributeLabels()
     {
         return array(
+            'email' => Helper::t('labels', 'Email'),
             'username' => Helper::t('labels', 'Username'),
             'password' => Helper::t('labels', 'Password'),
             'verifyPassword' => Helper::t('labels', 'Verify Password'),
-            'email' => Helper::t('labels', 'Email'),
         );
     }
 }

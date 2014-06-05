@@ -24,7 +24,7 @@ class Module extends \CWebModule
     const CLASS_LOGIN_FORM = 'loginForm';
     const CLASS_SIGNUP_FORM = 'signupForm';
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
-    const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
+    const CLASS_CHANGE_PASSWORD_FORM = 'changePasswordForm';
     const CLASS_LOGIN_HISTORY = 'loginHistory';
     const CLASS_PASSWORD_HISTORY = 'passwordHistory';
 
@@ -36,6 +36,7 @@ class Module extends \CWebModule
     // Token types.
     const TOKEN_ACTIVATE = 'activate';
     const TOKEN_RESET_PASSWORD = 'resetPassword';
+    const TOKEN_CHANGE_PASSWORD = 'changePassword';
 
     // Component identifiers.
     const COMPONENT_TOKEN_GENERATOR = 'tokenGenerator';
@@ -112,7 +113,7 @@ class Module extends \CWebModule
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
-                self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
+                self::CLASS_CHANGE_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ChangePasswordForm',
                 self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
                 self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\form\AccountPasswordHistory',
             ),
@@ -189,11 +190,10 @@ class Module extends \CWebModule
      *
      * @param string $type token type.
      * @param int $accountId account id.
-     * @param string $expires token expiration date (mysql date).
      * @throws \nordsoftware\yii_account\exceptions\Exception if the token cannot be generated.
      * @return string the generated token.
      */
-    public function generateToken($type, $accountId, $expires)
+    public function generateToken($type, $accountId)
     {
         if (!$this->hasComponent(Module::COMPONENT_TOKEN_GENERATOR)) {
             throw new Exception('Failed to get the token generator component.');
@@ -210,7 +210,6 @@ class Module extends \CWebModule
         $model->type = $type;
         $model->accountId = $accountId;
         $model->token = $token;
-        $model->expiresAt = $expires;
 
         if (!$model->save()) {
             throw new Exception('Failed to save token.');
@@ -236,11 +235,19 @@ class Module extends \CWebModule
             array('type' => $type, 'token' => $token, 'status' => AccountToken::STATUS_UNUSED)
         );
 
-        if ($model === null || $model->hasExpired()) {
-            return null;
-        }
-
         return $model;
+    }
+
+    /**
+     * Returns whether the given token has expired.
+     *
+     * @param \nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
+     * @param int $expireTime number of seconds that the token is valid.
+     * @return bool whether the token has expired.
+     */
+    public function hasTokenExpired(AccountToken $tokenModel, $expireTime)
+    {
+        return (time() - strtotime($tokenModel->createdAt)) > $expireTime;
     }
 
     /**

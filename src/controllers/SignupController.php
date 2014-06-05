@@ -115,11 +115,7 @@ class SignupController extends Controller
             $this->fatalError();
         }
 
-        $token = $this->generateToken(
-            Module::TOKEN_ACTIVATE,
-            $account->id,
-            Helper::sqlDateTime(time() + $this->module->activateExpireTime)
-        );
+        $token = $this->module->generateToken(Module::TOKEN_ACTIVATE, $account->id);
 
         $activateUrl = $this->createAbsoluteUrl('/account/signup/activate', array('token' => $token));
 
@@ -146,6 +142,10 @@ class SignupController extends Controller
     public function actionActivate($token)
     {
         $tokenModel = $this->loadToken(Module::TOKEN_ACTIVATE, $token);
+
+        if ($this->module->hasTokenExpired($tokenModel, $this->module->activateExpireTime)) {
+            $this->accessDenied();
+        }
 
         $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
 

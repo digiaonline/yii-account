@@ -1,6 +1,6 @@
 <?php
 /**
- * ResetPasswordForm class file.
+ * ChangePasswordForm class file.
  * @author Christoffer Niska <christoffer.niska@nordsoftware.com>
  * @copyright Copyright &copy; Nord Software Ltd 2014-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -11,7 +11,7 @@ namespace nordsoftware\yii_account\models\form;
 
 use nordsoftware\yii_account\helpers\Helper;
 
-class ResetPasswordForm extends \CFormModel
+class ChangePasswordForm extends \CFormModel
 {
     /**
      * @var string
@@ -30,7 +30,6 @@ class ResetPasswordForm extends \CFormModel
     {
         return array(
             array('password, verifyPassword', 'required'),
-            array('password', 'length', 'min' => 6),
             array('verifyPassword', 'compare', 'compareAttribute' => 'password'),
         );
     }

@@ -28,5 +28,7 @@ return array (
   'Please enter your email and we will send you instructions on how to recover your account.' => '',
   'Recover Account' => '',
   'Thank you for registering!' => '',
+  'You have requested a password reset.' => '',
   'You will soon receive an email with instructions on how to activate your account.' => '',
+  'Your password has expired.' => '',
 );

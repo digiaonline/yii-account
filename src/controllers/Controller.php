@@ -68,19 +68,6 @@ class Controller extends \CController
     }
 
     /**
-     * Generates a new random token and saves it in the database.
-     *
-     * @param string $type token type.
-     * @param int $accountId account id.
-     * @param string $expires token expiration date (mysql date).
-     * @return string the generated token.
-     */
-    public function generateToken($type, $accountId, $expires)
-    {
-        return $this->module->generateToken($type, $accountId, $expires);
-    }
-
-    /**
      * Loads a token of a specific type.
      *
      * @param string $type token type.

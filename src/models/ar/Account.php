@@ -52,7 +52,7 @@ class Account extends \CActiveRecord
     public function rules()
     {
         return array(
-            array('salt, username, password, email, passwordStrategy', 'required'),
+            array('username, password, email', 'required'),
             array('requireNewPassword, status', 'numerical', 'integerOnly' => true),
             array('salt, username, password, email, passwordStrategy', 'length', 'max' => 255),
             array('email, username', 'unique'),

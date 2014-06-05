@@ -56,6 +56,15 @@ class AuthenticateController extends Controller
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
 
             if ($model->validate() && $model->login()) {
+                /** @var \nordsoftware\yii_account\models\ar\Account $account */
+                $account = \Yii::app()->user->loadAccount();
+
+                // Redirect the logged in user to change the password if it needs to be changed.
+                if ($account->requireNewPassword) {
+                    $token = $this->module->generateToken(Module::TOKEN_CHANGE_PASSWORD, $account->id);
+                    $this->redirect(array('/account/password/change', 'token' => $token));
+                }
+
                 $this->redirect(\Yii::app()->user->returnUrl);
             }
         }

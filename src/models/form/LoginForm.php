@@ -84,12 +84,10 @@ class LoginForm extends \CFormModel
      */
     public function login()
     {
-        /** @var \nordsoftware\yii_account\Module $module */
-        $module = \Yii::app()->getModule(Module::MODULE_ID);
+        $module = Helper::getModule(Module::MODULE_ID);
 
-        if (!isset($this->_identity)) {
-            $this->_identity = new $module->identityClass($this->username, $this->password);
-            $this->_identity->authenticate();
+        if ($this->_identity === null) {
+            throw new Exception('Failed to login account.');
         }
 
         if ($this->_identity->errorCode !== \CUserIdentity::ERROR_NONE) {
