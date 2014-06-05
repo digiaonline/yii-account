@@ -4,8 +4,8 @@ class ResetPasswordPage
 {
     static $URL = 'index.php?r=account/password/reset';
 
-    static $fieldPassword = '#nordsoftware_yii_account_models_form_ResetPasswordForm_password';
-    static $fieldVerifyPassword = '#nordsoftware_yii_account_models_form_ResetPasswordForm_verifyPassword';
+    static $fieldPassword = '#nordsoftware_yii_account_models_form_ChangePasswordForm_password';
+    static $fieldVerifyPassword = '#nordsoftware_yii_account_models_form_ChangePasswordForm_verifyPassword';
 
     /**
      * Basic route example for your current URL

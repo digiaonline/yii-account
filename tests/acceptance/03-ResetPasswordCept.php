@@ -11,7 +11,7 @@ $I->click('#forgotPasswordForm button[type=submit]');
 $I->see('Reset password');
 $I->click('a');
 
-$I->seeElement('#resetPasswordForm');
+$I->seeElement('#changePasswordForm');
 $I->fillField(\ResetPasswordPage::$fieldPassword, 'demo4321');
 $I->fillField(\ResetPasswordPage::$fieldVerifyPassword, 'demo4321');
 

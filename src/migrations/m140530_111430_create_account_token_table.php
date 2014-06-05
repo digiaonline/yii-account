@@ -13,7 +13,7 @@ class m140530_111430_create_account_token_table extends CDbMigration
                 'token' => 'string NOT NULL',
                 'createdAt' => 'timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'status' => "integer NOT NULL DEFAULT '0'",
-                'UNIQUE KEY accountId_token (accountId, token)',
+                'UNIQUE KEY accountId_type_token (accountId, type, token)',
             )
         );
 	}

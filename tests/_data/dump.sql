@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for osx10.6 (i386)
 --
--- Host: localhost    Database: yii_account
+-- Host: localhost    Database: yii_account_test
 -- ------------------------------------------------------
 -- Server version	5.5.34
 
@@ -30,8 +30,9 @@ CREATE TABLE `account` (
   `email` varchar(255) NOT NULL,
   `passwordStrategy` varchar(255) NOT NULL,
   `requireNewPassword` tinyint(1) NOT NULL DEFAULT '0',
-  `lastLoginAt` datetime DEFAULT NULL,
-  `lastActiveAt` datetime DEFAULT NULL,
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastLoginAt` timestamp NULL DEFAULT NULL,
+  `lastActiveAt` timestamp NULL DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
@@ -49,6 +50,60 @@ LOCK TABLES `account` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `account_login_history`
+--
+
+DROP TABLE IF EXISTS `account_login_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_login_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountId` int(11) NOT NULL DEFAULT '0',
+  `success` tinyint(1) NOT NULL DEFAULT '0',
+  `numFailedAttempts` int(11) NOT NULL DEFAULT '0',
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_login_history`
+--
+
+LOCK TABLES `account_login_history` WRITE;
+/*!40000 ALTER TABLE `account_login_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_login_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `account_password_history`
+--
+
+DROP TABLE IF EXISTS `account_password_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_password_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountId` int(11) NOT NULL,
+  `salt` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `account_password_history_accountId` (`accountId`),
+  CONSTRAINT `account_password_history_accountId` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_password_history`
+--
+
+LOCK TABLES `account_password_history` WRITE;
+/*!40000 ALTER TABLE `account_password_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_password_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `account_token`
 --
 
@@ -60,10 +115,10 @@ CREATE TABLE `account_token` (
   `accountId` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `expiresAt` datetime NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `accountId_token` (`accountId`,`token`),
+  UNIQUE KEY `accountId_type_token` (`accountId`,`type`,`token`),
   CONSTRAINT `account_token_accountId` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -97,7 +152,7 @@ CREATE TABLE `migration` (
 
 LOCK TABLES `migration` WRITE;
 /*!40000 ALTER TABLE `migration` DISABLE KEYS */;
-INSERT INTO `migration` VALUES ('m000000_000000_base',1401799883),('m140528_114338_create_account_table',1401799919),('m140530_111430_create_account_token_table',1401799919),('m140530_114812_add_fk_account_token_table',1401799919);
+INSERT INTO `migration` VALUES ('m000000_000000_base',1401799883),('m140528_114338_create_account_table',1402000312),('m140530_111430_create_account_token_table',1402000312),('m140530_114812_add_fk_account_token_table',1402000312),('m140605_125227_create_account_login_history_table',1402000312),('m140605_130808_create_account_password_history_table',1402000312),('m140605_130815_add_fk_account_password_history_table',1402000312);
 /*!40000 ALTER TABLE `migration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -110,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-03 15:52:08
+-- Dump completed on 2014-06-05 23:37:45
