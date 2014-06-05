@@ -117,21 +117,6 @@ class Account extends \CActiveRecord
     }
 
     /**
-     * Activates this account.
-     *
-     * @throws \nordsoftware\yii_account\exceptions\Exception if this account cannot be saved.
-     * @return bool whether the account was saved successfully.
-     */
-    public function markActive()
-    {
-        $this->status = Account::STATUS_ACTIVATE;
-
-        if (!$this->save(true, array('status'))) {
-            throw new Exception('Failed to save account.');
-        }
-    }
-
-    /**
      * Returns the static model of this class.
      *
      * @param string $className active record class name.

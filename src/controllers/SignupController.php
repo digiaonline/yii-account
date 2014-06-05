@@ -2,12 +2,12 @@
 
 namespace nordsoftware\yii_account\controllers;
 
-use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\models\ar\Account;
+use nordsoftware\yii_account\models\ar\AccountToken;
 use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
-class RegisterController extends Controller
+class SignupController extends Controller
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ class RegisterController extends Controller
     /**
      * @var string
      */
-    public $formId = 'registerForm';
+    public $formId = 'signupForm';
 
     /**
      * @inheritDoc
@@ -27,7 +27,7 @@ class RegisterController extends Controller
         parent::init();
 
         if ($this->emailSubject === null) {
-            $this->emailSubject = Helper::t('email', 'Thank you for registering');
+            $this->emailSubject = Helper::t('email', 'Thank you for signing up');
         }
     }
 
@@ -38,18 +38,18 @@ class RegisterController extends Controller
     {
         return array(
             'guestOnly + index',
-            'validateToken + activate',
+            'ensureToken + activate',
         );
     }
 
     /**
-     * Displays the 'registration' page.
+     * Displays the 'sign up' page.
      */
     public function actionIndex()
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_REGISTER_FORM);
+        $modelClass = $this->module->getClassName(Module::CLASS_SIGNUP_FORM);
 
-        /** @var \nordsoftware\yii_account\models\form\RegisterForm $model */
+        /** @var \nordsoftware\yii_account\models\form\SignupForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;
@@ -74,7 +74,7 @@ class RegisterController extends Controller
                 }
 
                 if (!$this->module->enableActivation) {
-                    $account->markActive();
+                    $account->saveAttributes(array('status' => Account::STATUS_ACTIVATE));
                     $this->redirect(array('/account/authenticate/login'));
                 }
 
@@ -104,12 +104,12 @@ class RegisterController extends Controller
             Helper::sqlDateTime(time() + $this->module->activateExpireTime)
         );
 
-        $activateUrl = $this->createAbsoluteUrl('/account/register/activate', array('token' => $token));
+        $activateUrl = $this->createAbsoluteUrl('/account/signup/activate', array('token' => $token));
 
         $this->module->sendMail(
             $account->email,
             $this->emailSubject,
-            $this->renderPartial('/mail/register', array('activateUrl' => $activateUrl))
+            $this->renderPartial('/email/activate', array('activateUrl' => $activateUrl))
         );
     }
 
@@ -145,7 +145,9 @@ class RegisterController extends Controller
             $this->fatalError();
         }
 
-        $tokenModel->markUsed();
+        if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
+            $this->fatalError();
+        }
 
         $this->redirect(array('/account/authenticate/login'));
     }

@@ -3,16 +3,16 @@ namespace WebGuy;
 
 class UserSteps extends \WebGuy
 {
-    function register($email, $username, $password, $verifyPassword)
+    function signup($email, $username, $password, $verifyPassword)
     {
         $I = $this;
 
-        $I->amOnPage(\RegisterPage::$URL);
-        $I->fillField(\RegisterPage::$fieldEmail, $email);
-        $I->fillField(\RegisterPage::$fieldUsername, $username);
-        $I->fillField(\RegisterPage::$fieldPassword, $password);
-        $I->fillField(\RegisterPage::$fieldVerifyPassword, $verifyPassword);
-        $I->click(\RegisterPage::$buttonSubmit);
+        $I->amOnPage(\SignupPage::$URL);
+        $I->fillField(\SignupPage::$fieldEmail, $email);
+        $I->fillField(\SignupPage::$fieldUsername, $username);
+        $I->fillField(\SignupPage::$fieldPassword, $password);
+        $I->fillField(\SignupPage::$fieldVerifyPassword, $verifyPassword);
+        $I->click(\SignupPage::$buttonSubmit);
     }
 
     function login($username, $password)

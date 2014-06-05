@@ -8,7 +8,7 @@ $I->amOnPage(\ForgotPasswordPage::$URL);
 $I->fillField(\ForgotPasswordPage::$fieldEmail, 'demo@example.com');
 $I->click('#forgotPasswordForm button[type=submit]');
 
-$I->see('Recover password');
+$I->see('Reset password');
 $I->click('a');
 
 $I->seeElement('#resetPasswordForm');

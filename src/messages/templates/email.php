@@ -17,6 +17,9 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'Password recovery' => '',
-  'Thank you for registering' => '',
+  'Please click the link below to activate your account:' => '',
+  'Please click the link below to reset the password for your account:' => '',
+  'Reset password' => '',
+  'Thank you for signing up' => '',
+  'Thank you for signing up!' => '',
 );

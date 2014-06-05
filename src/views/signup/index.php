@@ -1,8 +1,8 @@
 <?php
 use nordsoftware\yii_account\helpers\Helper;
 
-/* @var $this \nordsoftware\yii_account\controllers\RegisterController */
-/* @var $model \nordsoftware\yii_account\models\form\RegisterForm */
+/* @var $this \nordsoftware\yii_account\controllers\SignupController */
+/* @var $model \nordsoftware\yii_account\models\form\SignupForm */
 /* @var $form \TbActiveForm */
 ?>
 <div class="register-controller index-action">

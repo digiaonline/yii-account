@@ -1,7 +1,7 @@
 <?php
 use nordsoftware\yii_account\helpers\Helper;
 
-/* @var $this \nordsoftware\yii_account\controllers\RegisterController */
+/* @var $this \nordsoftware\yii_account\controllers\SignupController */
 ?>
 <div class="register-controller done-action">
 

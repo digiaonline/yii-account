@@ -3,6 +3,7 @@
 namespace nordsoftware\yii_account\controllers;
 
 use nordsoftware\yii_account\helpers\Helper;
+use nordsoftware\yii_account\models\ar\AccountToken;
 use nordsoftware\yii_account\Module;
 
 class PasswordController extends Controller
@@ -35,7 +36,7 @@ class PasswordController extends Controller
         parent::init();
 
         if ($this->emailSubject === null) {
-            $this->emailSubject = Helper::t('email', 'Password recovery');
+            $this->emailSubject = Helper::t('email', 'Reset password');
         }
     }
 
@@ -46,7 +47,7 @@ class PasswordController extends Controller
     {
         return array(
             'guestOnly + index',
-            'validateToken + reset',
+            'ensureToken + reset',
         );
     }
 
@@ -73,6 +74,7 @@ class PasswordController extends Controller
             if ($model->validate()) {
                 $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
 
+                /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByAttributes(array('email' => $model->email));
 
                 $token = $this->generateToken(
@@ -86,7 +88,7 @@ class PasswordController extends Controller
                 $this->module->sendMail(
                     $account->email,
                     $this->emailSubject,
-                    $this->renderPartial('/mail/recoverPassword', array('resetUrl' => $resetUrl))
+                    $this->renderPartial('/email/resetPassword', array('resetUrl' => $resetUrl))
                 );
 
                 $this->redirect('sent');
@@ -130,7 +132,9 @@ class PasswordController extends Controller
                     $this->fatalError();
                 }
 
-                $tokenModel->markUsed();
+                if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
+                    $this->fatalError();
+                }
 
                 $this->redirect(array('/account/authenticate/login'));
             }

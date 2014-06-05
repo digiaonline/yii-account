@@ -84,20 +84,6 @@ class AccountToken extends \CActiveRecord
     }
 
     /**
-     * Marks this coupon used.
-     *
-     * @throws \nordsoftware\yii_account\exceptions\Exception if saving this model fails.
-     */
-    public function markUsed()
-    {
-        $this->status = self::STATUS_USED;
-
-        if (!$this->save(true, array('status'))) {
-            throw new Exception("Failed to mark account #{$this->id} used.");
-        }
-    }
-
-    /**
      * Returns the static model of this class.
      *
      * @param string $className active record class name.

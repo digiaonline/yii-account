@@ -18,6 +18,7 @@
  */
 return array (
   'Access denied.' => '',
+  'Account not found.' => '',
   'Invalid authentication token.' => '',
   'Page not found.' => '',
   'Something went wrong.' => '',

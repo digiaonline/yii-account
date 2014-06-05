@@ -5,7 +5,7 @@ namespace nordsoftware\yii_account\models\form;
 use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
-class RegisterForm extends \CFormModel
+class SignupForm extends \CFormModel
 {
     /**
      * @var string

@@ -15,14 +15,14 @@ class Module extends \CWebModule
     const CLASS_TOKEN_MODEL = 'tokenModel';
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
-    const CLASS_REGISTER_FORM = 'registerForm';
+    const CLASS_SIGNUP_FORM = 'signupForm';
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
     const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
 
     // Controller types.
     const CONTROLLER_AUTHENTICATE = 'authenticate';
     const CONTROLLER_PASSWORD = 'password';
-    const CONTROLLER_REGISTER = 'register';
+    const CONTROLLER_SIGNUP = 'signup';
 
     // Token types.
     const TOKEN_ACTIVATE = 'activate';
@@ -101,7 +101,7 @@ class Module extends \CWebModule
                 self::CLASS_TOKEN_MODEL => '\nordsoftware\yii_account\models\ar\AccountToken',
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
-                self::CLASS_REGISTER_FORM => '\nordsoftware\yii_account\models\form\RegisterForm',
+                self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
                 self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
             ),
@@ -132,8 +132,8 @@ class Module extends \CWebModule
                 self::CONTROLLER_AUTHENTICATE => array(
                     'class' => 'nordsoftware\yii_account\controllers\AuthenticateController',
                 ),
-                self::CONTROLLER_REGISTER => array(
-                    'class' => 'nordsoftware\yii_account\controllers\RegisterController',
+                self::CONTROLLER_SIGNUP => array(
+                    'class' => 'nordsoftware\yii_account\controllers\SignupController',
                 ),
             ),
             $this->controllerMap
@@ -201,6 +201,7 @@ class Module extends \CWebModule
         $model->expiresAt = $expires;
 
         if (!$model->save()) {
+            var_dump($accountId, $model->getErrors());die;
             throw new Exception('Failed to save token.');
         }
 

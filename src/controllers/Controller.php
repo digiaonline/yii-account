@@ -49,7 +49,7 @@ class Controller extends \CController
     /**
      * @param \CFilterChain $filterChain
      */
-    public function filterValidateToken(\CFilterChain $filterChain)
+    public function filterEnsureToken(\CFilterChain $filterChain)
     {
         if (($token = \Yii::app()->request->getQuery('token')) === null) {
             $this->accessDenied(Helper::t('errors', 'Invalid authentication token.'));

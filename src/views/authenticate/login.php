@@ -42,7 +42,7 @@ use nordsoftware\yii_account\helpers\Helper;
     <?php $this->endWidget(); ?>
 
     <ul class="login-links list-unstyled">
-        <li><?php echo TbHtml::link(Helper::t('views', 'Create an account'), array('/account/register')); ?></li>
+        <li><?php echo TbHtml::link(Helper::t('views', 'Create an account'), array('/account/signup/index')); ?></li>
         <li>|</li>
         <li><?php echo TbHtml::link(Helper::t('views', 'Forgot password'), array('/account/password/forgot')); ?></li>
     </ul>
