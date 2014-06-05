@@ -29,11 +29,6 @@ class PasswordController extends Controller
     /**
      * @var string
      */
-    public $resetFormId = 'resetPasswordForm';
-
-    /**
-     * @var string
-     */
     public $changeFormId = 'changePasswordForm';
 
     /**
@@ -147,13 +142,13 @@ class PasswordController extends Controller
      * Performs logic to change the password for an account.
      *
      * @param \nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
-     * @return \nordsoftware\yii_account\models\form\ChangePasswordForm the form model.
+     * @return \nordsoftware\yii_account\models\form\PasswordForm the form model.
      */
     protected function changePasswordInternal(AccountToken $tokenModel)
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_CHANGE_PASSWORD_FORM);
+        $modelClass = $this->module->getClassName(Module::CLASS_PASSWORD_FORM);
 
-        /** @var \nordsoftware\yii_account\models\form\ChangePasswordForm $model */
+        /** @var \nordsoftware\yii_account\models\form\PasswordForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;
@@ -172,13 +167,20 @@ class PasswordController extends Controller
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByPk($tokenModel->accountId);
 
-                if ($account->changePassword($model->password, true)) {
-                    if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
-                        $this->fatalError();
-                    }
+                // Check that the password has not been used in the past.
+                if ($model->checkPasswordHistory($account, $model->password)) {
+                    $model->addError('password', Helper::t('errors', 'You have already used this password.'));
+                }
+
+                if (!$model->hasErrors() && $account->changePassword($model->password, true)) {
+                    $model->createHistoryEntry($account->id, $account->salt, $account->password);
 
                     // We need to reset the requireNewPassword flag if applicable when the password has been changed.
                     if ($account->requireNewPassword && !$account->saveAttributes(array('requireNewPassword' => false))) {
+                        $this->fatalError();
+                    }
+
+                    if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
                         $this->fatalError();
                     }
 

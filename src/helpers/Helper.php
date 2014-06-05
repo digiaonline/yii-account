@@ -14,12 +14,11 @@ use nordsoftware\yii_account\Module;
 class Helper
 {
     /**
-     * @param integer $timestamp
      * @return string
      */
-    public static function sqlDateTime($timestamp = null)
+    public static function sqlNow()
     {
-        return date('Y-m-d H:i:s', $timestamp !== null ? $timestamp : time());
+        return \Yii::app()->db->createCommand('SELECT NOW()')->queryScalar();
     }
 
     /**

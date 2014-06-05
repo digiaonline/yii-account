@@ -2,8 +2,6 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
-use nordsoftware\yii_account\helpers\Helper;
-
 /**
  * This is the model class for table account_password_history".
  *
@@ -14,10 +12,6 @@ use nordsoftware\yii_account\helpers\Helper;
  * @property string $salt
  * @property string $password
  * @property string $createdAt
- *
- * The followings are the available model relations:
- *
- * @property \nordsoftware\yii_account\models\ar\Account $account
  */
 class AccountPasswordHistory extends \CActiveRecord
 {
@@ -38,16 +32,6 @@ class AccountPasswordHistory extends \CActiveRecord
             array('accountId, salt, password', 'required'),
             array('accountId', 'numerical', 'integerOnly' => true),
             array('salt, password', 'length', 'max' => 255),
-        );
-    }
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        return array(
-            'account' => array(self::BELONGS_TO, '\nordsoftware\yii_account\models\ar\Account', 'accountId')
         );
     }
 

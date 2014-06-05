@@ -3,14 +3,14 @@
 use nordsoftware\yii_account\helpers\Helper;
 
 /* @var $this \nordsoftware\yii_account\controllers\PasswordController */
-/* @var $model \nordsoftware\yii_account\models\form\ChangePasswordForm */
+/* @var $model \nordsoftware\yii_account\models\form\PasswordForm */
 /* @var $form \TbActiveForm */
 ?>
 <div class="password-controller reset-action">
 
     <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
-    <p class="lead"><?php echo Helper::t('views', 'You have requested a password reset.'); ?></p>
+    <p class="lead"><?php echo Helper::t('views', 'You have requested to reset the password for your account.'); ?></p>
 
     <p class="help-block">
         <?php echo Helper::t(

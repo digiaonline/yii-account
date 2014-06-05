@@ -80,6 +80,8 @@ class LoginForm extends \CFormModel
 
     /**
      * Logs in the user using the given username and password in the model.
+     *
+     * @throws \nordsoftware\yii_account\exceptions\Exception if identity is not set.
      * @return boolean whether login is successful
      */
     public function login()
@@ -95,6 +97,7 @@ class LoginForm extends \CFormModel
         }
 
         $this->createHistoryEntry($this->_identity->getId(), true);
+
         $duration = $this->stayLoggedIn ? $module->loginExpireTime : 0; // 30 days
         \Yii::app()->user->login($this->_identity, $duration);
 
@@ -102,8 +105,37 @@ class LoginForm extends \CFormModel
     }
 
     /**
-     * @param int $accountId
-     * @param bool $success
+     * Returns whether the password for a specific account has expired.
+     *
+     * @param int $accountId account id.
+     * @return bool whether the password has expired.
+     */
+    public function hasPasswordExpired($accountId)
+    {
+        $module = Helper::getModule();
+
+        if ($module->passwordExpireTime === 0) {
+            return false;
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('accountId=:accountId');
+        $criteria->params[':accountId'] = $accountId;
+        $criteria->order = 'createdAt DESC';
+
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_PASSWORD_HISTORY);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountPasswordHistory $model */
+        $model = \CActiveRecord::model($modelClass)->find($criteria);
+
+        return strtotime(Helper::sqlNow()) - strtotime($model->createdAt) > $module->passwordExpireTime;
+    }
+
+    /**
+     * Creates a login history entry.
+     *
+     * @param int $accountId account id.
+     * @param bool $success whether login was successful.
      * @throws \nordsoftware\yii_account\exceptions\Exception if the history entry cannot be saved.
      */
     protected function createHistoryEntry($accountId, $success)

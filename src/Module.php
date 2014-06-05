@@ -10,6 +10,7 @@
 namespace nordsoftware\yii_account;
 
 use nordsoftware\yii_account\exceptions\Exception;
+use nordsoftware\yii_account\helpers\Helper;
 use nordsoftware\yii_account\models\ar\AccountToken;
 
 class Module extends \CWebModule
@@ -22,9 +23,9 @@ class Module extends \CWebModule
     const CLASS_TOKEN_MODEL = 'tokenModel';
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
+    const CLASS_PASSWORD_FORM = 'passwordForm';
     const CLASS_SIGNUP_FORM = 'signupForm';
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
-    const CLASS_CHANGE_PASSWORD_FORM = 'changePasswordForm';
     const CLASS_LOGIN_HISTORY = 'loginHistory';
     const CLASS_PASSWORD_HISTORY = 'passwordHistory';
 
@@ -47,7 +48,7 @@ class Module extends \CWebModule
     public $classMap = array();
 
     /**
-     * @var bool whether to enable activation (deafults to true).
+     * @var bool whether to enable activation (defaults to true).
      */
     public $enableActivation = true;
 
@@ -67,6 +68,11 @@ class Module extends \CWebModule
     public $resetPasswordExpireTime = 86400; // 1 day
 
     /**
+     * @var int number of seconds for passwords to expire (defaults to never).
+     */
+    public $passwordExpireTime = 0; // never
+
+    /**
      * @var string from e-mail address.
      */
     public $fromEmailAddress;
@@ -80,11 +86,6 @@ class Module extends \CWebModule
      * @var bool whether to register styles.
      */
     public $registerStyles = true;
-
-    /**
-     * @var bool whether to re-publish assets (defaults to false).
-     */
-    public $forcePublishAssets = false;
 
     /**
      * @var string default controller.
@@ -111,11 +112,11 @@ class Module extends \CWebModule
                 self::CLASS_TOKEN_MODEL => '\nordsoftware\yii_account\models\ar\AccountToken',
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
+                self::CLASS_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\PasswordForm',
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
-                self::CLASS_CHANGE_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ChangePasswordForm',
                 self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
-                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\form\AccountPasswordHistory',
+                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\ar\AccountPasswordHistory',
             ),
             $this->classMap
         );
@@ -152,7 +153,7 @@ class Module extends \CWebModule
         );
 
         if ($this->registerStyles) {
-            $assetsUrl = \Yii::app()->assetManager->publish(__DIR__ . '/assets', false, -1, $this->forcePublishAssets);
+            $assetsUrl = \Yii::app()->assetManager->publish(__DIR__ . '/assets', false, -1);
             \Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/styles.css');
         }
     }
@@ -247,7 +248,7 @@ class Module extends \CWebModule
      */
     public function hasTokenExpired(AccountToken $tokenModel, $expireTime)
     {
-        return (time() - strtotime($tokenModel->createdAt)) > $expireTime;
+        return strtotime(Helper::sqlNow()) - strtotime($tokenModel->createdAt) > $expireTime;
     }
 
     /**

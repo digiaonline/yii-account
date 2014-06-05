@@ -32,11 +32,12 @@ use nordsoftware\yii_account\helpers\Helper;
  *
  * @method bool verifyPassword($password)
  * @method bool changePassword($password, $runValidation)
+ * @method \YiiPassword\Strategy getStrategy()
  */
 class Account extends \CActiveRecord
 {
-    const STATUS_DEFAULT = 0;
-    const STATUS_ACTIVATE = 1;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVATED = 1;
 
     /**
      * @inheritDoc

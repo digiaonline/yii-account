@@ -13,6 +13,7 @@ return array(
     'modules' => array(
         'account' => array(
             'class' => 'application.modules.account.AccountModule',
+            'passwordExpireTime' => 1,
         ),
     ),
     'components' => array(

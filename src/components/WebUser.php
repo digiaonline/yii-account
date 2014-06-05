@@ -67,6 +67,6 @@ class WebUser extends \CWebUser
     {
         // Note that saveAttributes can return false if the account is active twice the same second
         // because no attributes are updated, therefore we cannot throw an exception if save fails.
-        $this->loadAccount()->saveAttributes(array('lastActiveAt' => Helper::sqlDateTime()));
+        $this->loadAccount()->saveAttributes(array('lastActiveAt' => Helper::sqlNow()));
     }
 }

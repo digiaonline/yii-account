@@ -59,9 +59,18 @@ class AuthenticateController extends Controller
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \Yii::app()->user->loadAccount();
 
+                // Check if the password has expired and require a password change if necessary.
+                if ($model->hasPasswordExpired($account->id)) {
+                    $account->saveAttributes(array('requireNewPassword' => true));
+                }
+
                 // Redirect the logged in user to change the password if it needs to be changed.
                 if ($account->requireNewPassword) {
                     $token = $this->module->generateToken(Module::TOKEN_CHANGE_PASSWORD, $account->id);
+
+                    // Logout the user to deny access to restricted actions until the password has been changed.
+                    \Yii::app()->user->logout();
+
                     $this->redirect(array('/account/password/change', 'token' => $token));
                 }
 

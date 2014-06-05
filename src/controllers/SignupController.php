@@ -81,8 +81,10 @@ class SignupController extends Controller
                         $this->fatalError();
                     }
 
+                    $model->createHistoryEntry($account->id, $account->salt, $account->password);
+
                     if (!$this->module->enableActivation) {
-                        $account->saveAttributes(array('status' => Account::STATUS_ACTIVATE));
+                        $account->saveAttributes(array('status' => Account::STATUS_ACTIVATED));
                         $this->redirect(array('/account/authenticate/login'));
                     }
 
@@ -156,7 +158,7 @@ class SignupController extends Controller
             $this->pageNotFound();
         }
 
-        $model->status = Account::STATUS_ACTIVATE;
+        $model->status = Account::STATUS_ACTIVATED;
 
         if (!$model->save(true, array('status'))) {
             $this->fatalError();
