@@ -76,17 +76,27 @@ class SignupController extends Controller
                 $account = new $accountClass();
                 $account->attributes = $model->attributes;
 
-                if (!$account->save(true, array_keys($model->attributes))) {
-                    $this->fatalError();
+                if ($account->validate()) {
+                    if (!$account->save(false/* already validated */)) {
+                        $this->fatalError();
+                    }
+
+                    if (!$this->module->enableActivation) {
+                        $account->saveAttributes(array('status' => Account::STATUS_ACTIVATE));
+                        $this->redirect(array('/account/authenticate/login'));
+                    }
+
+                    $this->sendActivationMail($account);
+                    $this->redirect('done');
                 }
 
-                if (!$this->module->enableActivation) {
-                    $account->saveAttributes(array('status' => Account::STATUS_ACTIVATE));
-                    $this->redirect(array('/account/authenticate/login'));
-                }
+                // todo: figure out how to avoid this, the problem is that password validation is done on the account
 
-                $this->sendActivationMail($account);
-                $this->redirect('done');
+                foreach ($account->getErrors() as $attribute => $errors) {
+                    foreach ($errors as $error) {
+                        $model->addError($attribute, $error);
+                    }
+                }
             }
         }
 
