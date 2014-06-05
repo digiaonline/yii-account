@@ -213,7 +213,7 @@ class Module extends \CWebModule
         $model->token = $token;
 
         if (!$model->save()) {
-            throw new Exception('Failed to save token.');
+            throw new Exception('Failed to save authentication token.');
         }
 
         return $token;
@@ -224,8 +224,7 @@ class Module extends \CWebModule
      *
      * @param string $type token type.
      * @param string $token token string.
-     * @throws \nordsoftware\yii_account\exceptions\Exception
-     * @return \nordsoftware\yii_account\models\ar\AccountToken
+     * @return \nordsoftware\yii_account\models\ar\AccountToken authentication token model.
      */
     public function loadToken($type, $token)
     {
@@ -254,9 +253,9 @@ class Module extends \CWebModule
     /**
      * Returns the class name for a specific class type.
      *
-     * @param string $type
-     * @throws \nordsoftware\yii_account\exceptions\Exception
-     * @return string
+     * @param string $type class type.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the class cannot be found.
+     * @return string class name.
      */
     public function getClassName($type)
     {
