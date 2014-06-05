@@ -95,7 +95,7 @@ class PasswordController extends Controller
                 $this->module->sendMail(
                     $account->email,
                     $this->emailSubject,
-                    $this->renderPartial('/email/resetPassword', array('resetUrl' => $resetUrl))
+                    $this->renderPartial('/email/resetPassword', array('resetUrl' => $resetUrl), true)
                 );
 
                 $this->redirect('sent');
