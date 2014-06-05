@@ -33,7 +33,9 @@ class WebUser extends \CWebUser
         parent::init();
 
         if (!$this->isGuest) {
-            $this->updateLastActiveAt();
+            // Note that saveAttributes can return false if the account is active twice the same second
+            // because no attributes are updated, therefore we cannot throw an exception if save fails.
+            $this->loadAccount()->saveAttributes(array('lastActiveAt' => Helper::sqlNow()));
         }
     }
 
@@ -55,18 +57,5 @@ class WebUser extends \CWebUser
         }
 
         return $this->_model;
-    }
-
-    /**
-     * Updates the users last active at field.
-     *
-     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
-     * @return boolean whether the update was successful.
-     */
-    public function updateLastActiveAt()
-    {
-        // Note that saveAttributes can return false if the account is active twice the same second
-        // because no attributes are updated, therefore we cannot throw an exception if save fails.
-        $this->loadAccount()->saveAttributes(array('lastActiveAt' => Helper::sqlNow()));
     }
 }
