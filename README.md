@@ -24,8 +24,8 @@ Requirements
 - Log in / Log out __DONE__
 - Reset password __DONE__
 - Email sending (with token validation) __DONE__
-- Require new password every x days (disabled by default) __WIP__
-- Password history (encrypted) to prevent from using same password twice
+- Require new password every x days (disabled by default) __DONE__
+- Password history (encrypted) to prevent from using same password twice __DONE__
 - Lock accounts after x failed login attempts (disabled by default)
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
@@ -100,6 +100,7 @@ The following configurations are available for the ```\nordsoftware\yii_account\
  * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
  * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
+ * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to never).
  * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
  * __messageSource__ _string_ message source component to use for the module.
  * __registerStyles__ _bool_ whether to register the default styles.
