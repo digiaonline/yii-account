@@ -64,9 +64,8 @@ class WebUser extends \CWebUser
     public function updateLastActiveAt()
     {
         $model = $this->loadModel();
-        $model->lastActiveAt = Helper::sqlDateTime();
 
-        if (!$model->save(true, array('lastActiveAt'))) {
+        if (!$model->saveAttributes(array('lastActiveAt' => Helper::sqlDateTime()))) {
             throw new Exception("Failed to update lastActiveAt for account #{$this->id}.");
         }
 
@@ -81,9 +80,8 @@ class WebUser extends \CWebUser
     public function updateLastLoginAt()
     {
         $model = $this->loadModel();
-        $model->lastLoginAt = Helper::sqlDateTime();
 
-        if (!$model->save(true, array('lastLoginAt'))) {
+        if (!$model->saveAttributes(array('lastLoginAt' => Helper::sqlDateTime()))) {
             throw new Exception("Failed to update lastLoginAt for account #{$this->id}.");
         }
 
