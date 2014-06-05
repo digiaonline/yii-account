@@ -9,7 +9,6 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
-use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
 
 /**

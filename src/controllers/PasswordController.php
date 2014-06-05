@@ -11,7 +11,6 @@ namespace nordsoftware\yii_account\controllers;
 
 use nordsoftware\yii_account\helpers\Helper;
 use nordsoftware\yii_account\models\ar\AccountToken;
-use nordsoftware\yii_account\models\form\ChangePasswordForm;
 use nordsoftware\yii_account\Module;
 
 class PasswordController extends Controller
