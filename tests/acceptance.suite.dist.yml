@@ -13,11 +13,4 @@ modules:
         - Db
     config:
         PhpBrowser:
-            url: '<enter-your-base-url-here>'
-        Db:
-            dsn: 'mysql:host=<enter-your-host-here>;dbname=yii_account_test'
-            user: 'root'
-            password: 'root'
-            dump: 'tests/_data/dump.sql'
-            populate: true
-            cleanup: false
+            url: '<ENTER-YOUR-BASE-URL-HERE>'

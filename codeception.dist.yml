@@ -1,0 +1,27 @@
+actor: Guy
+paths:
+    tests: tests
+    log: tests/_log
+    data: tests/_data
+    helpers: tests/_helpers
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+    log: true
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=<ENTER-YOUR-HOST-HERE>;dbname=yii_account_test'
+            user: 'root'
+            password: 'root'
+            dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: false
+coverage:
+    enabled: true
+    include:
+        - src/*
+    exclude:
+        - node_modules/*
+        - vendor/*

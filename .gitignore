@@ -5,6 +5,7 @@
 vendor/
 
 # codeception
+codeception.yml
 tests/_log/
 tests/app/www/assets/
 tests/app/runtime/
