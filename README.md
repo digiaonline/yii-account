@@ -116,7 +116,10 @@ If you wish to contribute to this project feel free to create a pull-request to 
 
 ### Run test suite
 
-Run the following command to run the test suite:
+In order to run the test suite you need to copy the ```codeception.dist.yml``` as ```codeception.yml``` 
+and ```tests/acceptance.dist.yml``` as ```tests/acceptance.yml``` and replace the placeholders with the correct values.
+
+Now you can use the following command to run the test suite:
  
 ```bash
 vendor/bin/codecept run
