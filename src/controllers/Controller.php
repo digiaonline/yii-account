@@ -113,6 +113,20 @@ class Controller extends \CController
     }
 
     /**
+     * Runs validation on the given model if the request is an AJAX request.
+     *
+     * @param \CModel $model model instance.
+     * @param string $formId form id.
+     */
+    public function runAjaxValidation(\CModel $model, $formId)
+    {
+        if (\Yii::app()->request->isAjaxRequest && \Yii::app()->request->getPost('ajax') === $formId) {
+            echo \CActiveForm::validate($model);
+            \Yii::app()->end();
+        }
+    }
+
+    /**
      * Loads a specific account model.
      *
      * @param int $id account identifier.

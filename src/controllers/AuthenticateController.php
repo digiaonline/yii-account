@@ -47,10 +47,7 @@ class AuthenticateController extends Controller
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->loginFormId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->loginFormId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));

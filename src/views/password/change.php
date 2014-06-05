@@ -21,7 +21,7 @@ use nordsoftware\yii_account\helpers\Helper;
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => $this->changeFormId)
+        array('id' => $this->changeFormId, 'enableAjaxValidation' => true)
     ); ?>
 
     <fieldset>

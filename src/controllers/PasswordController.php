@@ -71,10 +71,7 @@ class PasswordController extends Controller
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->forgotFormId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->forgotFormId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
@@ -153,10 +150,7 @@ class PasswordController extends Controller
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->changeFormId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->changeFormId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
