@@ -6,11 +6,12 @@
     "authors": [
         {
             "name": "Christoffer Niska",
-            "email": "ChristofferNiska@gmail.com"
+            "email": "ChristofferNiska@gmail.com",
+            "homepage": "http://crisu83.me"
         }
     ],
     "require": {
-        "phpnode/yiipassword": "dev-master#6be5c8fcb12d79e0ceceba66d69cf7024e981b34",
+        "phpnode/yiipassword": ">=1.0.3",
         "crisu83/yiistrap": "dev-bs3",
         "ircmaxell/random-lib": "v1.0.0"
     },
