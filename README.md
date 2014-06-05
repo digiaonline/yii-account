@@ -5,6 +5,17 @@ Extension that provides basic account functionality for the Yii PHP framework.
 
 __NOTE: This project is still under active development and is not stable for production use.__
 
+Why do I want this
+------------------
+
+This project was inspired by the [http://github.com/mishamx/yii-user](yii-user module) and was carefully developed 
+with our expertise in Yii following the best practices of that framework.
+  
+This module is more secure because it uses passwords with salt that are encrypted using bcrypt instead of password hashes. 
+It also comes with support for sending mail with truly random secure authentication tokens that expires.
+
+We are also currently working on additional security features (listed in the requirements below).
+
 Requirements
 ------------
 
@@ -79,7 +90,7 @@ The following configurations are available for the ```\nordsoftware\yii_account\
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
  * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
  * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
- * __messageSource__ _string_message source component to use for the module.
+ * __messageSource__ _string_ message source component to use for the module.
  * __registerStyles__ _bool_ whether to register the default styles.
  * __defaultLayout__ _string_ path alias for the layout to use within the module.
 
