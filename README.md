@@ -9,7 +9,7 @@ Why do I want this
 ------------------
 
 This project was inspired by the [http://github.com/mishamx/yii-user](yii-user module) and was carefully developed 
-with our expertise in Yii following the best practices of that framework. It is more secure because it uses passwords 
+with our expertise in Yii following the best practices of the framework. It is more secure because it uses passwords
 with salt that are encrypted using bcrypt instead of password hashes. It also comes with support for sending mail with 
 truly random authentication tokens that expire.
 
