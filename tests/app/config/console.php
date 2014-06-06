@@ -7,6 +7,10 @@ return \CMap::mergeArray(
             'account' => array(
                 'class' => '\nordsoftware\yii_account\commands\AccountCommand',
             ),
+            'generate' => array(
+                'class' => '\crisu83\yii_caviar\commands\GenerateCommand',
+                'basePath' => dirname(__DIR__) . '/../../src',
+            ),
             'migrate' => array(
                 'class' => 'system.cli.commands.MigrateCommand',
                 'migrationPath' => 'yii-account.migrations',
