@@ -28,7 +28,7 @@ class PasswordController extends Controller
     /**
      * @var string
      */
-    public $resetFormId = 'resetPasswordForm';
+    public $changeFormId = 'changePasswordForm';
 
     /**
      * @var string
@@ -54,7 +54,7 @@ class PasswordController extends Controller
     {
         return array(
             'guestOnly + index',
-            'ensureToken + reset',
+            'ensureToken + reset, change',
         );
     }
 
@@ -70,10 +70,7 @@ class PasswordController extends Controller
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->forgotFormId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->forgotFormId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
@@ -84,11 +81,7 @@ class PasswordController extends Controller
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByAttributes(array('email' => $model->email));
 
-                $token = $this->generateToken(
-                    Module::TOKEN_RESET_PASSWORD,
-                    $account->id,
-                    Helper::sqlDateTime(time() + $this->module->resetPasswordExpireTime)
-                );
+                $token = $this->module->generateToken(Module::TOKEN_RESET_PASSWORD, $account->id);
 
                 $resetUrl = $this->createAbsoluteUrl('/account/password/reset', array('token' => $token));
 
@@ -114,17 +107,49 @@ class PasswordController extends Controller
     {
         $tokenModel = $this->loadToken(Module::TOKEN_RESET_PASSWORD, $token);
 
-        $modelClass = $this->module->getClassName(Module::CLASS_RESET_PASSWORD_FORM);
+        if ($this->module->hasTokenExpired($tokenModel, $this->module->resetPasswordExpireTime)) {
+            $this->accessDenied();
+        }
 
-        /** @var \nordsoftware\yii_account\models\form\ResetPasswordForm $model */
+        $model = $this->changePasswordInternal($tokenModel);
+
+        $this->render('reset', array('model' => $model));
+    }
+
+    /**
+     * Displays the 'change password' page.
+     *
+     * @param string $token authentication token.
+     */
+    public function actionChange($token)
+    {
+        $tokenModel = $this->loadToken(Module::TOKEN_CHANGE_PASSWORD, $token);
+
+        if ($this->module->hasTokenExpired($tokenModel, 3600/* 1h */)) {
+            $this->accessDenied();
+        }
+
+        $model = $this->changePasswordInternal($tokenModel);
+
+        $this->render('change', array('model' => $model));
+    }
+
+    /**
+     * Performs logic to change the password for an account.
+     *
+     * @param \nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
+     * @return \nordsoftware\yii_account\models\form\PasswordForm the form model.
+     */
+    protected function changePasswordInternal(AccountToken $tokenModel)
+    {
+        $modelClass = $this->module->getClassName(Module::CLASS_PASSWORD_FORM);
+
+        /** @var \nordsoftware\yii_account\models\form\PasswordForm $model */
         $model = new $modelClass();
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->resetFormId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->changeFormId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
@@ -135,7 +160,19 @@ class PasswordController extends Controller
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByPk($tokenModel->accountId);
 
-                if ($account->changePassword($model->password, true)) {
+                // Check that the password has not been used in the past.
+                if ($model->checkPasswordHistory($account, $model->password)) {
+                    $model->addError('password', Helper::t('errors', 'You have already used this password.'));
+                }
+
+                if (!$model->hasErrors() && $account->changePassword($model->password, true)) {
+                    $model->createHistoryEntry($account->id, $account->salt, $account->password);
+
+                    // We need to reset the requireNewPassword flag if applicable when the password has been changed.
+                    if ($account->requireNewPassword && !$account->saveAttributes(array('requireNewPassword' => false))) {
+                        $this->fatalError();
+                    }
+
                     if (!$tokenModel->saveAttributes(array('status' => AccountToken::STATUS_USED))) {
                         $this->fatalError();
                     }
@@ -149,6 +186,6 @@ class PasswordController extends Controller
             }
         }
 
-        $this->render('reset', array('model' => $model));
+        return $model;
     }
-} 
+}

@@ -18,8 +18,8 @@
  */
 return array (
   'Account' => '',
+  'Created At' => '',
   'Email' => '',
-  'Expires' => '',
   'ID' => '',
   'Last Active At' => '',
   'Last Login At' => '',

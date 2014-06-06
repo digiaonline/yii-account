@@ -9,6 +9,7 @@
 
 namespace nordsoftware\yii_account\models\form;
 
+use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
@@ -30,7 +31,7 @@ class LoginForm extends \CFormModel
     public $stayLoggedIn;
 
     /**
-     * @var \CUserIdentity
+     * @var \nordsoftware\yii_account\components\UserIdentity
      */
     private $_identity;
 
@@ -70,6 +71,8 @@ class LoginForm extends \CFormModel
             $this->_identity = new $identityClass($this->username, $this->password);
 
             if (!$this->_identity->authenticate()) {
+                $account = $this->_identity->getAccount();
+                $this->createHistoryEntry($account !== null ? $account->id : 0, false);
                 $this->addError('password', Helper::t('errors', 'Your username or password is invalid.'));
             }
         }
@@ -77,25 +80,76 @@ class LoginForm extends \CFormModel
 
     /**
      * Logs in the user using the given username and password in the model.
+     *
+     * @throws \nordsoftware\yii_account\exceptions\Exception if identity is not set.
      * @return boolean whether login is successful
      */
     public function login()
     {
-        /** @var \nordsoftware\yii_account\Module $module */
-        $module = \Yii::app()->getModule(Module::MODULE_ID);
+        $module = Helper::getModule();
 
-        if (!isset($this->_identity)) {
-            $this->_identity = new $module->identityClass($this->username, $this->password);
-            $this->_identity->authenticate();
+        if ($this->_identity === null) {
+            throw new Exception('Failed to login account.');
         }
 
         if ($this->_identity->errorCode !== \CUserIdentity::ERROR_NONE) {
             return false;
         }
 
+        $this->createHistoryEntry($this->_identity->getId(), true);
+
         $duration = $this->stayLoggedIn ? $module->loginExpireTime : 0; // 30 days
         \Yii::app()->user->login($this->_identity, $duration);
 
         return true;
+    }
+
+    /**
+     * Returns whether the password for a specific account has expired.
+     *
+     * @param int $accountId account id.
+     * @return bool whether the password has expired.
+     */
+    public function hasPasswordExpired($accountId)
+    {
+        $module = Helper::getModule();
+
+        if ($module->passwordExpireTime === 0) {
+            return false;
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('accountId=:accountId');
+        $criteria->params[':accountId'] = $accountId;
+        $criteria->order = 'createdAt DESC';
+
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_PASSWORD_HISTORY);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountPasswordHistory $model */
+        $model = \CActiveRecord::model($modelClass)->find($criteria);
+
+        return strtotime(Helper::sqlNow()) - strtotime($model->createdAt) > $module->passwordExpireTime;
+    }
+
+    /**
+     * Creates a login history entry.
+     *
+     * @param int $accountId account id.
+     * @param bool $success whether login was successful.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the history entry cannot be saved.
+     */
+    protected function createHistoryEntry($accountId, $success)
+    {
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_LOGIN_HISTORY);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountLoginHistory $model */
+        $model = new $modelClass();
+        $model->accountId = $accountId;
+        $model->success = (int) $success;
+        $model->numFailedAttempts = $success || $accountId === 0 ? 0 : $model->resolveNumFailedAttempts();
+
+        if (!$model->save()) {
+            throw new Exception('Failed to save login history entry.');
+        }
     }
 }

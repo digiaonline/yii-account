@@ -1,15 +1,16 @@
 yii-account
 ===========
 
-Extension that provides basic account functionality for the Yii PHP framework.
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 
-__NOTE: This project is still under active development and is not stable for production use.__
+Extension that provides basic account functionality for the Yii PHP framework.
 
 Why do I want this
 ------------------
 
 This project was inspired by the [http://github.com/mishamx/yii-user](yii-user module) and was carefully developed 
-with our expertise in Yii following the best practices of that framework. It is more secure because it uses passwords 
+with our expertise in Yii following the best practices of the framework. It is more secure because it uses passwords
 with salt that are encrypted using bcrypt instead of password hashes. It also comes with support for sending mail with 
 truly random authentication tokens that expire.
 
@@ -24,8 +25,8 @@ Requirements
 - Log in / Log out __DONE__
 - Reset password __DONE__
 - Email sending (with token validation) __DONE__
-- Require new password every x days (disabled by default) __WIP__
-- Password history (encrypted) to prevent from using same password twice
+- Require new password every x days (disabled by default) __DONE__
+- Password history (encrypted) to prevent from using same password twice __DONE__
 - Lock accounts after x failed login attempts (disabled by default)
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
@@ -100,6 +101,7 @@ The following configurations are available for the ```\nordsoftware\yii_account\
  * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
  * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
+ * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to never).
  * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
  * __messageSource__ _string_ message source component to use for the module.
  * __registerStyles__ _bool_ whether to register the default styles.
@@ -110,7 +112,7 @@ Usage
 
 Now you should be able to see the login page when you go to the following url:
 
-```
+```bash
 index.php?r=account
 ```
 
@@ -134,8 +136,18 @@ If you wish to contribute to this project feel free to create a pull-request to 
 
 ### Run test suite
 
-In order to run the test suite you need to copy the ```codeception.dist.yml``` as ```codeception.yml``` 
-and ```tests/acceptance.dist.yml``` as ```tests/acceptance.yml``` and replace the placeholders with the correct values.
+To run the test suite you need to run the following commands:
+
+```bash
+export DB_HOST=<YOUR-DB-HOST> 
+export DB_NAME=<YOUR-DB-NAME> 
+export DB_USER=<YOUR-DB-USER> 
+export DB_PASS=<YOUR-DB-PASS> 
+export BASE_URL=<YOUR-BASE-URL>
+erb tests/app/config/bootstrap.php.erb > tests/app/config/bootstrap.php
+erb codeception.yml.erb > codeception.yml
+erb tests/acceptance.suite.yml.erb > tests/acceptance.suite.yml
+```
 
 Now you can use the following command to run the test suite:
  

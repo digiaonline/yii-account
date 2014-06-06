@@ -10,6 +10,7 @@
 namespace nordsoftware\yii_account;
 
 use nordsoftware\yii_account\exceptions\Exception;
+use nordsoftware\yii_account\helpers\Helper;
 use nordsoftware\yii_account\models\ar\AccountToken;
 
 class Module extends \CWebModule
@@ -22,9 +23,11 @@ class Module extends \CWebModule
     const CLASS_TOKEN_MODEL = 'tokenModel';
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
+    const CLASS_PASSWORD_FORM = 'passwordForm';
     const CLASS_SIGNUP_FORM = 'signupForm';
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
-    const CLASS_RESET_PASSWORD_FORM = 'resetPasswordForm';
+    const CLASS_LOGIN_HISTORY = 'loginHistory';
+    const CLASS_PASSWORD_HISTORY = 'passwordHistory';
 
     // Controller types.
     const CONTROLLER_AUTHENTICATE = 'authenticate';
@@ -34,6 +37,7 @@ class Module extends \CWebModule
     // Token types.
     const TOKEN_ACTIVATE = 'activate';
     const TOKEN_RESET_PASSWORD = 'resetPassword';
+    const TOKEN_CHANGE_PASSWORD = 'changePassword';
 
     // Component identifiers.
     const COMPONENT_TOKEN_GENERATOR = 'tokenGenerator';
@@ -44,7 +48,7 @@ class Module extends \CWebModule
     public $classMap = array();
 
     /**
-     * @var bool whether to enable activation (deafults to true).
+     * @var bool whether to enable activation (defaults to true).
      */
     public $enableActivation = true;
 
@@ -64,6 +68,11 @@ class Module extends \CWebModule
     public $resetPasswordExpireTime = 86400; // 1 day
 
     /**
+     * @var int number of seconds for passwords to expire (defaults to never).
+     */
+    public $passwordExpireTime = 0; // never
+
+    /**
      * @var string from e-mail address.
      */
     public $fromEmailAddress;
@@ -77,11 +86,6 @@ class Module extends \CWebModule
      * @var bool whether to register styles.
      */
     public $registerStyles = true;
-
-    /**
-     * @var bool whether to re-publish assets (defaults to false).
-     */
-    public $forcePublishAssets = false;
 
     /**
      * @var string default controller.
@@ -108,9 +112,11 @@ class Module extends \CWebModule
                 self::CLASS_TOKEN_MODEL => '\nordsoftware\yii_account\models\ar\AccountToken',
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
+                self::CLASS_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\PasswordForm',
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
-                self::CLASS_RESET_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ResetPasswordForm',
+                self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
+                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\ar\AccountPasswordHistory',
             ),
             $this->classMap
         );
@@ -147,7 +153,7 @@ class Module extends \CWebModule
         );
 
         if ($this->registerStyles) {
-            $assetsUrl = \Yii::app()->assetManager->publish(__DIR__ . '/assets', false, -1, $this->forcePublishAssets);
+            $assetsUrl = \Yii::app()->assetManager->publish(__DIR__ . '/assets', false, -1);
             \Yii::app()->clientScript->registerCssFile($assetsUrl . '/css/styles.css');
         }
     }
@@ -185,11 +191,10 @@ class Module extends \CWebModule
      *
      * @param string $type token type.
      * @param int $accountId account id.
-     * @param string $expires token expiration date (mysql date).
      * @throws \nordsoftware\yii_account\exceptions\Exception if the token cannot be generated.
      * @return string the generated token.
      */
-    public function generateToken($type, $accountId, $expires)
+    public function generateToken($type, $accountId)
     {
         if (!$this->hasComponent(Module::COMPONENT_TOKEN_GENERATOR)) {
             throw new Exception('Failed to get the token generator component.');
@@ -206,10 +211,9 @@ class Module extends \CWebModule
         $model->type = $type;
         $model->accountId = $accountId;
         $model->token = $token;
-        $model->expiresAt = $expires;
 
         if (!$model->save()) {
-            throw new Exception('Failed to save token.');
+            throw new Exception('Failed to save authentication token.');
         }
 
         return $token;
@@ -220,8 +224,7 @@ class Module extends \CWebModule
      *
      * @param string $type token type.
      * @param string $token token string.
-     * @throws \nordsoftware\yii_account\exceptions\Exception
-     * @return \nordsoftware\yii_account\models\ar\AccountToken
+     * @return \nordsoftware\yii_account\models\ar\AccountToken authentication token model.
      */
     public function loadToken($type, $token)
     {
@@ -232,19 +235,27 @@ class Module extends \CWebModule
             array('type' => $type, 'token' => $token, 'status' => AccountToken::STATUS_UNUSED)
         );
 
-        if ($model === null || $model->hasExpired()) {
-            return null;
-        }
-
         return $model;
+    }
+
+    /**
+     * Returns whether the given token has expired.
+     *
+     * @param \nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
+     * @param int $expireTime number of seconds that the token is valid.
+     * @return bool whether the token has expired.
+     */
+    public function hasTokenExpired(AccountToken $tokenModel, $expireTime)
+    {
+        return strtotime(Helper::sqlNow()) - strtotime($tokenModel->createdAt) > $expireTime;
     }
 
     /**
      * Returns the class name for a specific class type.
      *
-     * @param string $type
-     * @throws \nordsoftware\yii_account\exceptions\Exception
-     * @return string
+     * @param string $type class type.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the class cannot be found.
+     * @return string class name.
      */
     public function getClassName($type)
     {

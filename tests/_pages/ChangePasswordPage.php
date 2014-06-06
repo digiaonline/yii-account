@@ -1,8 +1,8 @@
 <?php
 
-class ResetPasswordPage
+class ChangePasswordPage
 {
-    static $URL = 'index.php?r=account/password/reset';
+    static $URL = 'index.php?r=account/password/change';
 
     static $fieldPassword = '#nordsoftware_yii_account_models_form_PasswordForm_password';
     static $fieldVerifyPassword = '#nordsoftware_yii_account_models_form_PasswordForm_verifyPassword';

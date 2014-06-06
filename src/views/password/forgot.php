@@ -19,7 +19,7 @@ use nordsoftware\yii_account\helpers\Helper;
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => $this->forgotFormId)
+        array('id' => $this->forgotFormId, 'enableAjaxValidation' => true)
     ); ?>
 
     <fieldset>

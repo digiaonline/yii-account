@@ -20,7 +20,7 @@ use nordsoftware\yii_account\helpers\Helper;
  * @property integer $accountId
  * @property string $type
  * @property string $token
- * @property string $expiresAt
+ * @property string $createdAt
  * @property integer $status
  *
  * The followings are the available model relations:
@@ -46,9 +46,9 @@ class AccountToken extends \CActiveRecord
     public function rules()
     {
         return array(
-            array('accountId, type, token, expiresAt', 'required'),
+            array('accountId, type, token', 'required'),
             array('accountId, status', 'numerical', 'integerOnly' => true),
-            array('type, token, expiresAt', 'length', 'max' => 255),
+            array('type, token', 'length', 'max' => 255),
         );
     }
 
@@ -72,17 +72,9 @@ class AccountToken extends \CActiveRecord
             'accountId' => Helper::t('labels', 'Account'),
             'type' => Helper::t('labels', 'Type'),
             'token' => Helper::t('labels', 'Token'),
-            'expiresAt' => Helper::t('labels', 'Expires'),
+            'createdAt' => Helper::t('labels', 'Created At'),
             'status' => Helper::t('labels', 'Status')
         );
-    }
-
-    /**
-     * @return bool whether this token has expired.
-     */
-    public function hasExpired()
-    {
-        return strtotime($this->expiresAt) < time();
     }
 
     /**

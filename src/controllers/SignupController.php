@@ -61,10 +61,7 @@ class SignupController extends Controller
 
         $request = \Yii::app()->request;
 
-        if ($request->isAjaxRequest && $request->getPost('ajax') === $this->formId) {
-            echo \CActiveForm::validate($model);
-            \Yii::app()->end();
-        }
+        $this->runAjaxValidation($model, $this->formId);
 
         if ($request->isPostRequest) {
             $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
@@ -81,8 +78,10 @@ class SignupController extends Controller
                         $this->fatalError();
                     }
 
+                    $model->createHistoryEntry($account->id, $account->salt, $account->password);
+
                     if (!$this->module->enableActivation) {
-                        $account->saveAttributes(array('status' => Account::STATUS_ACTIVATE));
+                        $account->saveAttributes(array('status' => Account::STATUS_ACTIVATED));
                         $this->redirect(array('/account/authenticate/login'));
                     }
 
@@ -115,11 +114,7 @@ class SignupController extends Controller
             $this->fatalError();
         }
 
-        $token = $this->generateToken(
-            Module::TOKEN_ACTIVATE,
-            $account->id,
-            Helper::sqlDateTime(time() + $this->module->activateExpireTime)
-        );
+        $token = $this->module->generateToken(Module::TOKEN_ACTIVATE, $account->id);
 
         $activateUrl = $this->createAbsoluteUrl('/account/signup/activate', array('token' => $token));
 
@@ -147,6 +142,10 @@ class SignupController extends Controller
     {
         $tokenModel = $this->loadToken(Module::TOKEN_ACTIVATE, $token);
 
+        if ($this->module->hasTokenExpired($tokenModel, $this->module->activateExpireTime)) {
+            $this->accessDenied();
+        }
+
         $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $model */
@@ -156,7 +155,7 @@ class SignupController extends Controller
             $this->pageNotFound();
         }
 
-        $model->status = Account::STATUS_ACTIVATE;
+        $model->status = Account::STATUS_ACTIVATED;
 
         if (!$model->save(true, array('status'))) {
             $this->fatalError();

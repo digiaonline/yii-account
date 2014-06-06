@@ -33,16 +33,19 @@ class WebUser extends \CWebUser
         parent::init();
 
         if (!$this->isGuest) {
-            $this->updateLastActiveAt();
+            // Note that saveAttributes can return false if the account is active twice the same second
+            // because no attributes are updated, therefore we cannot throw an exception if save fails.
+            $this->loadAccount()->saveAttributes(array('lastActiveAt' => Helper::sqlNow()));
         }
     }
 
     /**
      * Loads the user model for the logged in user.
+     *
      * @throws \nordsoftware\yii_account\exceptions\Exception if the user is a guest.
      * @return \nordsoftware\yii_account\models\ar\Account the model.
      */
-    public function loadModel()
+    public function loadAccount()
     {
         if ($this->isGuest) {
             throw new Exception("Trying to load model for guest user.");
@@ -55,36 +58,4 @@ class WebUser extends \CWebUser
 
         return $this->_model;
     }
-
-    /**
-     * Updates the users last active at field.
-     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
-     * @return boolean whether the update was successful.
-     */
-    public function updateLastActiveAt()
-    {
-        $model = $this->loadModel();
-
-        if (!$model->saveAttributes(array('lastActiveAt' => Helper::sqlDateTime()))) {
-            throw new Exception("Failed to update lastActiveAt for account #{$this->id}.");
-        }
-
-        return true;
-    }
-
-    /**
-     * Updates the users last login at field.
-     * @throws \nordsoftware\yii_account\exceptions\Exception if saving the model cannot be saved.
-     * @return boolean whether the update was successful.
-     */
-    public function updateLastLoginAt()
-    {
-        $model = $this->loadModel();
-
-        if (!$model->saveAttributes(array('lastLoginAt' => Helper::sqlDateTime()))) {
-            throw new Exception("Failed to update lastLoginAt for account #{$this->id}.");
-        }
-
-        return true;
-    }
-} 
+}

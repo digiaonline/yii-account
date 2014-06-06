@@ -9,7 +9,6 @@
 
 namespace nordsoftware\yii_account\models\ar;
 
-use nordsoftware\yii_account\exceptions\Exception;
 use nordsoftware\yii_account\helpers\Helper;
 
 /**
@@ -32,11 +31,12 @@ use nordsoftware\yii_account\helpers\Helper;
  *
  * @method bool verifyPassword($password)
  * @method bool changePassword($password, $runValidation)
+ * @method \YiiPassword\Strategy getStrategy()
  */
 class Account extends \CActiveRecord
 {
-    const STATUS_DEFAULT = 0;
-    const STATUS_ACTIVATE = 1;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVATED = 1;
 
     /**
      * @inheritDoc
@@ -52,7 +52,7 @@ class Account extends \CActiveRecord
     public function rules()
     {
         return array(
-            array('salt, username, password, email, passwordStrategy', 'required'),
+            array('username, password, email', 'required'),
             array('requireNewPassword, status', 'numerical', 'integerOnly' => true),
             array('salt, username, password, email, passwordStrategy', 'length', 'max' => 255),
             array('email, username', 'unique'),

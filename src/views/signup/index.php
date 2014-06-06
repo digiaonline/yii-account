@@ -11,7 +11,7 @@ use nordsoftware\yii_account\helpers\Helper;
 
     <?php $form = $this->beginWidget(
         '\TbActiveForm',
-        array('id' => $this->formId)
+        array('id' => $this->formId, 'enableAjaxValidation' => true)
     ); ?>
 
     <p class="register-login help-block">
