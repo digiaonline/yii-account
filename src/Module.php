@@ -53,6 +53,11 @@ class Module extends \CWebModule
     public $enableActivation = true;
 
     /**
+     * @var int number of times a user can fail to login before the account is locked (defaults to 10).
+     */
+    public $numAllowedFailedLogins = 10;
+
+    /**
      * @var int number of seconds for login to expire.
      */
     public $loginExpireTime = 2592000; // 30 days
@@ -68,9 +73,14 @@ class Module extends \CWebModule
     public $resetPasswordExpireTime = 86400; // 1 day
 
     /**
-     * @var int number of seconds for passwords to expire (defaults to never).
+     * @var int number of seconds for passwords to expire (defaults to disabled).
      */
-    public $passwordExpireTime = 0; // never
+    public $passwordExpireTime = 0; // disabled
+
+    /**
+     * @var int number of seconds for login lockout to expire (defaults to disabled).
+     */
+    public $lockoutExpireTime = 600; // 10 minutes
 
     /**
      * @var string from e-mail address.

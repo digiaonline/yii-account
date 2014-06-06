@@ -1,6 +1,7 @@
 yii-account
 ===========
 
+[![Latest Stable Version](https://poser.pugx.org/nordsoftware/yii-account/version.svg)](https://packagist.org/packages/nordsoftware/yii-account)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 
@@ -27,7 +28,7 @@ Requirements
 - Email sending (with token validation) __DONE__
 - Require new password every x days (disabled by default) __DONE__
 - Password history (encrypted) to prevent from using same password twice __DONE__
-- Lock accounts after x failed login attempts (disabled by default)
+- Lock accounts after x failed login attempts (disabled by default) __DONE___
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
 
@@ -98,10 +99,12 @@ The following configurations are available for the ```\nordsoftware\yii_account\
 
  * __classMap__ _array_ map over classes to use within the module.
  * __enableActivation__ _bool_ whether to enable account activation (defaults to true).
+ * __numAllowedFailedLogins__ _int_ number of a user can fail to login before the account is locked (defaults to 10)
  * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
  * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
- * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to never).
+ * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to disabled).
+ * __lockoutExpireTime__ _int_ number of seconds for account lockout to expire (defaults to 10 minutes).
  * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
  * __messageSource__ _string_ message source component to use for the module.
  * __registerStyles__ _bool_ whether to register the default styles.
