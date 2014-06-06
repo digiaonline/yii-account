@@ -64,7 +64,7 @@ class SignupController extends Controller
         $this->runAjaxValidation($model, $this->formId);
 
         if ($request->isPostRequest) {
-            $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
+            $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
                 $accountClass = $this->module->getClassName(Module::CLASS_MODEL);

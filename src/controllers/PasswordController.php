@@ -73,7 +73,7 @@ class PasswordController extends Controller
         $this->runAjaxValidation($model, $this->forgotFormId);
 
         if ($request->isPostRequest) {
-            $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
+            $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
                 $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
@@ -152,7 +152,7 @@ class PasswordController extends Controller
         $this->runAjaxValidation($model, $this->changeFormId);
 
         if ($request->isPostRequest) {
-            $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
+            $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
                 $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
