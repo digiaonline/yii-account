@@ -14,7 +14,14 @@ use nordsoftware\yii_account\Module;
 class Helper
 {
     /**
-     * @return string
+     * @var \CWebModule parent module for the account module.
+     */
+    public static $module;
+
+    /**
+     * Returns the current time by querying it from the database.
+     *
+     * @return string current time.
      */
     public static function sqlNow()
     {
@@ -22,19 +29,23 @@ class Helper
     }
 
     /**
-     * @param string $className
-     * @return string
+     * Converts a class name to the key used when POSTING data for the class.
+     *
+     * @param string $className class name.
+     * @return string post key.
      */
-    public static function classNameToKey($className)
+    public static function classNameToPostKey($className)
     {
         return str_replace('\\', '_', ltrim($className, '\\'));
     }
 
     /**
-     * @param string $category
-     * @param string $message
-     * @param array $params
-     * @return string
+     * Translates the the given text.
+     *
+     * @param string $category message category.
+     * @param string $message text to translate.
+     * @param array $params additional parameters.
+     * @return string translated text.
      */
     public static function t($category, $message, $params = array())
     {
@@ -47,10 +58,16 @@ class Helper
     }
 
     /**
-     * @return \nordsoftware\yii_account\Module
+     * Returns the account module.
+     *
+     * @return \nordsoftware\yii_account\Module module instance.
      */
     public static function getModule()
     {
-        return \Yii::app()->getModule(Module::MODULE_ID);
+        if (!isset(self::$module)) {
+            self::$module = \Yii::app();
+        }
+
+        return self::$module->getModule(Module::MODULE_ID);
     }
 }

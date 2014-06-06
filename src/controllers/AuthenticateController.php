@@ -50,7 +50,7 @@ class AuthenticateController extends Controller
         $this->runAjaxValidation($model, $this->loginFormId);
 
         if ($request->isPostRequest) {
-            $model->attributes = $request->getPost(Helper::classNameToKey($modelClass));
+            $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate() && $model->login()) {
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
