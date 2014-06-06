@@ -7,8 +7,9 @@ vendor/
 # codeception
 codeception.yml
 tests/_log/
-tests/app/www/assets/
+tests/app/config/bootstrap.php
 tests/app/runtime/
+tests/app/www/assets/
 tests/acceptance.suite.yml
 
 # node.js

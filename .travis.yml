@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 5.4
+
+before_script:
+  - sh scripts/setup-travis.sh
+
+script: vendor/bin/codecept run --coverage --xml
+
+after_script:
+  - sh scripts/dump-debug.sh
+  - sh scripts/send-coverage.sh
+
+branches:
+  only:
+    - master
+    - develop

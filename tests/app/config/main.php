@@ -1,5 +1,7 @@
 <?php
 
+require('bootstrap.php');
+
 $basePath = dirname(__DIR__);
 
 return array(
@@ -18,9 +20,9 @@ return array(
     ),
     'components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=yii_account_test',
-            'username' => 'root',
-            'password' => 'root',
+            'connectionString' => 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME,
+            'username' => DB_USER,
+            'password' => DB_PASS,
             'charset' => 'utf8',
         ),
     ),

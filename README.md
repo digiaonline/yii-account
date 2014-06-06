@@ -2,6 +2,7 @@ yii-account
 ===========
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 
 Extension that provides basic account functionality for the Yii PHP framework.
 
@@ -113,7 +114,7 @@ Usage
 
 Now you should be able to see the login page when you go to the following url:
 
-```
+```bash
 index.php?r=account
 ```
 
@@ -137,8 +138,18 @@ If you wish to contribute to this project feel free to create a pull-request to 
 
 ### Run test suite
 
-In order to run the test suite you need to copy the ```codeception.dist.yml``` as ```codeception.yml``` 
-and ```tests/acceptance.dist.yml``` as ```tests/acceptance.yml``` and replace the placeholders with the correct values.
+To run the test suite you need to run the following commands:
+
+```bash
+export DB_HOST=<YOUR-DB-HOST> 
+export DB_NAME=<YOUR-DB-NAME> 
+export DB_USER=<YOUR-DB-USER> 
+export DB_PASS=<YOUR-DB-PASS> 
+export BASE_URL=<YOUR-BASE-URL>
+erb tests/app/config/bootstrap.php.erb > tests/app/config/bootstrap.php
+erb codeception.yml.erb > codeception.yml
+erb tests/acceptance.suite.yml.erb > tests/acceptance.suite.yml
+```
 
 Now you can use the following command to run the test suite:
  
