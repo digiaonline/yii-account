@@ -2,8 +2,8 @@ yii-account
 ===========
 
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/yii-account/version.svg)](https://packagist.org/packages/nordsoftware/yii-account)
+[![Build Status](https://travis-ci.org/nordsoftware/yii-account.svg?branch=master)](https://travis-ci.org/nordsoftware/yii-account)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 
 Extension that provides basic account functionality for the Yii PHP framework.
 
