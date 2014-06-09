@@ -20,9 +20,9 @@ We are also currently working on additional security features (listed in the req
 User interface
 --------------
 
-![Login](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/login.png)
-![Signup](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/signup.png)
-![Forgot password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/forgot-password.png)
+![Login](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/login.png)<br />
+![Signup](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/signup.png)<br />
+![Forgot password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/forgot-password.png)<br />
 ![Change password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/change-password.png)
 
 Requirements
