@@ -17,6 +17,14 @@ truly random authentication tokens that expire.
 
 We are also currently working on additional security features (listed in the requirements below).
 
+User interface
+--------------
+
+![Login](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/login.png)
+![Signup](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/signup.png)
+![Forgot password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/forgot-password.png)
+![Change password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/change-password.png)
+
 Requirements
 ------------
 
