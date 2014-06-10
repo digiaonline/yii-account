@@ -136,9 +136,85 @@ php yiic.php account create --username=demo --password=demo
 Extending
 ---------
 
-This project was developed with a focus on re-usability, so while we are working on the documentation feel free to
-dive into the code to find out how to extend this module properly. If you find yourself replacing numerous classes 
-with your own you are probably doing something wrong, almost everything can be done through simple configuration.
+This project was developed with a focus on re-usability, so before you start copy-pasting take a moment of your time
+and read through this section to learn how to extend this module properly.
+
+### Custom account model
+
+You can use your own account model as long as you add the following fields to it:
+
+ * __username__ _varchar(255) not null_ logging in
+ * __password__ _varchar(255) not null_ logging in
+ * __email__ _varchar(255) not null_ sending email
+ * __passwordStrategy__ _varchar(255) not null_ password encryption type  
+ * __requireNewPassword__ _tinyint(1) not null default '0'_ whether to request a password change
+ * __createdAt__ _timestamp null default current_timestamp_ when the account was created
+ * __lastActiveAt__ _timestamp null default null_ when the account was last active
+ * __status__ _int(11) default '0'_ account status (e.g. inactive, activated)
+ 
+Changing the model used by the extension is easy, simply configure it to use your class instead by adding it to the
+class map for the module:
+
+```php
+'account' => array(
+    'class' => '\nordsoftware\yii_account\Module',
+    'classMap' => array(
+        'account' => 'MyAccount', // would otherwise default to \nordsoftware\yii_account\models\ar\Account
+    ),
+),
+```
+
+### Custom models, components or forms classes
+
+You can use the class map to configure any classes used by the module, here is a complete list of the available classes:
+
+ * __account__ _\nordsoftware\yii_account\models\ar\Account_ account model
+ * __token__ _\nordsoftware\yii_account\models\ar\AccountToken_ account token mode
+ * __loginHistory__ _\nordsoftware\yii_account\models\ar\AccountLoginHistory_ login history model
+ * __passwordHistory__ _\nordsoftware\yii_account\models\ar\AccountPasswordHistory_ password history model
+ * __userIdentity__ _\nordsoftware\yii_account\components\UserIdentity_ user identity
+ * __loginForm__ _\nordsoftware\yii_account\models\form\LoginForm_ login form
+ * __passwordForm__ _\nordsoftware\yii_account\models\form\PasswordForm_ base form that handles passwords 
+ * __signupForm__ _\nordsoftware\yii_account\models\form\SignupForm_ signup form (extends passwordForm)
+ * __forgotPassword__ _\nordsoftware\yii_account\models\form\ForgotPasswordForm_ forgot password form
+ 
+### Custom controllers
+
+If you want to use your own controllers you can map them using the module's controller map:
+
+```php
+array(
+    'account' => array(
+        'class' => '\nordsoftware\yii_account\Module',
+        'controllerMap' => array(
+            'authorize' => 'AuthorizeController', // would otherwise default to \nordsoftware\yii_account\controllers\AuthorizeController
+        ),
+    ),
+),
+```
+
+### Custom views
+
+If you want to use your own views with this module you can override the views with your own by placing them either
+under your application (```protected\views\account```) or your theme (```themes\views\account```).
+
+### Extending the module itself
+
+You may also want to extend the module itself, e.g. in order to implement proper email sending. In that case you can
+extend the module and override the methods necessary and configure your account to use your module instead:
+
+```php
+'account' => array(
+    'class' => 'MyAccountModule',
+),
+```
+
+Normally you would need to copy all the views under your module, but we have made it easy so that you can only override
+the views you need to and the module will automatically look for the default views under the parent module.
+
+The source code is also quite well documented so the easiest way to find out how to extend properly is to dive into
+the code and get to know the logic behind the functionality. Also, if you have any ideas for improvements feel free
+to file an issue or create a pull-request.
 
 Contribute
 ----------
