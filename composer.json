@@ -8,6 +8,11 @@
             "name": "Christoffer Niska",
             "email": "ChristofferNiska@gmail.com",
             "homepage": "http://crisu83.me"
+        },
+        {
+            "name": "Eric Nishio",
+            "email": "eric@self-learner.com",
+            "homepage": "http://ericnish.io"
         }
     ],
     "require": {

@@ -86,7 +86,7 @@ class SignupController extends Controller
                     }
 
                     $this->sendActivationMail($account);
-                    $this->redirect('done');
+                    $this->redirect(array('done'));
                 }
 
                 // todo: figure out how to avoid this, the problem is that password validation is done on the account
