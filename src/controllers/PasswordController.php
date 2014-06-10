@@ -76,7 +76,7 @@ class PasswordController extends Controller
             $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
-                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
+                $accountClass = $this->module->getClassName(Module::CLASS_ACCOUNT);
 
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByAttributes(array('email' => $model->email));
@@ -155,7 +155,7 @@ class PasswordController extends Controller
             $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
-                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
+                $accountClass = $this->module->getClassName(Module::CLASS_ACCOUNT);
 
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = \CActiveRecord::model($accountClass)->findByPk($tokenModel->accountId);

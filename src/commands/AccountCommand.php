@@ -29,7 +29,7 @@ class AccountCommand extends \CConsoleCommand
      */
     public function actionCreate($username, $password)
     {
-        $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_ACCOUNT);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $account */
         $account = new $modelClass();

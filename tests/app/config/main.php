@@ -15,6 +15,8 @@ return array(
     'modules' => array(
         'account' => array(
             'class' => 'application.modules.account.AccountModule',
+            'numAllowedFailedLogins' => 1,
+            'lockoutExpireTime' => 1,
             'passwordExpireTime' => 1,
         ),
     ),

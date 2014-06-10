@@ -53,7 +53,7 @@ class UserIdentity extends \CUserIdentity
      */
     protected function loadAccount()
     {
-        $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_ACCOUNT);
 
         return \CActiveRecord::model($modelClass)->find(
             array(

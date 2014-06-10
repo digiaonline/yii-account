@@ -67,7 +67,7 @@ class SignupController extends Controller
             $model->attributes = $request->getPost(Helper::classNameToPostKey($modelClass));
 
             if ($model->validate()) {
-                $accountClass = $this->module->getClassName(Module::CLASS_MODEL);
+                $accountClass = $this->module->getClassName(Module::CLASS_ACCOUNT);
 
                 /** @var \nordsoftware\yii_account\models\ar\Account $account */
                 $account = new $accountClass();
@@ -146,7 +146,7 @@ class SignupController extends Controller
             $this->accessDenied();
         }
 
-        $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
+        $modelClass = $this->module->getClassName(Module::CLASS_ACCOUNT);
 
         /** @var \nordsoftware\yii_account\models\ar\Account $model */
         $model = \CActiveRecord::model($modelClass)->findByPk($tokenModel->accountId);

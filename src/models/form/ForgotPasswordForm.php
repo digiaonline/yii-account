@@ -55,7 +55,7 @@ class ForgotPasswordForm extends \CFormModel
      */
     public function loadModel($email)
     {
-        $modelClass = Helper::getModule()->getClassName(Module::CLASS_MODEL);
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_ACCOUNT);
 
         return \CActiveRecord::model($modelClass)->findByAttributes(array('email' => $email));
     }

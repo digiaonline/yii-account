@@ -135,7 +135,7 @@ class Controller extends \CController
      */
     public function loadModel($id)
     {
-        $modelClass = $this->module->getClassName(Module::CLASS_MODEL);
+        $modelClass = $this->module->getClassName(Module::CLASS_ACCOUNT);
         $model = \CActiveRecord::model($modelClass)->findByPk($id);
 
         if ($model === null) {

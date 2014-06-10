@@ -1,8 +1,9 @@
 yii-account
 ===========
 
+[![Latest Stable Version](https://poser.pugx.org/nordsoftware/yii-account/version.svg)](https://packagist.org/packages/nordsoftware/yii-account)
+[![Build Status](https://travis-ci.org/nordsoftware/yii-account.svg?branch=master)](https://travis-ci.org/nordsoftware/yii-account)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/nordsoftware/yii-account/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/yii-account/?branch=master)
 
 Extension that provides basic account functionality for the Yii PHP framework.
 
@@ -16,6 +17,14 @@ truly random authentication tokens that expire.
 
 We are also currently working on additional security features (listed in the requirements below).
 
+User interface
+--------------
+
+![Login](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/login.png)<br />
+![Signup](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/signup.png)<br />
+![Forgot password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/forgot-password.png)<br />
+![Change password](https://raw.githubusercontent.com/nordsoftware/yii-account/develop/screenshots/change-password.png)
+
 Requirements
 ------------
 
@@ -27,7 +36,7 @@ Requirements
 - Email sending (with token validation) __DONE__
 - Require new password every x days (disabled by default) __DONE__
 - Password history (encrypted) to prevent from using same password twice __DONE__
-- Lock accounts after x failed login attempts (disabled by default)
+- Lock accounts after x failed login attempts (disabled by default) __DONE___
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
 
@@ -98,10 +107,12 @@ The following configurations are available for the ```\nordsoftware\yii_account\
 
  * __classMap__ _array_ map over classes to use within the module.
  * __enableActivation__ _bool_ whether to enable account activation (defaults to true).
+ * __numAllowedFailedLogins__ _int_ number of a user can fail to login before the account is locked (defaults to 10)
  * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
  * __resetPasswordExpireTime__ _int_ number of seconds for password reset to expire (defaults to 1 day).
- * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to never).
+ * __passwordExpireTime__ _int_ number of seconds for passwords to expire (defaults to disabled).
+ * __lockoutExpireTime__ _int_ number of seconds for account lockout to expire (defaults to 10 minutes).
  * __fromEmailAddress__ _string_ from e-mail address used when sending mail.
  * __messageSource__ _string_ message source component to use for the module.
  * __registerStyles__ _bool_ whether to register the default styles.
@@ -125,9 +136,85 @@ php yiic.php account create --username=demo --password=demo
 Extending
 ---------
 
-This project was developed with a focus on re-usability, so while we are working on the documentation feel free to
-dive into the code to find out how to extend this module properly. If you find yourself replacing numerous classes 
-with your own you are probably doing something wrong, almost everything can be done through simple configuration.
+This project was developed with a focus on re-usability, so before you start copy-pasting take a moment of your time
+and read through this section to learn how to extend this module properly.
+
+### Custom account model
+
+You can use your own account model as long as you add the following fields to it:
+
+ * __username__ _varchar(255) not null_ account username
+ * __password__ _varchar(255) not null_ account password
+ * __email__ _varchar(255) not null_ account email
+ * __passwordStrategy__ _varchar(255) not null_ password encryption type  
+ * __requireNewPassword__ _tinyint(1) not null default '0'_ whether account password must be changed
+ * __createdAt__ _timestamp null default current_timestamp_ when the account was created
+ * __lastActiveAt__ _timestamp null default null_ when the account was last active
+ * __status__ _int(11) default '0'_ account status (e.g. inactive, activated)
+ 
+Changing the model used by the extension is easy, simply configure it to use your class instead by adding it to the
+class map for the module:
+
+```php
+'account' => array(
+    'class' => '\nordsoftware\yii_account\Module',
+    'classMap' => array(
+        'account' => 'MyAccount', // defaults to \nordsoftware\yii_account\models\ar\Account
+    ),
+),
+```
+
+### Custom models, components or forms classes
+
+You can use the class map to configure any classes used by the module, here is a complete list of the available classes:
+
+ * __account__ _models\ar\Account_ account model
+ * __token__ _models\ar\AccountToken_ account token mode
+ * __loginHistory__ _models\ar\AccountLoginHistory_ login history model
+ * __passwordHistory__ _models\ar\AccountPasswordHistory_ password history model
+ * __userIdentity__ _components\UserIdentity_ user identity
+ * __loginForm__ _models\form\LoginForm_ login form
+ * __passwordForm__ _models\form\PasswordForm_ base form that handles passwords 
+ * __signupForm__ _models\form\SignupForm_ signup form (extends passwordForm)
+ * __forgotPassword__ _models\form\ForgotPasswordForm_ forgot password form
+ 
+### Custom controllers
+
+If you want to use your own controllers you can map them using the module's controller map:
+
+```php
+array(
+    'account' => array(
+        'class' => '\nordsoftware\yii_account\Module',
+        'controllerMap' => array(
+            'authorize' => 'AuthorizeController', // defaults to \nordsoftware\yii_account\controllers\AuthorizeController
+        ),
+    ),
+),
+```
+
+### Custom views
+
+If you want to use your own views with this module you can override the views with your own by placing them either
+under your application under ```protected\views\account``` or your theme under ```themes\views\account```.
+
+### Extending the module itself
+
+You may also want to extend the module itself, e.g. in order to implement proper email sending. In that case you can
+extend the module and override the methods necessary and configure your account to use your module instead:
+
+```php
+'account' => array(
+    'class' => 'MyAccountModule',
+),
+```
+
+Normally you would need to copy all the views under your module, but we have made it easy so that you can only override
+the views you need to and the module will automatically look for the default views under the parent module.
+
+The source code is also quite well documented so the easiest way to find out how to extend properly is to dive into
+the code and get to know the logic behind the functionality. Also, if you have any ideas for improvements feel free
+to file an issue or create a pull-request.
 
 Contribute
 ----------

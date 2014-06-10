@@ -70,8 +70,14 @@ class LoginForm extends \CFormModel
 
             $this->_identity = new $identityClass($this->username, $this->password);
 
-            if (!$this->_identity->authenticate()) {
-                $account = $this->_identity->getAccount();
+            $success = $this->_identity->authenticate();
+            $account = $this->_identity->getAccount();
+
+            if ($account !== null && $this->isAccountLocked($account->id)) {
+                $this->addError('password', Helper::t('errors', 'Your account has been temporarily locked due to too many failed login attempts.'));
+            }
+
+            if (!$success) {
                 $this->createHistoryEntry($account !== null ? $account->id : 0, false);
                 $this->addError('password', Helper::t('errors', 'Your username or password is invalid.'));
             }
@@ -105,9 +111,45 @@ class LoginForm extends \CFormModel
     }
 
     /**
+     * Returns whether a given account has been locked out.
+     *
+     * @param int $accountId account id.
+     * @return bool whether the account is locked.
+     */
+    public function isAccountLocked($accountId)
+    {
+        $module = Helper::getModule();
+
+        if ($module->numAllowedFailedLogins === 0) {
+            return false;
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('accountId=:accountId');
+        $criteria->params[':accountId'] = $accountId;
+        $criteria->order = 'createdAt DESC';
+
+        $modelClass = Helper::getModule()->getClassName(Module::CLASS_LOGIN_HISTORY);
+
+        /** @var \nordsoftware\yii_account\models\ar\AccountLoginHistory $model */
+        $model = \CActiveRecord::model($modelClass)->find($criteria);
+
+        if ($model === null) {
+            return false;
+        }
+
+        if ($model->numFailedAttempts <= $module->numAllowedFailedLogins) {
+            return false;
+        }
+
+        return strtotime(Helper::sqlNow()) - strtotime($model->createdAt) < $module->lockoutExpireTime;
+    }
+
+    /**
      * Returns whether the password for a specific account has expired.
      *
      * @param int $accountId account id.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if no password history model can be found.
      * @return bool whether the password has expired.
      */
     public function hasPasswordExpired($accountId)
@@ -127,6 +169,10 @@ class LoginForm extends \CFormModel
 
         /** @var \nordsoftware\yii_account\models\ar\AccountPasswordHistory $model */
         $model = \CActiveRecord::model($modelClass)->find($criteria);
+
+        if ($model === null) {
+            throw new Exception('Failed to check if password has expired.');
+        }
 
         return strtotime(Helper::sqlNow()) - strtotime($model->createdAt) > $module->passwordExpireTime;
     }
