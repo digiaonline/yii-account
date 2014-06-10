@@ -143,11 +143,11 @@ and read through this section to learn how to extend this module properly.
 
 You can use your own account model as long as you add the following fields to it:
 
- * __username__ _varchar(255) not null_ logging in
- * __password__ _varchar(255) not null_ logging in
- * __email__ _varchar(255) not null_ sending email
+ * __username__ _varchar(255) not null_ account username
+ * __password__ _varchar(255) not null_ account password
+ * __email__ _varchar(255) not null_ account email
  * __passwordStrategy__ _varchar(255) not null_ password encryption type  
- * __requireNewPassword__ _tinyint(1) not null default '0'_ whether to request a password change
+ * __requireNewPassword__ _tinyint(1) not null default '0'_ whether account password must be changed
  * __createdAt__ _timestamp null default current_timestamp_ when the account was created
  * __lastActiveAt__ _timestamp null default null_ when the account was last active
  * __status__ _int(11) default '0'_ account status (e.g. inactive, activated)
@@ -159,7 +159,7 @@ class map for the module:
 'account' => array(
     'class' => '\nordsoftware\yii_account\Module',
     'classMap' => array(
-        'account' => 'MyAccount', // would otherwise default to \nordsoftware\yii_account\models\ar\Account
+        'account' => 'MyAccount', // defaults to \nordsoftware\yii_account\models\ar\Account
     ),
 ),
 ```
@@ -168,15 +168,15 @@ class map for the module:
 
 You can use the class map to configure any classes used by the module, here is a complete list of the available classes:
 
- * __account__ _\nordsoftware\yii_account\models\ar\Account_ account model
- * __token__ _\nordsoftware\yii_account\models\ar\AccountToken_ account token mode
- * __loginHistory__ _\nordsoftware\yii_account\models\ar\AccountLoginHistory_ login history model
- * __passwordHistory__ _\nordsoftware\yii_account\models\ar\AccountPasswordHistory_ password history model
- * __userIdentity__ _\nordsoftware\yii_account\components\UserIdentity_ user identity
- * __loginForm__ _\nordsoftware\yii_account\models\form\LoginForm_ login form
- * __passwordForm__ _\nordsoftware\yii_account\models\form\PasswordForm_ base form that handles passwords 
- * __signupForm__ _\nordsoftware\yii_account\models\form\SignupForm_ signup form (extends passwordForm)
- * __forgotPassword__ _\nordsoftware\yii_account\models\form\ForgotPasswordForm_ forgot password form
+ * __account__ _models\ar\Account_ account model
+ * __token__ _models\ar\AccountToken_ account token mode
+ * __loginHistory__ _models\ar\AccountLoginHistory_ login history model
+ * __passwordHistory__ _models\ar\AccountPasswordHistory_ password history model
+ * __userIdentity__ _components\UserIdentity_ user identity
+ * __loginForm__ _models\form\LoginForm_ login form
+ * __passwordForm__ _models\form\PasswordForm_ base form that handles passwords 
+ * __signupForm__ _models\form\SignupForm_ signup form (extends passwordForm)
+ * __forgotPassword__ _models\form\ForgotPasswordForm_ forgot password form
  
 ### Custom controllers
 
@@ -187,7 +187,7 @@ array(
     'account' => array(
         'class' => '\nordsoftware\yii_account\Module',
         'controllerMap' => array(
-            'authorize' => 'AuthorizeController', // would otherwise default to \nordsoftware\yii_account\controllers\AuthorizeController
+            'authorize' => 'AuthorizeController', // defaults to \nordsoftware\yii_account\controllers\AuthorizeController
         ),
     ),
 ),
@@ -196,7 +196,7 @@ array(
 ### Custom views
 
 If you want to use your own views with this module you can override the views with your own by placing them either
-under your application (```protected\views\account```) or your theme (```themes\views\account```).
+under your application under ```protected\views\account``` or your theme under ```themes\views\account```.
 
 ### Extending the module itself
 
