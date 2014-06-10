@@ -19,8 +19,8 @@ class Module extends \CWebModule
     const MODULE_ID = 'account';
 
     // Class name types.
-    const CLASS_MODEL = 'model';
-    const CLASS_TOKEN_MODEL = 'tokenModel';
+    const CLASS_ACCOUNT = 'account';
+    const CLASS_TOKEN = 'token';
     const CLASS_USER_IDENTITY = 'userIdentity';
     const CLASS_LOGIN_FORM = 'loginForm';
     const CLASS_PASSWORD_FORM = 'passwordForm';
@@ -118,15 +118,15 @@ class Module extends \CWebModule
 
         $this->classMap = array_merge(
             array(
-                self::CLASS_MODEL => '\nordsoftware\yii_account\models\ar\Account',
-                self::CLASS_TOKEN_MODEL => '\nordsoftware\yii_account\models\ar\AccountToken',
+                self::CLASS_ACCOUNT => '\nordsoftware\yii_account\models\ar\Account',
+                self::CLASS_TOKEN => '\nordsoftware\yii_account\models\ar\AccountToken',
+                self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
+                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\ar\AccountPasswordHistory',
                 self::CLASS_USER_IDENTITY => '\nordsoftware\yii_account\components\UserIdentity',
                 self::CLASS_LOGIN_FORM => '\nordsoftware\yii_account\models\form\LoginForm',
                 self::CLASS_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\PasswordForm',
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
-                self::CLASS_LOGIN_HISTORY => '\nordsoftware\yii_account\models\ar\AccountLoginHistory',
-                self::CLASS_PASSWORD_HISTORY => '\nordsoftware\yii_account\models\ar\AccountPasswordHistory',
             ),
             $this->classMap
         );
@@ -214,7 +214,7 @@ class Module extends \CWebModule
         $tokenGenerator = $this->getComponent(Module::COMPONENT_TOKEN_GENERATOR);
         $token = $tokenGenerator->generate();
 
-        $modelClass = $this->getClassName(Module::CLASS_TOKEN_MODEL);
+        $modelClass = $this->getClassName(Module::CLASS_TOKEN);
 
         /** @var \nordsoftware\yii_account\models\ar\AccountToken $model */
         $model = new $modelClass();
@@ -238,7 +238,7 @@ class Module extends \CWebModule
      */
     public function loadToken($type, $token)
     {
-        $modelClass = $this->getClassName(Module::CLASS_TOKEN_MODEL);
+        $modelClass = $this->getClassName(Module::CLASS_TOKEN);
 
         /** @var \nordsoftware\yii_account\models\ar\AccountToken $model */
         $model = \CActiveRecord::model($modelClass)->findByAttributes(
