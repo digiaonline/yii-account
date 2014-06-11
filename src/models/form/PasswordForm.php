@@ -51,11 +51,11 @@ class PasswordForm extends \CFormModel
     /**
      * Returns whether the password has been used in the past.
      *
-     * @param \nordsoftware\yii_account\models\ar\Account $account account model.
+     * @param \CActiveRecord|\nordsoftware\yii_account\models\ar\Account $account account model.
      * @param string $password plain text password.
      * @return bool whether the password has been used in the past.
      */
-    public function checkPasswordHistory(Account $account, $password)
+    public function checkPasswordHistory(\CActiveRecord $account, $password)
     {
         $criteria = new \CDbCriteria();
         $criteria->addCondition('accountId=:accountId');

@@ -251,11 +251,11 @@ class Module extends \CWebModule
     /**
      * Returns whether the given token has expired.
      *
-     * @param \nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
+     * @param \CActiveRecord|\nordsoftware\yii_account\models\ar\AccountToken $tokenModel authentication token model.
      * @param int $expireTime number of seconds that the token is valid.
      * @return bool whether the token has expired.
      */
-    public function hasTokenExpired(AccountToken $tokenModel, $expireTime)
+    public function hasTokenExpired(\CActiveRecord $tokenModel, $expireTime)
     {
         return strtotime(Helper::sqlNow()) - strtotime($tokenModel->createdAt) > $expireTime;
     }

@@ -105,10 +105,10 @@ class SignupController extends Controller
     /**
      * Sends the activation email to the given account.
      *
-     * @param Account $account account model.
-     * @throws \nordsoftware\yii_account\exceptions\Exception
+     * @param \CActiveRecord|\nordsoftware\yii_account\models\ar\Account $account account model.
+     * @throws \nordsoftware\yii_account\exceptions\Exception if the account cannot be saved.
      */
-    protected function sendActivationMail(Account $account)
+    protected function sendActivationMail(\CActiveRecord $account)
     {
         if (!$account->save(false)) {
             $this->fatalError();
