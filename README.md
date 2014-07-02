@@ -76,6 +76,14 @@ To use the console command you need to add the following to your console applica
 ),
 ```
 
+Run the following command to apply database migrations (you need to have a database configured for your application):
+
+```bash
+php yiic.php migrate --migrationPath=account.migrations
+```
+
+### Without Composer
+
 If you are not using Composer, then you need to download the dependencies manually 
 and add the following to your application configuration:
 
@@ -94,12 +102,6 @@ and add the following to your application configuration:
 - YiiPassword https://github.com/phpnode/yiipassword
 - RandomLib https://github.com/ircmaxell/RandomLib
 - SecurityLib https://github.com/ircmaxell/SecurityLib
-
-Run the following command to apply database migrations:
-
-```bash
-php yiic.php migrate --migrationPath=account.migrations
-```
 
 ### Configuration
 
