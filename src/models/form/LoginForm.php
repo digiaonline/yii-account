@@ -10,6 +10,7 @@
 namespace nordsoftware\yii_account\models\form;
 
 use nordsoftware\yii_account\exceptions\Exception;
+use nordsoftware\yii_account\models\ar\Account;
 use nordsoftware\yii_account\Module;
 use nordsoftware\yii_account\helpers\Helper;
 
@@ -73,8 +74,12 @@ class LoginForm extends \CFormModel
             $success = $this->_identity->authenticate();
             $account = $this->_identity->getAccount();
 
-            if ($account !== null && $this->isAccountLocked($account->id)) {
-                $this->addError('password', Helper::t('errors', 'Your account has been temporarily locked due to too many failed login attempts.'));
+            if ($account !== null) {
+                if ($this->isAccountLocked($account->id)) {
+                    $this->addError('password', Helper::t('errors', 'Your account has been temporarily locked due to too many failed login attempts.'));
+                } elseif (Helper::getModule()->enableActivation && !$this->isAccountActivated($account)) {
+                    $this->addError('password', Helper::t('errors', 'Your account has not yet been activated.'));
+                }
             }
 
             if (!$success) {
@@ -143,6 +148,17 @@ class LoginForm extends \CFormModel
         }
 
         return strtotime(Helper::sqlNow()) - strtotime($model->createdAt) < $module->lockoutExpireTime;
+    }
+
+    /**
+     * Returns whether the account has been activated.
+     *
+     * @param \nordsoftware\yii_account\models\ar\Account $account the user account model.
+     * @return bool true if activated, false otherwise.
+     */
+    public function isAccountActivated($account)
+    {
+        return (int)$account->status === Account::STATUS_ACTIVATED;
     }
 
     /**
