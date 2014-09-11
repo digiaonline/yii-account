@@ -1,5 +1,6 @@
 <?php
 use nordsoftware\yii_account\helpers\Helper;
+use nordsoftware\yii_account\Module;
 
 /* @var $this \nordsoftware\yii_account\controllers\SignupController */
 /* @var $model \nordsoftware\yii_account\models\form\SignupForm */
@@ -42,6 +43,24 @@ use nordsoftware\yii_account\helpers\Helper;
             'verifyPassword',
             array('label' => false, 'placeholder' => $model->getAttributeLabel('verifyPassword'), 'block' => true)
         ); ?>
+        <?php if ($model->scenario === 'withCaptcha'): ?>
+            <?php echo $form->textFieldControlGroup(
+                $model,
+                'captcha',
+                array(
+                    'label' => false,
+                    'placeholder' => $model->getAttributeLabel('captcha'),
+                    'block' => true,
+                    'controlOptions' => array(
+                        'before' => $this->widget(
+                            $this->module->getClassName(Module::CLASS_CAPTCHA_WIDGET),
+                            array(),
+                            true
+                        )
+                    ),
+                )
+            ); ?>
+        <?php endif; ?>
     </fieldset>
 
     <div class="row">

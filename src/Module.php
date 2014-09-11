@@ -28,6 +28,8 @@ class Module extends \CWebModule
     const CLASS_FORGOT_PASSWORD_FORM = 'forgotPasswordForm';
     const CLASS_LOGIN_HISTORY = 'loginHistory';
     const CLASS_PASSWORD_HISTORY = 'passwordHistory';
+    const CLASS_CAPTCHA_ACTION = 'captchaAction';
+    const CLASS_CAPTCHA_WIDGET = 'captchaWidget';
 
     // Controller types.
     const CONTROLLER_AUTHENTICATE = 'authenticate';
@@ -51,6 +53,11 @@ class Module extends \CWebModule
      * @var bool whether to enable activation (defaults to true).
      */
     public $enableActivation = true;
+
+    /**
+     * @var bool whether to enable captcha on sign up (defaults to false).
+     */
+    public $enableCaptcha = false;
 
     /**
      * @var int number of times a user can fail to login before the account is locked (defaults to 10).
@@ -127,6 +134,8 @@ class Module extends \CWebModule
                 self::CLASS_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\PasswordForm',
                 self::CLASS_SIGNUP_FORM => '\nordsoftware\yii_account\models\form\SignupForm',
                 self::CLASS_FORGOT_PASSWORD_FORM => '\nordsoftware\yii_account\models\form\ForgotPasswordForm',
+                self::CLASS_CAPTCHA_ACTION => '\CCaptchaAction',
+                self::CLASS_CAPTCHA_WIDGET => '\CCaptcha',
             ),
             $this->classMap
         );
