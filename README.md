@@ -37,7 +37,7 @@ Requirements
 - Require new password every x days (disabled by default) __DONE__
 - Password history (encrypted) to prevent from using same password twice __DONE__
 - Lock accounts after x failed login attempts (disabled by default) __DONE__
-- Captcha support in sign up __DONE__
+- Captcha support on sign up __DONE__
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
 
