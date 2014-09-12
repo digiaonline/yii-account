@@ -24,6 +24,11 @@ class SignupForm extends PasswordForm
     public $username;
 
     /**
+     * @var string
+     */
+    public $captcha;
+
+    /**
      * @inheritDoc
      */
     public function rules()
@@ -35,6 +40,8 @@ class SignupForm extends PasswordForm
                 array('username', 'length', 'min' => 4),
                 array('email', 'email'),
                 array('username, email', 'unique', 'className' => '\nordsoftware\yii_account\models\ar\Account'),
+                array('captcha', 'required', 'on' => 'withCaptcha'),
+                array('captcha', 'captcha', 'skipOnError' => true, 'on' => 'withCaptcha'),
             )
         );
     }
@@ -49,6 +56,7 @@ class SignupForm extends PasswordForm
             array(
                 'email' => Helper::t('labels', 'Email'),
                 'username' => Helper::t('labels', 'Username'),
+                'captcha' => Helper::t('labels', 'Captcha'),
             )
         );
     }

@@ -50,6 +50,18 @@ class SignupController extends Controller
     }
 
     /**
+     * @inheritDoc
+     */
+    public function actions()
+    {
+        $actions = array();
+        if ($this->module->enableCaptcha) {
+            $actions['captcha'] = array('class' => $this->module->getClassName(Module::CLASS_CAPTCHA_ACTION));
+        }
+        return $actions;
+    }
+
+    /**
      * Displays the 'sign up' page.
      */
     public function actionIndex()
@@ -58,6 +70,9 @@ class SignupController extends Controller
 
         /** @var \nordsoftware\yii_account\models\form\SignupForm $model */
         $model = new $modelClass();
+        if ($this->module->enableCaptcha) {
+            $model->scenario = 'withCaptcha';
+        }
 
         $request = \Yii::app()->request;
 
@@ -97,6 +112,9 @@ class SignupController extends Controller
                     }
                 }
             }
+
+            // reset the captcha if validation failed.
+            $model->captcha = '';
         }
 
         $this->render('index', array('model' => $model));
@@ -165,6 +183,21 @@ class SignupController extends Controller
             $this->fatalError();
         }
 
+        $this->afterActivate($model);
+
+    }
+
+    /**
+     * Triggered after account has been activated.
+     * Override to customize the action - to for instance render a
+     * confirmation page, sign-in automatically or similar
+     *
+     * @param Account $account the account ar.
+     */
+    public function afterActivate($account)
+    {
+
         $this->redirect(array('/account/authenticate/login'));
+
     }
 }

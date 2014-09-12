@@ -36,7 +36,8 @@ Requirements
 - Email sending (with token validation) __DONE__
 - Require new password every x days (disabled by default) __DONE__
 - Password history (encrypted) to prevent from using same password twice __DONE__
-- Lock accounts after x failed login attempts (disabled by default) __DONE___
+- Lock accounts after x failed login attempts (disabled by default) __DONE__
+- Captcha support on sign up __DONE__
 - Console command for creating accounts __DONE__
 - Proper README __WIP__
 
@@ -109,6 +110,7 @@ The following configurations are available for the ```\nordsoftware\yii_account\
 
  * __classMap__ _array_ map over classes to use within the module.
  * __enableActivation__ _bool_ whether to enable account activation (defaults to true).
+ * __enableCaptcha__ _bool_ whether to enable captcha on sign up (defaults to false).
  * __numAllowedFailedLogins__ _int_ number of a user can fail to login before the account is locked (defaults to 10)
  * __loginExpireTime__ _int_ number of seconds for login cookie to expire (defaults to 30 days).
  * __activateExpireTime__ _int_ number of seconds for account activation to expire (defaults to 30 days).
@@ -179,7 +181,9 @@ You can use the class map to configure any classes used by the module, here is a
  * __passwordForm__ _models\form\PasswordForm_ base form that handles passwords 
  * __signupForm__ _models\form\SignupForm_ signup form (extends passwordForm)
  * __forgotPassword__ _models\form\ForgotPasswordForm_ forgot password form
- 
+ * __captchaAction__ _\CCaptchaAction_ action class to render the captcha image
+ * __captchaWidget__ _\CCaptcha_ widget class for rendering the captcha element in the view
+
 ### Custom controllers
 
 If you want to use your own controllers you can map them using the module's controller map:
